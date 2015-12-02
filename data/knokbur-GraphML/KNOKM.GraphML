@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<!-- Created by igraph -->
+  <key id="name" for="graph" attr.name="name" attr.type="string"/>
+  <key id="Author" for="graph" attr.name="Author" attr.type="string"/>
+  <key id="Citation" for="graph" attr.name="Citation" attr.type="string"/>
+  <key id="URL" for="graph" attr.name="URL" attr.type="string"/>
+  <key id="name" for="node" attr.name="name" attr.type="string"/>
+  <key id="Sector" for="node" attr.name="Sector" attr.type="string"/>
+  <key id="Rating" for="node" attr.name="Rating" attr.type="double"/>
+  <graph id="G" edgedefault="directed">
+    <data key="name">Knoke bureaucracies, KNOKM</data>
+    <data key="Author">D. Knoke and J. Wood</data>
+    <data key="Citation">Knoke D. and Wood J. (1981). Organized for action: Commitment in voluntary associations. New Brunswick, NJ: Rutgers University Press.
+
+
+Knoke D. and Kuklinski J. (1982). Network analysis, Beverly Hills, CA: Sage.</data>
+    <data key="URL">http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm</data>
+    <node id="n0">
+      <data key="name">COUN</data>
+      <data key="Sector">GOV</data>
+      <data key="Rating">5.8</data>
+    </node>
+    <node id="n1">
+      <data key="name">COMM</data>
+      <data key="Sector">VOL</data>
+      <data key="Rating">5.8</data>
+    </node>
+    <node id="n2">
+      <data key="name">EDUC</data>
+      <data key="Sector">GOV</data>
+      <data key="Rating">4.75</data>
+    </node>
+    <node id="n3">
+      <data key="name">INDU</data>
+      <data key="Sector">PVT</data>
+      <data key="Rating">5.38</data>
+    </node>
+    <node id="n4">
+      <data key="name">MAYR</data>
+      <data key="Sector">GOV</data>
+      <data key="Rating">5.86</data>
+    </node>
+    <node id="n5">
+      <data key="name">WRO</data>
+      <data key="Sector">VOL</data>
+      <data key="Rating">2.5</data>
+    </node>
+    <node id="n6">
+      <data key="name">NEWS</data>
+      <data key="Sector">PVT</data>
+      <data key="Rating">6.4</data>
+    </node>
+    <node id="n7">
+      <data key="name">UWAY</data>
+      <data key="Sector">VOL</data>
+      <data key="Rating">5.94</data>
+    </node>
+    <node id="n8">
+      <data key="name">WELF</data>
+      <data key="Sector">GOV</data>
+      <data key="Rating">4.6</data>
+    </node>
+    <node id="n9">
+      <data key="name">WEST</data>
+      <data key="Sector">VOL</data>
+      <data key="Rating">3.5</data>
+    </node>
+    <edge source="n0" target="n1">
+    </edge>
+    <edge source="n0" target="n4">
+    </edge>
+    <edge source="n0" target="n6">
+    </edge>
+    <edge source="n0" target="n8">
+    </edge>
+    <edge source="n1" target="n0">
+    </edge>
+    <edge source="n1" target="n2">
+    </edge>
+    <edge source="n1" target="n3">
+    </edge>
+    <edge source="n1" target="n4">
+    </edge>
+    <edge source="n1" target="n6">
+    </edge>
+    <edge source="n1" target="n7">
+    </edge>
+    <edge source="n1" target="n8">
+    </edge>
+    <edge source="n2" target="n1">
+    </edge>
+    <edge source="n2" target="n3">
+    </edge>
+    <edge source="n2" target="n4">
+    </edge>
+    <edge source="n2" target="n5">
+    </edge>
+    <edge source="n2" target="n6">
+    </edge>
+    <edge source="n2" target="n9">
+    </edge>
+    <edge source="n3" target="n0">
+    </edge>
+    <edge source="n3" target="n1">
+    </edge>
+    <edge source="n3" target="n4">
+    </edge>
+    <edge source="n3" target="n6">
+    </edge>
+    <edge source="n4" target="n0">
+    </edge>
+    <edge source="n4" target="n1">
+    </edge>
+    <edge source="n4" target="n2">
+    </edge>
+    <edge source="n4" target="n3">
+    </edge>
+    <edge source="n4" target="n6">
+    </edge>
+    <edge source="n4" target="n7">
+    </edge>
+    <edge source="n4" target="n8">
+    </edge>
+    <edge source="n4" target="n9">
+    </edge>
+    <edge source="n5" target="n2">
+    </edge>
+    <edge source="n5" target="n6">
+    </edge>
+    <edge source="n5" target="n8">
+    </edge>
+    <edge source="n6" target="n1">
+    </edge>
+    <edge source="n6" target="n3">
+    </edge>
+    <edge source="n6" target="n4">
+    </edge>
+    <edge source="n7" target="n0">
+    </edge>
+    <edge source="n7" target="n1">
+    </edge>
+    <edge source="n7" target="n3">
+    </edge>
+    <edge source="n7" target="n4">
+    </edge>
+    <edge source="n7" target="n6">
+    </edge>
+    <edge source="n7" target="n8">
+    </edge>
+    <edge source="n8" target="n1">
+    </edge>
+    <edge source="n8" target="n4">
+    </edge>
+    <edge source="n8" target="n6">
+    </edge>
+    <edge source="n9" target="n0">
+    </edge>
+    <edge source="n9" target="n1">
+    </edge>
+    <edge source="n9" target="n2">
+    </edge>
+    <edge source="n9" target="n4">
+    </edge>
+    <edge source="n9" target="n6">
+    </edge>
+  </graph>
+</graphml>

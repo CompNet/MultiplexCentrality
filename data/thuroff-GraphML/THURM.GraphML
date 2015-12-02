@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<!-- Created by igraph -->
+  <key id="name" for="graph" attr.name="name" attr.type="string"/>
+  <key id="Author" for="graph" attr.name="Author" attr.type="string"/>
+  <key id="Citation" for="graph" attr.name="Citation" attr.type="string"/>
+  <key id="URL" for="graph" attr.name="URL" attr.type="string"/>
+  <key id="name" for="node" attr.name="name" attr.type="string"/>
+  <graph id="G" edgedefault="undirected">
+    <data key="name">Thurman office, multiplex ties</data>
+    <data key="Author">B. Thurman</data>
+    <data key="Citation">Thurman B. (1979). In the office: Networks and coalitions. Social Networks, 2, 47-63.</data>
+    <data key="URL">http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm</data>
+    <node id="n0">
+      <data key="name">ANN</data>
+    </node>
+    <node id="n1">
+      <data key="name">AMY</data>
+    </node>
+    <node id="n2">
+      <data key="name">KATY</data>
+    </node>
+    <node id="n3">
+      <data key="name">BILL</data>
+    </node>
+    <node id="n4">
+      <data key="name">PETE</data>
+    </node>
+    <node id="n5">
+      <data key="name">TINA</data>
+    </node>
+    <node id="n6">
+      <data key="name">ANDY</data>
+    </node>
+    <node id="n7">
+      <data key="name">LISA</data>
+    </node>
+    <node id="n8">
+      <data key="name">PRESIDENT</data>
+    </node>
+    <node id="n9">
+      <data key="name">MINNA</data>
+    </node>
+    <node id="n10">
+      <data key="name">MARY</data>
+    </node>
+    <node id="n11">
+      <data key="name">EMMA</data>
+    </node>
+    <node id="n12">
+      <data key="name">ROSE</data>
+    </node>
+    <node id="n13">
+      <data key="name">MIKE</data>
+    </node>
+    <node id="n14">
+      <data key="name">PEG</data>
+    </node>
+    <edge source="n0" target="n1">
+    </edge>
+    <edge source="n0" target="n2">
+    </edge>
+    <edge source="n0" target="n4">
+    </edge>
+    <edge source="n0" target="n5">
+    </edge>
+    <edge source="n0" target="n7">
+    </edge>
+    <edge source="n0" target="n8">
+    </edge>
+    <edge source="n0" target="n10">
+    </edge>
+    <edge source="n0" target="n12">
+    </edge>
+    <edge source="n1" target="n2">
+    </edge>
+    <edge source="n1" target="n3">
+    </edge>
+    <edge source="n1" target="n4">
+    </edge>
+    <edge source="n1" target="n5">
+    </edge>
+    <edge source="n1" target="n7">
+    </edge>
+    <edge source="n2" target="n4">
+    </edge>
+    <edge source="n2" target="n5">
+    </edge>
+    <edge source="n2" target="n7">
+    </edge>
+    <edge source="n3" target="n6">
+    </edge>
+    <edge source="n3" target="n9">
+    </edge>
+    <edge source="n4" target="n5">
+    </edge>
+    <edge source="n4" target="n6">
+    </edge>
+    <edge source="n4" target="n7">
+    </edge>
+    <edge source="n4" target="n8">
+    </edge>
+    <edge source="n4" target="n11">
+    </edge>
+    <edge source="n5" target="n7">
+    </edge>
+    <edge source="n6" target="n9">
+    </edge>
+    <edge source="n7" target="n8">
+    </edge>
+    <edge source="n7" target="n11">
+    </edge>
+    <edge source="n8" target="n11">
+    </edge>
+    <edge source="n9" target="n11">
+    </edge>
+    <edge source="n10" target="n11">
+    </edge>
+    <edge source="n11" target="n12">
+    </edge>
+    <edge source="n11" target="n13">
+    </edge>
+    <edge source="n11" target="n14">
+    </edge>
+  </graph>
+</graphml>

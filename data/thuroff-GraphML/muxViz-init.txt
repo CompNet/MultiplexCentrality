@@ -1,0 +1,2 @@
+D:\\thuroff-GraphML\\THURA.edgelist;Administrative;D:\\thuroff-GraphML\\THURA.nodes
+D:\\thuroff-GraphML\\THURM.edgelist;Effective;D:\\thuroff-GraphML\\THURM.nodes

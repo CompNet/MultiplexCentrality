@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<!-- Created by igraph -->
+  <key id="name" for="graph" attr.name="name" attr.type="string"/>
+  <key id="Author" for="graph" attr.name="Author" attr.type="string"/>
+  <key id="Citation" for="graph" attr.name="Citation" attr.type="string"/>
+  <key id="URL" for="graph" attr.name="URL" attr.type="string"/>
+  <key id="name" for="node" attr.name="name" attr.type="string"/>
+  <graph id="G" edgedefault="directed">
+    <data key="name">Roethlisberger &amp; Dickson bank wiring room, RDHLP</data>
+    <data key="Author">Roethlisberger F. and Dickson W.</data>
+    <data key="Citation">Breiger R., Boorman S. and Arabie P. (1975). An algorithm for clustering relational data with applications to social network analysis and comparison with multidimensional scaling. Journal of Mathematical Psychology, 12, 328-383.
+
+Homans G. (1950). The human group. New York: Harcourt-Brace.
+
+Roethlisberger F. and Dickson W. (1939). Management and the worker. Cambridge: Cambridge University Press.</data>
+    <data key="URL">http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm</data>
+    <node id="n0">
+      <data key="name">I1</data>
+    </node>
+    <node id="n1">
+      <data key="name">I3</data>
+    </node>
+    <node id="n2">
+      <data key="name">W1</data>
+    </node>
+    <node id="n3">
+      <data key="name">W2</data>
+    </node>
+    <node id="n4">
+      <data key="name">W3</data>
+    </node>
+    <node id="n5">
+      <data key="name">W4</data>
+    </node>
+    <node id="n6">
+      <data key="name">W5</data>
+    </node>
+    <node id="n7">
+      <data key="name">W6</data>
+    </node>
+    <node id="n8">
+      <data key="name">W7</data>
+    </node>
+    <node id="n9">
+      <data key="name">W8</data>
+    </node>
+    <node id="n10">
+      <data key="name">W9</data>
+    </node>
+    <node id="n11">
+      <data key="name">S1</data>
+    </node>
+    <node id="n12">
+      <data key="name">S2</data>
+    </node>
+    <node id="n13">
+      <data key="name">S4</data>
+    </node>
+    <edge source="n2" target="n4">
+    </edge>
+    <edge source="n2" target="n10">
+    </edge>
+    <edge source="n2" target="n11">
+    </edge>
+    <edge source="n3" target="n4">
+    </edge>
+    <edge source="n3" target="n5">
+    </edge>
+    <edge source="n3" target="n11">
+    </edge>
+    <edge source="n4" target="n3">
+    </edge>
+    <edge source="n5" target="n2">
+    </edge>
+    <edge source="n5" target="n4">
+    </edge>
+    <edge source="n5" target="n7">
+    </edge>
+    <edge source="n6" target="n4">
+    </edge>
+    <edge source="n7" target="n4">
+    </edge>
+    <edge source="n7" target="n8">
+    </edge>
+    <edge source="n7" target="n9">
+    </edge>
+    <edge source="n7" target="n10">
+    </edge>
+    <edge source="n8" target="n13">
+    </edge>
+    <edge source="n9" target="n7">
+    </edge>
+    <edge source="n9" target="n8">
+    </edge>
+    <edge source="n9" target="n10">
+    </edge>
+    <edge source="n10" target="n13">
+    </edge>
+    <edge source="n11" target="n8">
+    </edge>
+    <edge source="n12" target="n7">
+    </edge>
+    <edge source="n13" target="n5">
+    </edge>
+    <edge source="n13" target="n9">
+    </edge>
+  </graph>
+</graphml>

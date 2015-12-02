@@ -1,0 +1,2 @@
+D:\\padgett-GraphML\\PADGB.edgelist;Business;D:\\padgett-GraphML\\PADGB.nodes
+D:\\padgett-GraphML\\PADGM.edgelist;Mariage;D:\\padgett-GraphML\\PADGM.nodes

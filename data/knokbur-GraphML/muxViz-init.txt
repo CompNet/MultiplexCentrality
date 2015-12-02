@@ -1,0 +1,2 @@
+D:\\knokbur-GraphML\\KNOKI.edgelist;Information;D:\\knokbur-GraphML\\KNOKI.nodes
+D:\\knokbur-GraphML\\KNOKM.edgelist;Money;D:\\knokbur-GraphML\\KNOKM.nodes
