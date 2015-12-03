@@ -1,5 +1,5 @@
 library("igraph")
-folder <- "D:/Users/Vincent/Documents/Travail/Ecrits/_Projets/Alex/2. Centralité réseaux multiplexes/padgett-GraphML/"
+folder <- "data/padgett-GraphML/"
 
 for(file in c("PADGB","PADGM"))
 {   in.file <- paste(folder,file,".GraphML",sep="")

@@ -1,5 +1,5 @@
 library("igraph")
-folder <- "D:/Users/Vincent/Documents/Travail/Ecrits/_Projets/Alex/2. Centralité réseaux multiplexes/sampson-GraphML/"
+folder <- "data/sampson-GraphML/"
 
 for(file in c("SAMPDES","SAMPDLK","SAMPES","SAMPIN","SAMPLK3","SAMPNIN","SAMPNPR","SAMPPR"))
 {   in.file <- paste(folder,file,".GraphML",sep="")

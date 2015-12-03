@@ -1,5 +1,5 @@
 library("igraph")
-folder <- "D:/Users/Vincent/Documents/Travail/Ecrits/_Projets/Alex/2. Centralité réseaux multiplexes/thuroff-GraphML/"
+folder <- "data/thuroff-GraphML/"
 
 for(file in c("THURA","THURM"))
 {   in.file <- paste(folder,file,".GraphML",sep="")
