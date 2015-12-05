@@ -33,10 +33,10 @@ data.pars <- list()
 #	data.folder="data/knokbur-GraphML/",
 #	rdata.filename="knokbur.Rdata",
 #	centrality.filename="Knoke_centrality_table.csv")
-#data.pars[["london"]] <- list(
-#	data.folder="London_Multiplex_Transport/",
-#	rdata.filename="london.Rdata",
-#	centrality.filename="london_centrality_table.csv")
+data.pars[["london"]] <- list(
+	data.folder="data/London_Multiplex_Transport/",
+	rdata.filename="london.Rdata",
+	centrality.filename="london_centrality_table.csv")
 #data.pars[["Padgett"]] <- list(
 #	data.folder="data/padgett-GraphML/",
 #	rdata.filename="padgett.Rdata",
@@ -53,10 +53,10 @@ data.pars <- list()
 #	data.folder="data/thuroff-GraphML/",
 #	rdata.filename="thuroff.Rdata",
 #	centrality.filename="Thurmann_centrality_table.csv")
-data.pars[["Wolfe"]] <- list(
-	data.folder="data/wolfe-GraphML/",
-	rdata.filename="wolfe.Rdata",
-	centrality.filename="Wolfe_centrality_table.csv")
+#data.pars[["Wolfe"]] <- list(
+#	data.folder="data/wolfe-GraphML/",
+#	rdata.filename="wolfe.Rdata",
+#	centrality.filename="Wolfe_centrality_table.csv")
 
 # load all the networks and tables
 mutiplex.network.names <- names(data.pars)
@@ -77,8 +77,8 @@ measures <- c(
 #	"DegreeOut",
 	"PageRank",
 	"Eigenvector",
-#	"Hub",
-#	"Authority",
+	"Hub",
+	"Authority",
 	"Katz"
 )
 
@@ -93,7 +93,7 @@ for(multiplex.index in 1:length(mutiplex.networks))
 	multiplex.network <- mutiplex.networks[[network.name]]
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
-	cat("Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
+	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
 	
 	opinion.centralities <- array(0,c(l,number.layers*number.nodes))
 	other.centralities <- as.matrix(mutiplex.centralities[[network.name]])[1:(number.layers*number.nodes),measures]
@@ -117,8 +117,10 @@ for(multiplex.index in 1:length(mutiplex.networks))
 		titles.density[i] <- paste("Histogram of Centralities for p=",p.vals[i]," in ",network.name," Multiplex",sep="")
 
 	# process our centrality measure
+	cat("  Processing opinion centrality\n",sep="")
 	for(i in 1:l)
-	{	alpha <- array(0.9,c(number.layers*number.nodes,1))
+	{	cat("    for p=",p.vals[i]," (",i,"/",l,")",sep="")
+		alpha <- array(0.9,c(number.layers*number.nodes,1))
 	
 		####### processing A in function of p
 		parameter.topics=p.vals[i]
@@ -129,6 +131,11 @@ for(multiplex.index in 1:length(mutiplex.networks))
 		centrality <- process.opinion.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
 		
 		opinion.centralities[i,] <- t(centrality)
+		stdev <- sd(opinion.centralities[i,])
+		if(stdev==0)
+			cat("....WARNING: stdev=",stdev,"\n",sep="")
+		else
+			cat("....stdev=",stdev,"\n",sep="")
 	}
 	
 	# record our measure as a table
@@ -162,10 +169,17 @@ for(multiplex.index in 1:length(mutiplex.networks))
 		}
 	}
 	# plot the correlation between our measure and the other ones
+	cat("  Plot correlations\n")
 	for(measure in measures)
 	{	# check if MuxViz could process the considered measure
-		if(!any(is.na(other.centralities[,measure])) & length(unique(other.centralities[,measure]))>1)
-		{	cat("Processing measure ",measure,"/n")
+		if(any(is.na(other.centralities[,measure])) | length(unique(other.centralities[,measure]))==1)
+			cat("    WARNING: MuxViz could not process measure ",measure,", so no correlation plot\n",sep="")
+		
+		# check if our own centrality could be processed 
+		else if(all(is.na(correlation.values[,measure])))
+			cat("    WARNING: Opinion centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
+		else
+		{	cat("    With measure ",measure,"\n")
 			dfm <- data.frame(p=p.vals,Correlation=correlation.values[,measure])
 			plt <- ggplot(data=dfm, aes(x=p,y=Correlation)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(titles.correlation[measure])
 			ggsave(plot=plt, file=paste("plots/",network.name,"/",titles.correlation[measure],".pdf",sep=""))
