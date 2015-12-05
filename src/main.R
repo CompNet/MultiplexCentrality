@@ -17,10 +17,10 @@ source('src/misc.R')
 
 # init data-related variables
 data.pars <- list()
-#data.pars[["EUAir"]] <- list(
-#	data.folder="data/EUAir_Multiplex_Transport/",
-#	rdata.filename="EUAir.Rdata",
-#	centrality.filename="EUAir_centrality_table.csv")
+data.pars[["EUAir"]] <- list(
+	data.folder="data/EUAir_Multiplex_Transport/",
+	rdata.filename="EUAir.Rdata",
+	centrality.filename="EUAir_centrality_table.csv")
 #data.pars[["Kapferer1"]] <- list(
 #	data.folder="data/kaptail1-GraphML/",
 #	rdata.filename="kaptail1.Rdata",
@@ -33,10 +33,10 @@ data.pars <- list()
 #	data.folder="data/knokbur-GraphML/",
 #	rdata.filename="knokbur.Rdata",
 #	centrality.filename="Knoke_centrality_table.csv")
-data.pars[["london"]] <- list(
-	data.folder="data/London_Multiplex_Transport/",
-	rdata.filename="london.Rdata",
-	centrality.filename="london_centrality_table.csv")
+#data.pars[["london"]] <- list(
+#	data.folder="data/London_Multiplex_Transport/",
+#	rdata.filename="london.Rdata",
+#	centrality.filename="london_centrality_table.csv")
 #data.pars[["Padgett"]] <- list(
 #	data.folder="data/padgett-GraphML/",
 #	rdata.filename="padgett.Rdata",
@@ -159,7 +159,7 @@ for(multiplex.index in 1:length(mutiplex.networks))
 		{	# check if MuxViz could process the considered measure
 			if(!any(is.na(other.centralities[,measure])))
 			{	# process the rank correlation with our measure
-				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method = "spearman")
+				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
 				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(order(opinion.centralities[i,])-order(other.centralities[,measure])))
