@@ -17,36 +17,46 @@ source('src/misc.R')
 
 # init data-related variables
 data.pars <- list()
-data.pars[["EUAir"]] <- list(
-	rdata.filename="data/EUAir_Multiplex_Transport/EUAir.Rdata",
-	centrality.filename="data/EUAir_Multiplex_Transport/EUAir_centrality_table.csv")
-data.pars[["Kapferer1"]] <- list(
-	rdata.filename="data/kaptail1-GraphML/kaptail1.Rdata",
-	centrality.filename="data/kaptail1-GraphML/Kapferer1_centrality_table.csv")
-data.pars[["Kapferer2"]] <- list(
-	rdata.filename="data/kaptail2-GraphML/kaptail2.Rdata",
-	centrality.filename="data/kaptail2-GraphML/Kapferer2_centrality_table.csv")
-data.pars[["Knoke"]] <- list(
-	rdata.filename="data/knokbur-GraphML/knokbur.Rdata",
-	centrality.filename="data/knokbur-GraphML/Knoke_centrality_table.csv")
-data.pars[["london"]] <- list(
-	rdata.filename="data/London_Multiplex_Transport/london.Rdata",
-	centrality.filename="data/London_Multiplex_Transport/london_centrality_table.csv")
-data.pars[["Padgett"]] <- list(
-	rdata.filename="data/knokbur-GraphML/knokbur.Rdata",
-	centrality.filename="data/padgett-GraphML/Padgett_centrality_table.csv")
-data.pars[["Roethlisberger"]] <- list(
-	rdata.filename="data/wiring-GraphML/wiring.Rdata",
-	centrality.filename="data/wiring-GraphML/Roethlisberger_centrality_table.csv")
-data.pars[["Sampson"]] <- list(
-	rdata.filename="data/sampson-GraphML/sampson.Rdata",
-	centrality.filename="data/sampson-GraphML/Sampson_centrality_table.csv")
-data.pars[["Thurmann"]] <- list(
-	rdata.filename="data/thuroff-GraphML/thuroff.Rdata",
-	centrality.filename="data/thuroff-GraphML/Thurmann_centrality_table.csv")
+#data.pars[["EUAir"]] <- list(
+#	data.folder="data/EUAir_Multiplex_Transport/",
+#	rdata.filename="EUAir.Rdata",
+#	centrality.filename="EUAir_centrality_table.csv")
+#data.pars[["Kapferer1"]] <- list(
+#	data.folder="data/kaptail1-GraphML/",
+#	rdata.filename="kaptail1.Rdata",
+#	centrality.filename="Kapferer1_centrality_table.csv")
+#data.pars[["Kapferer2"]] <- list(
+#	data.folder="data/kaptail2-GraphML/",
+#	rdata.filename="kaptail2.Rdata",
+#	centrality.filename="Kapferer2_centrality_table.csv")
+#data.pars[["Knoke"]] <- list(
+#	data.folder="data/knokbur-GraphML/",
+#	rdata.filename="knokbur.Rdata",
+#	centrality.filename="Knoke_centrality_table.csv")
+#data.pars[["london"]] <- list(
+#	data.folder="London_Multiplex_Transport/",
+#	rdata.filename="london.Rdata",
+#	centrality.filename="london_centrality_table.csv")
+#data.pars[["Padgett"]] <- list(
+#	data.folder="data/padgett-GraphML/",
+#	rdata.filename="padgett.Rdata",
+#	centrality.filename="Padgett_centrality_table.csv")
+#data.pars[["Roethlisberger"]] <- list(
+#	data.folder="data/wiring-GraphML/",
+#	rdata.filename="wiring.Rdata",
+#	centrality.filename="Roethlisberger_centrality_table.csv")
+#data.pars[["Sampson"]] <- list(
+#	data.folder="data/sampson-GraphML/",
+#	rdata.filename="sampson.Rdata",
+#	centrality.filename="Sampson_centrality_table.csv")
+#data.pars[["Thurmann"]] <- list(
+#	data.folder="data/thuroff-GraphML/",
+#	rdata.filename="thuroff.Rdata",
+#	centrality.filename="Thurmann_centrality_table.csv")
 data.pars[["Wolfe"]] <- list(
-	rdata.filename="data/wolfe-GraphML/wolfe.Rdata",
-	centrality.filename="data/wolfe-GraphML/Wolfe_centrality_table.csv")
+	data.folder="data/wolfe-GraphML/",
+	rdata.filename="wolfe.Rdata",
+	centrality.filename="Wolfe_centrality_table.csv")
 
 # load all the networks and tables
 mutiplex.network.names <- names(data.pars)
@@ -54,8 +64,10 @@ mutiplex.networks <- list()
 mutiplex.centralities <- list()
 for(name in mutiplex.network.names)
 {	data.par <- data.pars[[name]]
-	mutiplex.centralities[[name]] <- read.csv(file=data.par$centrality.filename,sep=";")
-	mutiplex.networks[[name]] <- retrieve.rdata.object(data.par$rdata.filename)
+	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
+	mutiplex.networks[[name]] <- retrieve.rdata.object(net.file)
+	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
+	mutiplex.centralities[[name]] <- read.csv(file=centr.file,sep=";")
 }
 
 # select the centrality measures previously processed by MuxViz
@@ -81,6 +93,7 @@ for(multiplex.index in 1:length(mutiplex.networks))
 	multiplex.network <- mutiplex.networks[[network.name]]
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
+	cat("Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
 	
 	opinion.centralities <- array(0,c(l,number.layers*number.nodes))
 	other.centralities <- as.matrix(mutiplex.centralities[[network.name]])[1:(number.layers*number.nodes),measures]
@@ -117,6 +130,14 @@ for(multiplex.index in 1:length(mutiplex.networks))
 		
 		opinion.centralities[i,] <- t(centrality)
 	}
+	
+	# record our measure as a table
+	out.file <- paste(data.par$data.folder,"opinion-centrality.csv",sep="")
+	col.layer <- c(sapply(1:number.layers, function(i) rep(i,number.nodes)))
+	col.node <- c(sapply(1:number.layers, function(i) 1:number.nodes))
+	centr <- cbind(col.layer, col.node, t(opinion.centralities))
+	colnames(centr) <- c("Layer", "Node", paste("p=",p.vals,sep=""))
+	write.csv2(centr, file=out.file)
 
 	# compare each measure to our own
 	# we consider all possible values of p
