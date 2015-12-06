@@ -6,6 +6,7 @@
 #	4) Compare them and produce various plots.
 #
 # Alexandre Reiffers 12/2015
+# Vincent Labatut 12/2015
 #############################################################################################
 # setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
 # source("src/main.R")
@@ -17,58 +18,46 @@ source('src/misc.R')
 
 # init data-related variables
 data.pars <- list()
-data.pars[["EUAir"]] <- list(
-	data.folder="data/EUAir_Multiplex_Transport/",
-	rdata.filename="EUAir.Rdata",
-	centrality.filename="EUAir_centrality_table.csv")
-#data.pars[["Kapferer1"]] <- list(
-#	data.folder="data/kaptail1-GraphML/",
-#	rdata.filename="kaptail1.Rdata",
-#	centrality.filename="Kapferer1_centrality_table.csv")
-#data.pars[["Kapferer2"]] <- list(
-#	data.folder="data/kaptail2-GraphML/",
-#	rdata.filename="kaptail2.Rdata",
-#	centrality.filename="Kapferer2_centrality_table.csv")
-#data.pars[["Knoke"]] <- list(
-#	data.folder="data/knokbur-GraphML/",
-#	rdata.filename="knokbur.Rdata",
-#	centrality.filename="Knoke_centrality_table.csv")
-#data.pars[["london"]] <- list(
-#	data.folder="data/London_Multiplex_Transport/",
-#	rdata.filename="london.Rdata",
-#	centrality.filename="london_centrality_table.csv")
-#data.pars[["Padgett"]] <- list(
-#	data.folder="data/padgett-GraphML/",
-#	rdata.filename="padgett.Rdata",
-#	centrality.filename="Padgett_centrality_table.csv")
-#data.pars[["Roethlisberger"]] <- list(
-#	data.folder="data/wiring-GraphML/",
-#	rdata.filename="wiring.Rdata",
-#	centrality.filename="Roethlisberger_centrality_table.csv")
-#data.pars[["Sampson"]] <- list(
-#	data.folder="data/sampson-GraphML/",
-#	rdata.filename="sampson.Rdata",
-#	centrality.filename="Sampson_centrality_table.csv")
-#data.pars[["Thurmann"]] <- list(
-#	data.folder="data/thuroff-GraphML/",
-#	rdata.filename="thuroff.Rdata",
-#	centrality.filename="Thurmann_centrality_table.csv")
-#data.pars[["Wolfe"]] <- list(
-#	data.folder="data/wolfe-GraphML/",
-#	rdata.filename="wolfe.Rdata",
-#	centrality.filename="Wolfe_centrality_table.csv")
-
-# load all the networks and tables
-mutiplex.network.names <- names(data.pars)
-mutiplex.networks <- list()
-mutiplex.centralities <- list()
-for(name in mutiplex.network.names)
-{	data.par <- data.pars[[name]]
-	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
-	mutiplex.networks[[name]] <- retrieve.rdata.object(net.file)
-	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
-	mutiplex.centralities[[name]] <- read.csv(file=centr.file,sep=";")
-}
+#data.pars[["EUAir"]] <- list(
+#	data.folder="data/EUAir_Multiplex_Transport/",
+#	rdata.filename="EUAir.Rdata",
+#	centrality.filename="EUAir_centrality_table.csv")
+data.pars[["Kapferer1"]] <- list(
+	data.folder="data/kaptail1-GraphML/",
+	rdata.filename="kaptail1.Rdata",
+	centrality.filename="Kapferer1_centrality_table.csv")
+data.pars[["Kapferer2"]] <- list(
+	data.folder="data/kaptail2-GraphML/",
+	rdata.filename="kaptail2.Rdata",
+	centrality.filename="Kapferer2_centrality_table.csv")
+data.pars[["Knoke"]] <- list(
+	data.folder="data/knokbur-GraphML/",
+	rdata.filename="knokbur.Rdata",
+	centrality.filename="Knoke_centrality_table.csv")
+data.pars[["london"]] <- list(
+	data.folder="data/London_Multiplex_Transport/",
+	rdata.filename="london.Rdata",
+	centrality.filename="london_centrality_table.csv")
+data.pars[["Padgett"]] <- list(
+	data.folder="data/padgett-GraphML/",
+	rdata.filename="padgett.Rdata",
+	centrality.filename="Padgett_centrality_table.csv")
+data.pars[["Roethlisberger"]] <- list(
+	data.folder="data/wiring-GraphML/",
+	rdata.filename="wiring.Rdata",
+	centrality.filename="Roethlisberger_centrality_table.csv")
+data.pars[["Sampson"]] <- list(
+	data.folder="data/sampson-GraphML/",
+	rdata.filename="sampson.Rdata",
+	centrality.filename="Sampson_centrality_table.csv")
+data.pars[["Thurmann"]] <- list(
+	data.folder="data/thuroff-GraphML/",
+	rdata.filename="thuroff.Rdata",
+	centrality.filename="Thurmann_centrality_table.csv")
+data.pars[["Wolfe"]] <- list(
+	data.folder="data/wolfe-GraphML/",
+	rdata.filename="wolfe.Rdata",
+	centrality.filename="Wolfe_centrality_table.csv")
 
 # select the centrality measures previously processed by MuxViz
 measures <- c(
@@ -83,23 +72,37 @@ measures <- c(
 )
 
 # setup p
-l <- 5	# number of distinct values of p
-p.vals = round(c(1:l)/(l+1),2)	# distinct values of p
+l <- 20								# number of distinct values of p
+p.vals = round(c(1:l)/(l+1),2)		# distinct values of p
+
+# plot folder
+plot.folder <- "plots2"
 
 # process each multiplex network
-for(multiplex.index in 1:length(mutiplex.networks))
-{	network.name <- mutiplex.network.names[multiplex.index]
+network.names <- names(data.pars)
+for(multiplex.index in 1:length(data.pars))
+{	network.name <- network.names[multiplex.index]
+	data.par <- data.pars[[network.name]]
 	cat("Processing network ",multiplex.index," (",network.name,")\n",sep="")
-	multiplex.network <- mutiplex.networks[[network.name]]
+	
+	# load network
+	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
+	multiplex.network <- retrieve.rdata.object(net.file)
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
 	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
 	
+	# load previously processed centralities
+	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
+	mutiplex.centralities <- read.csv(file=centr.file,sep=";")
+	
+	# init centrality tables
 	opinion.centralities <- array(0,c(l,number.layers*number.nodes))
-	other.centralities <- as.matrix(mutiplex.centralities[[network.name]])[1:(number.layers*number.nodes),measures]
+	other.centralities <- as.matrix(mutiplex.centralities)[1:(number.layers*number.nodes),measures]
 	class(other.centralities) <- "numeric"
-	dir.create(paste("plots/",network.name,sep=""),showWarnings=FALSE,recursive=TRUE)
-  
+	dir.create(paste(plot.folder,"/",network.name,sep=""),showWarnings=FALSE,recursive=TRUE)
+  	
+	# init correlation table
 	correlation.values <- matrix(NA,nrow=l,ncol=length(measures))
 	colnames(correlation.values) <- measures
   
@@ -152,7 +155,7 @@ for(multiplex.index in 1:length(mutiplex.networks))
 	{	# produce the opinion centrality histogram for the considered value of p 
 		dfm <- data.frame(Centrality=opinion.centralities[i,])
 		plt <- ggplot(data=dfm, aes(x=Centrality)) +  geom_histogram(colour="steelblue", fill="steelblue1", alpha=0.3)+ggtitle(titles.density[i])
-		ggsave(plot=plt, file=paste("plots/",network.name,"/",titles.density[i],".pdf",sep=""))
+		ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.density[i],".pdf",sep=""))
 		
 		# process each MuxViz measure individually
 		for(measure in measures)
@@ -164,7 +167,7 @@ for(multiplex.index in 1:length(mutiplex.networks))
 				# plot ranking differences
 				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(order(opinion.centralities[i,])-order(other.centralities[,measure])))
 				plt <- ggplot(data=dfm, aes(x=number.nodes,y=Ranking.difference)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(titles.ranking[i,measure])
-				ggsave(plot=plt, file=paste("plots/",network.name,"/",titles.ranking[i,measure],".pdf",sep=""))
+				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.ranking[i,measure],".pdf",sep=""))
 			}
 		}
 	}
@@ -182,7 +185,7 @@ for(multiplex.index in 1:length(mutiplex.networks))
 		{	cat("    With measure ",measure,"\n")
 			dfm <- data.frame(p=p.vals,Correlation=correlation.values[,measure])
 			plt <- ggplot(data=dfm, aes(x=p,y=Correlation)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(titles.correlation[measure])
-			ggsave(plot=plt, file=paste("plots/",network.name,"/",titles.correlation[measure],".pdf",sep=""))
+			ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.correlation[measure],".pdf",sep=""))
 		}
 	}
 }
