@@ -13,6 +13,7 @@
 # source("src/main.R")
 source('src/gradient.R')
 source('src/model.R')
+source('src/plots.R')
 source('src/misc.R')
 
 
@@ -73,7 +74,7 @@ measures <- c(
 )
 
 # setup p
-l <- 20								# number of distinct values of p
+l <- 5								# number of distinct values of p
 p.vals = round(c(1:l)/(l+1),2)		# distinct values of p
 
 # plot folder
@@ -83,8 +84,8 @@ plot.folder <- "plots"
 network.names <- names(data.pars)
 for(multiplex.index in 1:length(data.pars))
 {	network.name <- network.names[multiplex.index]
-	data.par <- data.pars[[network.name]]
 	cat("Processing network ",multiplex.index," (",network.name,")\n",sep="")
+	data.par <- data.pars[[network.name]]
 	
 	# load network
 	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
@@ -101,7 +102,10 @@ for(multiplex.index in 1:length(data.pars))
 	interest.centralities <- array(0,c(l,number.nodes))
 	other.centralities <- as.matrix(mutiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
 	class(other.centralities) <- "numeric"
-	dir.create(paste(plot.folder,"/",network.name,sep=""),showWarnings=FALSE,recursive=TRUE)
+
+	# init plot folder
+	net.plot.folder <- paste(plot.folder,"/",network.name,"/",sep="")
+	dir.create(net.plot.folder,showWarnings=FALSE,recursive=TRUE)
   	
 	# init correlation table
 	correlation.values <- matrix(NA,nrow=l,ncol=length(measures))
@@ -133,7 +137,7 @@ centrality <- runif(n=number.nodes,min=0,max=1)
 	}
 	
 	# record our measure as a table
-	out.file <- paste(plot.folder,"/",network.name,"/interest-centrality.csv",sep="")
+	out.file <- paste(net.plot.folder,"/interest-centrality.csv",sep="")
 	col.node <- 1:number.nodes
 	centr <- cbind(col.node, t(interest.centralities))
 	colnames(centr) <- c("Node", paste("p=",p.vals,sep=""))
@@ -142,11 +146,8 @@ centrality <- runif(n=number.nodes,min=0,max=1)
 	# compare each measure to our own
 	# we consider all possible values of p
 	for(i in 1:l)
-	{	# produce the interest centrality histogram for the considered value of p 
-		dfm <- data.frame(Centrality=interest.centralities[i,])
-		title <- paste("Interest centrality histogram for p=",p.vals[i]," in network ",network.name,sep="")
-		plt <- ggplot(data=dfm, aes(x=Centrality)) +  geom_histogram(colour="steelblue", fill="steelblue1", alpha=0.3)+ggtitle(title)
-		ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
+	{	# produce the interest centrality histogram for the considered value of p
+		measure.histo(vals=interest.centralities[i,], p=p.vals[i], folder=net.plot.folder)
 		
 		# process each MuxViz measure individually
 		for(measure in measures)
@@ -156,15 +157,10 @@ centrality <- runif(n=number.nodes,min=0,max=1)
 				correlation.values[i,measure] <- cor(interest.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
-				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(rank(interest.centralities[i,])-rank(other.centralities[,measure])))
-				plt <- ggplot(data=dfm, aes(x=number.nodes,y=Ranking.difference)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(title)
-				title <- paste("Nodes sorted by ranking difference with ",measure," for p=",p.vals[i]," in network ",network.name,sep="")
-				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
-				
+				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, p=p.vals[i], folder=net.plot.folder)
+			
 				# ranking differences as a barplot
-				plot <- generate.comparison.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure)
-				title <- paste("Compared ranks with measure ",measure," for p=",p.vals[i]," in network",network.name,sep="")
-				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
+				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, p=p.vals[i], folder=net.plot.folder)
 			}
 		}
 	}
@@ -180,10 +176,7 @@ centrality <- runif(n=number.nodes,min=0,max=1)
 			cat("    WARNING: Interest centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
 		else
 		{	cat("    With measure ",measure,"\n")
-			dfm <- data.frame(p=p.vals,Correlation=correlation.values[,measure])
-			title <- paste("Correlation with ",measure," in network ",network.name,sep="")
-			plt <- ggplot(data=dfm, aes(x=p,y=Correlation)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(title)
-			ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
+			corr.plot(cor.vals=correlation.values[,measure], p.vals, measure, folder=net.plot.folder)
 		}
 	}
 }
