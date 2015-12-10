@@ -36,10 +36,10 @@ data.pars[["Knoke"]] <- list(
 	data.folder="data/knokbur-GraphML/",
 	rdata.filename="knokbur.Rdata",
 	centrality.filename="Knoke_centrality_table.csv")
-data.pars[["london"]] <- list(
-	data.folder="data/London_Multiplex_Transport/",
-	rdata.filename="london.Rdata",
-	centrality.filename="london_centrality_table.csv")
+#data.pars[["london"]] <- list(
+#	data.folder="data/London_Multiplex_Transport/",
+#	rdata.filename="london.Rdata",
+#	centrality.filename="london_centrality_table.csv")
 data.pars[["Padgett"]] <- list(
 	data.folder="data/padgett-GraphML/",
 	rdata.filename="padgett.Rdata",
@@ -115,18 +115,16 @@ for(multiplex.index in 1:length(data.pars))
 	cat("  Processing interest centrality\n",sep="")
 	for(i in 1:l)
 	{	cat("    for p=",p.vals[i]," (",i,"/",l,")",sep="")
-		alpha <- array(0.9,c(number.layers*number.nodes,1))
+		alpha <- array(p.vals[i],c(number.nodes,number.layers))
 	
 		####### process A in function of p
 		parameter.topics=p.vals[i]
 		#A <- array((1-p.vals[i])/2*(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/2*(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
-		A <- array((1-p.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
-		b <- array(1/(number.layers),c(number.layers,1))
+	#	A <- array((1-p.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
+	#	b <- array(1/(number.layers),c(number.layers,1))
 
 		####### process interest centrality measure
-#		centrality <- process.interest.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
-# using dummy values, just for testing
-centrality <- runif(n=number.nodes,min=0,max=1)
+		centrality <- process.interest.centrality(network=multiplex.network, alpha, budget=1,  grad.horizon=1000)
 		
 		interest.centralities[i,] <- t(centrality)
 		stdev <- sd(interest.centralities[i,])

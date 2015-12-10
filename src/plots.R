@@ -109,6 +109,7 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="In
 	data <- data.frame(
 			x=1:length(ref.vals),
 			y=diff[idx])
+#print(data)	
 	plt <- ggplot(data=data, aes(x=x, y=y))
 	plt <- plt + geom_bar(stat="identity")
 	plt <- plt + ggtitle(paste("Rank changes for ",comp.measure," vs ", ref.measure," for p=",p,sep=""))
