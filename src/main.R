@@ -165,9 +165,13 @@ for(multiplex.index in 1:length(data.pars))
 				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
-				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(order(opinion.centralities[i,])-order(other.centralities[,measure])))
+				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(rank(opinion.centralities[i,])-rank(other.centralities[,measure])))
 				plt <- ggplot(data=dfm, aes(x=number.nodes,y=Ranking.difference)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(titles.ranking[i,measure])
 				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.ranking[i,measure],".pdf",sep=""))
+				
+				# ranking differences as a barplot
+				plot <- generate.comparison.barplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure)
+				#TODO inverser les deux mesures dans les autres appels
 			}
 		}
 	}
