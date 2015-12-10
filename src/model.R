@@ -1,26 +1,35 @@
 #############################################################################################
-# This function compute the opinion centrality. 
+# This function compute the interest centrality. 
 # 
 # A: influence matrix.
 # network: list of graphs constituting the multiplex network.
 # alpha: intensity of node activation.
 # budget: budget constraint over intensity.
-# b: external world society opinion.
+# b: external world society interest.
 # grad.horizon: number of iteration for the gradient descent.
-# returns: the opinion centrality measure
+# returns: the interest centrality measure.
 #############################################################################################
-process.opinion.centrality <- function(A, network, alpha, budget, b, grad.horizon=1000)
+process.interest.centrality <- function(A, network, alpha, budget, b, grad.horizon=1000)
 {	number.layers<-length(network)
 	number.nodes=vcount(network[[1]])
 	
+	####### computation of  (A-Id)^-1
+	A <- A - diag(array(1,c(number.layers)))  
+	A <- solve(A)
+	
 	####### fixed parameters in the computation of the gradient
-	lambda1=0.5*(1/(number.layers*number.nodes)^2);
+	threshold=(number.layers*number.layers)>100
+	lambda1=0.5/(number.layers*number.nodes)^4
+	  #0.5*exp(-(number.layers*number.nodes));
 	#0.0000000005
 	#
-	lambda2=0.1*(1/(number.layers*number.nodes)^2);
+	lambda2=0.1/(number.layers*number.nodes)^4
+	  #0.1*exp(-(number.layers*number.nodes));
 	#0.0000000001
 	#
-	lambda3=0.5*(1/(number.layers*number.nodes)^2);
+	lambda3=0.5/(number.layers*number.nodes)^4
+	  #0.5*exp(-(number.layers*number.nodes));
+	    #0.5*exp((number.layers*number.nodes));
 	
 	####### definition matrix topic
 	B=array(0,c(number.nodes*number.layers,number.nodes*number.layers))
@@ -37,7 +46,7 @@ process.opinion.centrality <- function(A, network, alpha, budget, b, grad.horizo
 	E[E=="NaN"]=0
 	E=E-0.5*B 
 
-	#### processing of the external world society opinion
+	#### processing of the external world society interest
 	b.inv <- solve(A,-b) #modif
 	b.layer<-array(0,c(number.nodes*number.layers,1)) #modif
 	for(k in 1:number.layers)

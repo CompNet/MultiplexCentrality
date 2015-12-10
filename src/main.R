@@ -1,6 +1,6 @@
 #############################################################################################
 # Main script, performing the following steps:
-# 	1) Load the networks.
+#	1) Load the networks.
 #	2) Load the centrality measures previously processed with MuxViz.
 #	3) Process our own multiplex measure.
 #	4) Compare them and produce various plots.
@@ -9,6 +9,7 @@
 # Vincent Labatut 12/2015
 #############################################################################################
 # setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
+# setwd("/Users/jeanlouis/Downloads/MultiplexCentrality-master")
 # source("src/main.R")
 source('src/gradient.R')
 source('src/model.R')
@@ -97,7 +98,7 @@ for(multiplex.index in 1:length(data.pars))
 	mutiplex.centralities <- read.csv(file=centr.file,sep=";")
 	
 	# init centrality tables
-	opinion.centralities <- array(0,c(l,number.layers*number.nodes))
+	interest.centralities <- array(0,c(l,number.layers*number.nodes))
 	other.centralities <- as.matrix(mutiplex.centralities)[1:(number.layers*number.nodes),measures]
 	class(other.centralities) <- "numeric"
 	dir.create(paste(plot.folder,"/",network.name,sep=""),showWarnings=FALSE,recursive=TRUE)
@@ -106,35 +107,21 @@ for(multiplex.index in 1:length(data.pars))
 	correlation.values <- matrix(NA,nrow=l,ncol=length(measures))
 	colnames(correlation.values) <- measures
   
-	# define plot titles
-	titles.correlation <- c()
-	titles.ranking <- matrix(NA,ncol=length(measures),nrow=l)
-	colnames(titles.ranking) <- measures
-	titles.density <- rep(NA,l)
-	for(measure in measures)
-	{	titles.correlation[measure] <- paste("Correlation with ",measure," in ",network.name," Multiplex",sep="")
-		for(i in 1:l)
-			titles.ranking[i,measure] <- paste("Entities sorted by ranking difference with ",measure," in ",network.name," Multiplex for p=",p.vals[i],sep="")
-	}  
-	for(i in 1:l)
-		titles.density[i] <- paste("Histogram of Centralities for p=",p.vals[i]," in ",network.name," Multiplex",sep="")
-
 	# process our centrality measure
-	cat("  Processing opinion centrality\n",sep="")
+	cat("  Processing interest centrality\n",sep="")
 	for(i in 1:l)
 	{	cat("    for p=",p.vals[i]," (",i,"/",l,")",sep="")
 		alpha <- array(0.9,c(number.layers*number.nodes,1))
 	
 		####### processing A in function of p
 		parameter.topics=p.vals[i]
-		A <- array((1-p.vals[i])/2*(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/2*(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))-diag(array(1,c(number.layers)))
-		A <- solve(A)
- 
-		b <- array(1/(number.layers),c(number.layers,1))#modif
-		centrality <- process.opinion.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
+		#A <- array((1-p.vals[i])/2*(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/2*(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
+		A <- array((1-p.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
+		b <- array(1/(number.layers),c(number.layers,1))
+		centrality <- process.interest.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
 		
-		opinion.centralities[i,] <- t(centrality)
-		stdev <- sd(opinion.centralities[i,])
+		interest.centralities[i,] <- t(centrality)
+		stdev <- sd(interest.centralities[i,])
 		if(stdev==0)
 			cat("....WARNING: stdev=",stdev,"\n",sep="")
 		else
@@ -142,36 +129,39 @@ for(multiplex.index in 1:length(data.pars))
 	}
 	
 	# record our measure as a table
-	out.file <- paste(data.par$data.folder,"opinion-centrality.csv",sep="")
+	out.file <- paste(data.par$data.folder,"interest-centrality.csv",sep="")
 	col.layer <- c(sapply(1:number.layers, function(i) rep(i,number.nodes)))
 	col.node <- c(sapply(1:number.layers, function(i) 1:number.nodes))
-	centr <- cbind(col.layer, col.node, t(opinion.centralities))
+	centr <- cbind(col.layer, col.node, t(interest.centralities))
 	colnames(centr) <- c("Layer", "Node", paste("p=",p.vals,sep=""))
 	write.csv2(centr, file=out.file)
 
 	# compare each measure to our own
 	# we consider all possible values of p
 	for(i in 1:l)
-	{	# produce the opinion centrality histogram for the considered value of p 
-		dfm <- data.frame(Centrality=opinion.centralities[i,])
-		plt <- ggplot(data=dfm, aes(x=Centrality)) +  geom_histogram(colour="steelblue", fill="steelblue1", alpha=0.3)+ggtitle(titles.density[i])
-		ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.density[i],".pdf",sep=""))
+	{	# produce the interest centrality histogram for the considered value of p 
+		dfm <- data.frame(Centrality=interest.centralities[i,])
+		title <- paste("Interest centrality histogram for p=",p.vals[i]," in network ",network.name,sep="")
+		plt <- ggplot(data=dfm, aes(x=Centrality)) +  geom_histogram(colour="steelblue", fill="steelblue1", alpha=0.3)+ggtitle(title)
+		ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 		
 		# process each MuxViz measure individually
 		for(measure in measures)
 		{	# check if MuxViz could process the considered measure
 			if(!any(is.na(other.centralities[,measure])))
 			{	# process the rank correlation with our measure
-				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
+				correlation.values[i,measure] <- cor(interest.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
-				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(rank(opinion.centralities[i,])-rank(other.centralities[,measure])))
-				plt <- ggplot(data=dfm, aes(x=number.nodes,y=Ranking.difference)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(titles.ranking[i,measure])
-				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.ranking[i,measure],".pdf",sep=""))
+				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(rank(interest.centralities[i,])-rank(other.centralities[,measure])))
+				plt <- ggplot(data=dfm, aes(x=number.nodes,y=Ranking.difference)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(title)
+				title <- paste("Nodes sorted by ranking difference with ",measure," for p=",p.vals[i]," in network ",network.name,sep="")
+				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 				
 				# ranking differences as a barplot
-				plot <- generate.comparison.barplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure)
-				#TODO inverser les deux mesures dans les autres appels
+				plot <- generate.comparison.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure)
+				title <- paste("Compared ranks with measure ",measure," for p=",p.vals[i]," in network",network.name,sep="")
+				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 			}
 		}
 	}
@@ -184,12 +174,13 @@ for(multiplex.index in 1:length(data.pars))
 		
 		# check if our own centrality could be processed 
 		else if(all(is.na(correlation.values[,measure])))
-			cat("    WARNING: Opinion centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
+			cat("    WARNING: Interest centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
 		else
 		{	cat("    With measure ",measure,"\n")
 			dfm <- data.frame(p=p.vals,Correlation=correlation.values[,measure])
-			plt <- ggplot(data=dfm, aes(x=p,y=Correlation)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(titles.correlation[measure])
-			ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",titles.correlation[measure],".pdf",sep=""))
+			title <- paste("Correlation with ",measure," in network ",network.name,sep="")
+			plt <- ggplot(data=dfm, aes(x=p,y=Correlation)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(title)
+			ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 		}
 	}
 }
