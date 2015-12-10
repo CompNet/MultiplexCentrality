@@ -98,8 +98,8 @@ for(multiplex.index in 1:length(data.pars))
 	mutiplex.centralities <- read.csv(file=centr.file,sep=";")
 	
 	# init centrality tables
-	interest.centralities <- array(0,c(l,number.layers*number.nodes))
-	other.centralities <- as.matrix(mutiplex.centralities)[1:(number.layers*number.nodes),measures]
+	interest.centralities <- array(0,c(l,number.nodes))
+	other.centralities <- as.matrix(mutiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
 	class(other.centralities) <- "numeric"
 	dir.create(paste(plot.folder,"/",network.name,sep=""),showWarnings=FALSE,recursive=TRUE)
   	
@@ -113,27 +113,30 @@ for(multiplex.index in 1:length(data.pars))
 	{	cat("    for p=",p.vals[i]," (",i,"/",l,")",sep="")
 		alpha <- array(0.9,c(number.layers*number.nodes,1))
 	
-		####### processing A in function of p
+		####### process A in function of p
 		parameter.topics=p.vals[i]
 		#A <- array((1-p.vals[i])/2*(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/2*(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
 		A <- array((1-p.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
 		b <- array(1/(number.layers),c(number.layers,1))
-		centrality <- process.interest.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
+
+		####### process interest centrality measure
+#		centrality <- process.interest.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
+# using dummy values, just for testing
+centrality <- runif(n=number.nodes,min=0,max=1)
 		
 		interest.centralities[i,] <- t(centrality)
 		stdev <- sd(interest.centralities[i,])
 		if(stdev==0)
-			cat("....WARNING: stdev=",stdev,"\n",sep="")
+			cat("....WARNING: stdev=",stdev," (value=",interest.centralities[i,1],")\n",sep="")
 		else
 			cat("....stdev=",stdev,"\n",sep="")
 	}
 	
 	# record our measure as a table
-	out.file <- paste(data.par$data.folder,"interest-centrality.csv",sep="")
-	col.layer <- c(sapply(1:number.layers, function(i) rep(i,number.nodes)))
-	col.node <- c(sapply(1:number.layers, function(i) 1:number.nodes))
-	centr <- cbind(col.layer, col.node, t(interest.centralities))
-	colnames(centr) <- c("Layer", "Node", paste("p=",p.vals,sep=""))
+	out.file <- paste(plot.folder,"/",network.name,"/interest-centrality.csv",sep="")
+	col.node <- 1:number.nodes
+	centr <- cbind(col.node, t(interest.centralities))
+	colnames(centr) <- c("Node", paste("p=",p.vals,sep=""))
 	write.csv2(centr, file=out.file)
 
 	# compare each measure to our own
