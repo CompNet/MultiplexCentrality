@@ -14,16 +14,19 @@ process.interest.centrality <- function( network, alpha, budget, grad.horizon=10
 	number.nodes=vcount(network[[1]])
 	
 	####### fixed parameters in the computation of the gradient
-	threshold=(number.layers*number.layers)>100
-	lambda1=0.5/(number.layers*number.nodes)^4
+	#threshold=(number.layers*number.layers)>100
+	lambda1=1/(number.nodes-budget)
+	  #0.5/(number.layers*number.nodes)^4
 	  #0.5*exp(-(number.layers*number.nodes));
 	#0.0000000005
 	#
-	lambda2=0.1/(number.layers*number.nodes)^4
+	lambda2=0.1/(number.nodes)
+	  #0.1/(number.layers*number.nodes)^4
 	  #0.1*exp(-(number.layers*number.nodes));
 	#0.0000000001
 	#
-	lambda3=0.5/(number.layers*number.nodes)^4
+	lambda3=0.5/(number.nodes)
+	  #0.5/(number.layers*number.nodes)^4
 	  #0.5*exp(-(number.layers*number.nodes));
 	    #0.5*exp((number.layers*number.nodes));
 	
@@ -41,11 +44,12 @@ process.interest.centrality <- function( network, alpha, budget, grad.horizon=10
 	x0 <- array(1/(number.nodes),c(number.nodes))
 
 	# processing the constraints
-	constraints.matrix <- Matrix(E,alpha,budget)
+	constraints.matrix <- E
+	  #Matrix(E,alpha,budget)
 	c1 <- array(1,c(1,number.nodes))%*%constraints.matrix
 		
 	# applying gradient descent
-	y <- Sol(constraints.matrix,number.layers,number.nodes,c1,budget,x0,lambda1,lambda2,lambda3,grad.horizon)
+	y <- Sol.v2(constraints.matrix,number.layers,number.nodes,c1,budget,x0,lambda1,lambda2,lambda3,grad.horizon)
 	
 	# return the last y values
 	result <- y[, grad.horizon]

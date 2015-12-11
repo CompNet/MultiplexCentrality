@@ -8,9 +8,9 @@
 # Alexandre Reiffers 12/2015
 # Vincent Labatut 12/2015
 #############################################################################################
-# setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
-# setwd("/Users/jeanlouis/Downloads/MultiplexCentrality-master")
-# source("src/main.R")
+#setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
+#setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 6")
+#source("src/main.R")
 source('src/gradient.R')
 source('src/model.R')
 source('src/plots.R')
@@ -24,42 +24,42 @@ data.pars <- list()
 #	data.folder="data/EUAir_Multiplex_Transport/",
 #	rdata.filename="EUAir.Rdata",
 #	centrality.filename="EUAir_centrality_table.csv")
-data.pars[["Kapferer1"]] <- list(
-	data.folder="data/kaptail1-GraphML/",
-	rdata.filename="kaptail1.Rdata",
-	centrality.filename="Kapferer1_centrality_table.csv")
-data.pars[["Kapferer2"]] <- list(
-	data.folder="data/kaptail2-GraphML/",
-	rdata.filename="kaptail2.Rdata",
-	centrality.filename="Kapferer2_centrality_table.csv")
-data.pars[["Knoke"]] <- list(
-	data.folder="data/knokbur-GraphML/",
-	rdata.filename="knokbur.Rdata",
-	centrality.filename="Knoke_centrality_table.csv")
+#data.pars[["Kapferer1"]] <- list(
+#	data.folder="data/kaptail1-GraphML/",
+#	rdata.filename="kaptail1.Rdata",
+#	centrality.filename="Kapferer1_centrality_table.csv")
+#data.pars[["Kapferer2"]] <- list(
+#	data.folder="data/kaptail2-GraphML/",
+#	rdata.filename="kaptail2.Rdata",
+#	centrality.filename="Kapferer2_centrality_table.csv")
+#data.pars[["Knoke"]] <- list(
+#	data.folder="data/knokbur-GraphML/",
+#	rdata.filename="knokbur.Rdata",
+#	centrality.filename="Knoke_centrality_table.csv")
 data.pars[["london"]] <- list(
 	data.folder="data/London_Multiplex_Transport/",
 	rdata.filename="london.Rdata",
 	centrality.filename="london_centrality_table.csv")
-data.pars[["Padgett"]] <- list(
-	data.folder="data/padgett-GraphML/",
-	rdata.filename="padgett.Rdata",
-	centrality.filename="Padgett_centrality_table.csv")
-data.pars[["Roethlisberger"]] <- list(
-	data.folder="data/wiring-GraphML/",
-	rdata.filename="wiring.Rdata",
-	centrality.filename="Roethlisberger_centrality_table.csv")
-data.pars[["Sampson"]] <- list(
-	data.folder="data/sampson-GraphML/",
-	rdata.filename="sampson.Rdata",
-	centrality.filename="Sampson_centrality_table.csv")
-data.pars[["Thurmann"]] <- list(
-	data.folder="data/thuroff-GraphML/",
-	rdata.filename="thuroff.Rdata",
-	centrality.filename="Thurmann_centrality_table.csv")
-data.pars[["Wolfe"]] <- list(
-	data.folder="data/wolfe-GraphML/",
-	rdata.filename="wolfe.Rdata",
-	centrality.filename="Wolfe_centrality_table.csv")
+#data.pars[["Padgett"]] <- list(
+#	data.folder="data/padgett-GraphML/",
+#	rdata.filename="padgett.Rdata",
+#	centrality.filename="Padgett_centrality_table.csv")
+#data.pars[["Roethlisberger"]] <- list(
+#	data.folder="data/wiring-GraphML/",
+#	rdata.filename="wiring.Rdata",
+#	centrality.filename="Roethlisberger_centrality_table.csv")
+#data.pars[["Sampson"]] <- list(
+#	data.folder="data/sampson-GraphML/",
+#	rdata.filename="sampson.Rdata",
+#	centrality.filename="Sampson_centrality_table.csv")
+#data.pars[["Thurmann"]] <- list(
+#	data.folder="data/thuroff-GraphML/",
+#	rdata.filename="thuroff.Rdata",
+#	centrality.filename="Thurmann_centrality_table.csv")
+#data.pars[["Wolfe"]] <- list(
+#	data.folder="data/wolfe-GraphML/",
+#	rdata.filename="wolfe.Rdata",
+#	centrality.filename="Wolfe_centrality_table.csv")
 
 # select the previously processed centrality measures
 measures <- c(
@@ -67,25 +67,27 @@ measures <- c(
 #	"DegreeIn",
 #	"DegreeOut",
 	"PageRank",
-	"Eigenvector",
+#	"Eigenvector",
 	"Hub",
 	"Authority",
 	"Katz"
 )
 
 # setup alpha
-l <- 5									# number of distinct values of alpha
-alpha.vals = round(c(1:l)/(l+1),2)		# distinct values of alpha
+l <- 10					# number of distinct values of alpha
+alpha.vals = c(1:l)		# distinct values of alpha
+#round(c(1:l)/(l-3),2)
 
 # plot folder
 plot.folder <- "plots"
+scale <- 40				# node scale for graph plots
 
 # process each multiplex network
 network.names <- names(data.pars)
 for(multiplex.index in 1:length(data.pars))
 {	network.name <- network.names[multiplex.index]
 	cat("Processing network ",multiplex.index," (",network.name,")\n",sep="")
-	data.par <- data.pars[[network.name]]
+	data.par <- data.pars[[network.name]] 
 	
 	# load network
 	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
@@ -93,6 +95,22 @@ for(multiplex.index in 1:length(data.pars))
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
 	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
+	
+	# process aggregated network (for later plots)
+	adj <- matrix(0,nrow=number.nodes, ncol=number.nodes)
+	for(j in 1:length(multiplex.network))
+	{	
+		#tmp <- alpha[,j] * as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
+		#tmp[tmp=="NaN"] <- 0
+		#adj <- adj + tmp
+		adj <- adj + as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
+	}
+	#print(adj)
+	aggregated.network <- graph.adjacency(adjmatrix=adj,weighted=TRUE)
+	
+	# layout the aggregated plot
+	V(aggregated.network)$size <- scale
+	lay <- layout.fruchterman.reingold(graph=aggregated.network)
 	
 	# load previously processed centralities
 	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
@@ -115,7 +133,7 @@ for(multiplex.index in 1:length(data.pars))
 	cat("  Processing interest centrality\n",sep="")
 	for(i in 1:l)
 	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")",sep="")
-		alpha <- array(alpha.vals[i],c(number.nodes,number.layers))
+		alpha <- cbind(array(alpha.vals[i],c(number.nodes,floor(number.layers/2))),array((alpha.vals[i])^2,c(number.nodes,(floor(number.layers/2)+1))))
 
 		####### process interest centrality measure
 		centrality <- process.interest.centrality(network=multiplex.network, alpha, budget=1,  grad.horizon=1000)
@@ -139,8 +157,10 @@ for(multiplex.index in 1:length(data.pars))
 	cat("  Compare measures\n")
 	# we consider all possible values of alpha
 	for(i in 1:l)
-	{	# produce the interest centrality histogram for the considered value of alpha
-		cat("    Generate histogram for the interest centrality with alpha=",alpha.vals[i],"\n",sep="")
+	{	cat("    Processing alpha=",alpha.vals[i],"\n",sep="")
+		
+		# produce the interest centrality histogram for the considered value of alpha
+		cat("      Generate histogram for the interest centrality with alpha=",alpha.vals[i],"\n",sep="")
 		measure.histo(vals=interest.centralities[i,], alpha=alpha.vals[i], folder=net.plot.folder)
 		
 		# process each alternate measure individually
@@ -151,15 +171,27 @@ for(multiplex.index in 1:length(data.pars))
 				correlation.values[i,measure] <- cor(interest.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
-				cat("    Generate line plot representing ranking differences with measure ",measure,"\n")
+				cat("      Generate line plot representing ranking differences with measure ",measure,"\n")
 				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
 			
 				# ranking differences as a barplot
-				cat("    Generate barplot representing ranking differences with measure ",measure,"\n")
-				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
+				cat("      Generate barplot representing ranking differences with measure ",measure,"\n")
+#				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
+				
+				# plot the network with each existing measure as the size, and the interest measure as the color
+				cat("      Generate a plot representing the graph and measure ",measure,"\n")
+				graph.plot(g=aggregated.network, ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, layout=lay, scale=scale)
 			}
 		}
 	}
+	
+	# generate plots comparing existing centrality measures
+	cat("  Generate plots comparing existing centrality measures\n")
+	for(m1 in 1:(length(measures)-1))
+	{	for(m2 in (m1+1):length(measures))
+			rank.diff.barplot(ref.vals=other.centralities[,measures[m1]], comp.vals=other.centralities[,measures[m2]], ref.measure=measures[m1], comp.measure=measures[m2], alpha=NA, folder=net.plot.folder)
+	}
+	
 	# plot the correlation between our measure and the other ones
 	cat("  Plot correlations\n")
 	for(measure in measures)

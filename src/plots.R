@@ -44,7 +44,7 @@ measure.histo <- function(vals, measure="Interest Centrality", alpha, folder)
 # folder: folder in which to generate the plots.
 #############################################################################################
 corr.plot <- function(cor.vals, alpha.vals, measure, folder)
-{	data <- data.frame(p=p.vals,Correlation=cor.vals)
+{	data <- data.frame(p=alpha.vals,Correlation=cor.vals)
 	plt <- ggplot(data=data, aes(x=alpha.vals,y=Correlation)) 
 	plt <- plt + geom_point(size=4,colour="steelblue")
 	plt <- plt + geom_line(size=1,colour="steelblue")
@@ -99,14 +99,14 @@ rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="I
 # comp.vals: values for the comparison measure (same).
 # ref.measure: name of the reference measure.
 # comp.measure: name of the comparison measure.
-# alpha: parameter used to build the matrix.
+# alpha: parameter used to build the matrix (or possibly NA if none was defined).
 # folder: folder in which to generate the plots.
 #############################################################################################
-rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder)
+rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha=NA, folder)
 {	ref.rk <- rank(ref.vals,ties.method="min")
 	comp.rk <- rank(comp.vals,ties.method="min")
-	diff <- ref.rk - comp.rk
-	idx <- order(ref.vals)
+	diff <- comp.rk - ref.rk 
+	idx <- order(ref.vals, decreasing=TRUE)
 
 	data <- data.frame(
 			x=1:length(ref.vals),
@@ -118,9 +118,44 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="In
 	plt <- plt + xlab(paste("Nodes ordered by decreasing ",ref.measure,sep="")) 
 	plt <- plt + ylab(paste("Rank changes obtained with ",comp.measure,sep=""))
 	
-	plot.filename <- paste(folder,"/rank_barplot_meas=",measure,"_alpha=",alpha,".pdf",sep="")
+	plot.filename <- paste(folder,"/rank_barplot_ref=",ref.measure,"_comp=",comp.measure,sep="")
+	if(!is.na(alpha))
+		plot.filename <- paste(plot.filename,"_alpha=",alpha,sep="")
+	plot.filename <- paste(plot.filename,".pdf",sep="")
 	pdf(file=plot.filename,bg="white")
 #	print(data)	
 	print(plt)
 	dev.off()
+}
+
+
+
+#############################################################################################
+# Generates a plot representing the graph with two centrality measures: the first (ref) is
+# represented as the node sizes, the second (comp) as the node colors.
+#
+# ref.vals: values for the reference measure (a numerical vector).
+# comp.vals: values for the comparison measure (same).
+# ref.measure: name of the reference measure.
+# comp.measure: name of the comparison measure.
+# alpha: parameter used to build the matrix.
+# folder: folder in which to generate the plots.
+#############################################################################################
+graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder, layout, scale=50)
+{	# setup attributes
+	V(g)$size <- 10 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
+	cscale <- colorRamp(c('white','red'))
+	centrality <- (comp.vals-min(comp.vals))/(max(comp.vals)-min(comp.vals))
+	V(g)$color <- apply(cscale(centrality), 1, function(x) rgb(x[1]/255,x[2]/255,x[3]/255) )
+	
+	# create plot
+	plot.filename <- paste(folder,"/graph_ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".pdf",sep="")
+	pdf(file=plot.filename,bg="white")
+#	print(data)
+	plot(g,layout=layout)
+	dev.off()
+	
+	# export network as graphml file
+	net.filename <- paste(folder,"/graph_ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".graphml",sep="")
+	write.graph(graph=g,file=net.filename,format="graphml")
 }
