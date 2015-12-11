@@ -27,7 +27,7 @@ measure.histo <- function(vals, measure="Interest Centrality", alpha, folder)
 	plt <- plt + ylab("Count")
 	
 	plot.filename <- paste(folder,"/histo_meas=",measure,"_alpha=",alpha,".pdf",sep="")
-print(data)	
+#	print(data)	
 	pdf(file=plot.filename,bg="white")
 	print(plt) #suppressMessages(print(plt))
 	dev.off()
@@ -54,7 +54,7 @@ corr.plot <- function(cor.vals, alpha.vals, measure, folder)
 	
 	plot.filename <- paste(folder,"/corr_plot_meas=",measure,".pdf",sep="")
 	pdf(file=plot.filename,bg="white")
-print(data)	
+#	print(data)	
 	print(plt)
 	dev.off()
 }
@@ -83,7 +83,7 @@ rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="I
 
 	plot.filename <- paste(folder,"/rank_lineplot_meas=",measure,"_alpha=",alpha,".pdf",sep="")
 	pdf(file=plot.filename,bg="white")
-print(data)	
+#	print(data)	
 	print(plt)
 	dev.off()
 }
@@ -120,7 +120,7 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="In
 	
 	plot.filename <- paste(folder,"/rank_barplot_meas=",measure,"_alpha=",alpha,".pdf",sep="")
 	pdf(file=plot.filename,bg="white")
-print(data)	
+#	print(data)	
 	print(plt)
 	dev.off()
 }
