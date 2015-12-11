@@ -8,7 +8,7 @@
 # Alexandre Reiffers 12/2015
 # Vincent Labatut 12/2015
 #############################################################################################
-#setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
+setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
 #setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 6")
 #source("src/main.R")
 source('src/gradient.R')
@@ -80,7 +80,7 @@ alpha.vals = c(1:l)		# distinct values of alpha
 
 # plot folder
 plot.folder <- "plots"
-scale <- 40				# node scale for graph plots
+scale <- 20				# node scale for graph plots
 
 # process each multiplex network
 network.names <- names(data.pars)
@@ -106,7 +106,10 @@ for(multiplex.index in 1:length(data.pars))
 		adj <- adj + as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
 	}
 	#print(adj)
-	aggregated.network <- graph.adjacency(adjmatrix=adj,weighted=TRUE)
+	if(all(adj==t(adj)))
+	  aggregated.network <- graph.adjacency(adjmatrix=adj,weighted=TRUE,mode="directed")
+	else
+	  aggregated.network <- graph.adjacency(adjmatrix=adj,weighted=TRUE,mode="undirected")
 	
 	# layout the aggregated plot
 	V(aggregated.network)$size <- scale
@@ -117,7 +120,7 @@ for(multiplex.index in 1:length(data.pars))
 	mutiplex.centralities <- read.csv(file=centr.file,sep=";")
 	
 	# init centrality tables
-	interest.centralities <- array(0,c(l,number.nodes))
+	opinion.centralities <- array(0,c(l,number.nodes))
 	other.centralities <- as.matrix(mutiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
 	class(other.centralities) <- "numeric"
 
@@ -130,26 +133,26 @@ for(multiplex.index in 1:length(data.pars))
 	colnames(correlation.values) <- measures
   
 	# process our centrality measure
-	cat("  Processing interest centrality\n",sep="")
+	cat("  Processing opinion centrality\n",sep="")
 	for(i in 1:l)
 	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")",sep="")
 		alpha <- cbind(array(alpha.vals[i],c(number.nodes,floor(number.layers/2))),array((alpha.vals[i])^2,c(number.nodes,(floor(number.layers/2)+1))))
 
-		####### process interest centrality measure
-		centrality <- process.interest.centrality(network=multiplex.network, alpha, budget=1,  grad.horizon=1000)
+		####### process opinion centrality measure
+		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1,  grad.horizon=1000)
 		
-		interest.centralities[i,] <- t(centrality)
-		stdev <- sd(interest.centralities[i,])
+		opinion.centralities[i,] <- t(centrality)
+		stdev <- sd(opinion.centralities[i,])
 		if(stdev==0)
-			cat("....WARNING: stdev=",stdev," (value=",interest.centralities[i,1],")\n",sep="")
+			cat("....WARNING: stdev=",stdev," (value=",opinion.centralities[i,1],")\n",sep="")
 		else
 			cat("....stdev=",stdev,"\n",sep="")
 	}
 	
 	# record our measure as a table
-	out.file <- paste(net.plot.folder,"/interest-centrality.csv",sep="")
+	out.file <- paste(net.plot.folder,"/opinion-centrality.csv",sep="")
 	col.node <- 1:number.nodes
-	centr <- cbind(col.node, t(interest.centralities))
+	centr <- cbind(col.node, t(opinion.centralities))
 	colnames(centr) <- c("Node", paste("alpha=",alpha.vals,sep=""))
 	write.csv2(centr, file=out.file, row.names=FALSE)
 
@@ -159,28 +162,28 @@ for(multiplex.index in 1:length(data.pars))
 	for(i in 1:l)
 	{	cat("    Processing alpha=",alpha.vals[i],"\n",sep="")
 		
-		# produce the interest centrality histogram for the considered value of alpha
-		cat("      Generate histogram for the interest centrality with alpha=",alpha.vals[i],"\n",sep="")
-		measure.histo(vals=interest.centralities[i,], alpha=alpha.vals[i], folder=net.plot.folder)
+		# produce the opinion centrality histogram for the considered value of alpha
+		cat("      Generate histogram for the opinion centrality with alpha=",alpha.vals[i],"\n",sep="")
+		measure.histo(vals=opinion.centralities[i,], alpha=alpha.vals[i], folder=net.plot.folder)
 		
 		# process each alternate measure individually
 		for(measure in measures)
 		{	# check if the considered measure was processed
 			if(!any(is.na(other.centralities[,measure])))
 			{	# process the rank correlation with our measure
-				correlation.values[i,measure] <- cor(interest.centralities[i,], other.centralities[,measure], method="spearman")
+				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
 				cat("      Generate line plot representing ranking differences with measure ",measure,"\n")
-				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
+				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
 			
 				# ranking differences as a barplot
 				cat("      Generate barplot representing ranking differences with measure ",measure,"\n")
-#				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
+				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
 				
-				# plot the network with each existing measure as the size, and the interest measure as the color
+				# plot the network with each existing measure as the size, and the opinion measure as the color
 				cat("      Generate a plot representing the graph and measure ",measure,"\n")
-				graph.plot(g=aggregated.network, ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, layout=lay, scale=scale)
+				graph.plot(g=aggregated.network, ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, layout=lay, scale=scale)
 			}
 		}
 	}

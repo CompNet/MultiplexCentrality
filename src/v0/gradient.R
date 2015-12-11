@@ -1,5 +1,5 @@
 #############################################################################################
-# Functions used to solve the interest maximization optimization problem.
+# Functions used to solve the interest maximization problem.
 #
 # Alexandre Reiffers 12/2015
 #############################################################################################

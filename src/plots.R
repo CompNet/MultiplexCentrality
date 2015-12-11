@@ -143,8 +143,8 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="In
 #############################################################################################
 graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder, layout, scale=50)
 {	# setup attributes
-	V(g)$size <- 10 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
-	cscale <- colorRamp(c('white','red'))
+	V(g)$size <- 5 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
+	cscale <- colorRamp(c('skyblue3','firebrick3'))
 	centrality <- (comp.vals-min(comp.vals))/(max(comp.vals)-min(comp.vals))
 	V(g)$color <- apply(cscale(centrality), 1, function(x) rgb(x[1]/255,x[2]/255,x[3]/255) )
 	
