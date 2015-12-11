@@ -74,7 +74,7 @@ measures <- c(
 
 # setup p
 l <- 20								# number of distinct values of p
-p.vals = round(c(1:l)/(l+1),2)		# distinct values of p
+alpha.vals = round(c(1:l)/(l+1),2)		# distinct values of p
 
 # plot folder
 plot.folder <- "plots"
@@ -110,13 +110,13 @@ for(multiplex.index in 1:length(data.pars))
 	# process our centrality measure
 	cat("  Processing interest centrality\n",sep="")
 	for(i in 1:l)
-	{	cat("    for p=",p.vals[i]," (",i,"/",l,")",sep="")
+	{	cat("    for p=",alpha.vals[i]," (",i,"/",l,")",sep="")
 		alpha <- array(0.9,c(number.layers*number.nodes,1))
 	
 		####### processing A in function of p
-		parameter.topics=p.vals[i]
+		parameter.topics=alpha.vals[i]
 		#A <- array((1-p.vals[i])/2*(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/2*(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
-		A <- array((1-p.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
+		A <- array((1-alpha.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-alpha.vals[i])/(number.layers-1),c(number.layers)))+diag(array(alpha.vals[i],c(number.layers)))
 		b <- array(1/(number.layers),c(number.layers,1))
 		centrality <- process.interest.centrality(A, network=multiplex.network, alpha, budget=1, b, grad.horizon=1000)
 		
@@ -133,7 +133,7 @@ for(multiplex.index in 1:length(data.pars))
 	col.layer <- c(sapply(1:number.layers, function(i) rep(i,number.nodes)))
 	col.node <- c(sapply(1:number.layers, function(i) 1:number.nodes))
 	centr <- cbind(col.layer, col.node, t(interest.centralities))
-	colnames(centr) <- c("Layer", "Node", paste("p=",p.vals,sep=""))
+	colnames(centr) <- c("Layer", "Node", paste("p=",alpha.vals,sep=""))
 	write.csv2(centr, file=out.file)
 
 	# compare each measure to our own
@@ -141,7 +141,7 @@ for(multiplex.index in 1:length(data.pars))
 	for(i in 1:l)
 	{	# produce the interest centrality histogram for the considered value of p 
 		dfm <- data.frame(Centrality=interest.centralities[i,])
-		title <- paste("Interest centrality histogram for p=",p.vals[i]," in network ",network.name,sep="")
+		title <- paste("Interest centrality histogram for p=",alpha.vals[i]," in network ",network.name,sep="")
 		plt <- ggplot(data=dfm, aes(x=Centrality)) +  geom_histogram(colour="steelblue", fill="steelblue1", alpha=0.3)+ggtitle(title)
 		ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 		
@@ -155,12 +155,12 @@ for(multiplex.index in 1:length(data.pars))
 				# plot ranking differences
 				dfm <- data.frame(number.nodes=c(1:(number.layers*number.nodes)),Ranking.difference=sort(rank(interest.centralities[i,])-rank(other.centralities[,measure])))
 				plt <- ggplot(data=dfm, aes(x=number.nodes,y=Ranking.difference)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(title)
-				title <- paste("Nodes sorted by ranking difference with ",measure," for p=",p.vals[i]," in network ",network.name,sep="")
+				title <- paste("Nodes sorted by ranking difference with ",measure," for p=",alpha.vals[i]," in network ",network.name,sep="")
 				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 				
 				# ranking differences as a barplot
 				plot <- generate.comparison.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure)
-				title <- paste("Compared ranks with measure ",measure," for p=",p.vals[i]," in network",network.name,sep="")
+				title <- paste("Compared ranks with measure ",measure," for p=",alpha.vals[i]," in network",network.name,sep="")
 				ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))
 			}
 		}
@@ -177,7 +177,7 @@ for(multiplex.index in 1:length(data.pars))
 			cat("    WARNING: Interest centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
 		else
 		{	cat("    With measure ",measure,"\n")
-			dfm <- data.frame(p=p.vals,Correlation=correlation.values[,measure])
+			dfm <- data.frame(p=alpha.vals,Correlation=correlation.values[,measure])
 			title <- paste("Correlation with ",measure," in network ",network.name,sep="")
 			plt <- ggplot(data=dfm, aes(x=p,y=Correlation)) + geom_point(size=4,colour="steelblue")+ geom_line(size=1,colour="steelblue")+ggtitle(title)
 			ggsave(plot=plt, file=paste(plot.folder,"/",network.name,"/",title,".pdf",sep=""))

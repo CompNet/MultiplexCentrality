@@ -1,7 +1,7 @@
 #############################################################################################
 # Main script, performing the following steps:
 #	1) Load the networks.
-#	2) Load the centrality measures previously processed with MuxViz.
+#	2) Load the centrality measures previously processed (with MuxViz).
 #	3) Process our own multiplex measure.
 #	4) Compare them and produce various plots.
 #
@@ -36,10 +36,10 @@ data.pars[["Knoke"]] <- list(
 	data.folder="data/knokbur-GraphML/",
 	rdata.filename="knokbur.Rdata",
 	centrality.filename="Knoke_centrality_table.csv")
-#data.pars[["london"]] <- list(
-#	data.folder="data/London_Multiplex_Transport/",
-#	rdata.filename="london.Rdata",
-#	centrality.filename="london_centrality_table.csv")
+data.pars[["london"]] <- list(
+	data.folder="data/London_Multiplex_Transport/",
+	rdata.filename="london.Rdata",
+	centrality.filename="london_centrality_table.csv")
 data.pars[["Padgett"]] <- list(
 	data.folder="data/padgett-GraphML/",
 	rdata.filename="padgett.Rdata",
@@ -61,7 +61,7 @@ data.pars[["Wolfe"]] <- list(
 	rdata.filename="wolfe.Rdata",
 	centrality.filename="Wolfe_centrality_table.csv")
 
-# select the centrality measures previously processed by MuxViz
+# select the previously processed centrality measures
 measures <- c(
 	"Degree",
 #	"DegreeIn",
@@ -73,9 +73,9 @@ measures <- c(
 	"Katz"
 )
 
-# setup p
-l <- 5								# number of distinct values of p
-p.vals = round(c(1:l)/(l+1),2)		# distinct values of p
+# setup alpha
+l <- 5									# number of distinct values of alpha
+alpha.vals = round(c(1:l)/(l+1),2)		# distinct values of alpha
 
 # plot folder
 plot.folder <- "plots"
@@ -114,14 +114,8 @@ for(multiplex.index in 1:length(data.pars))
 	# process our centrality measure
 	cat("  Processing interest centrality\n",sep="")
 	for(i in 1:l)
-	{	cat("    for p=",p.vals[i]," (",i,"/",l,")",sep="")
-		alpha <- array(p.vals[i],c(number.nodes,number.layers))
-	
-		####### process A in function of p
-		parameter.topics=p.vals[i]
-		#A <- array((1-p.vals[i])/2*(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/2*(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
-	#	A <- array((1-p.vals[i])/(number.layers-1),c(number.layers,number.layers))-diag(array((1-p.vals[i])/(number.layers-1),c(number.layers)))+diag(array(p.vals[i],c(number.layers)))
-	#	b <- array(1/(number.layers),c(number.layers,1))
+	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")",sep="")
+		alpha <- array(alpha.vals[i],c(number.nodes,number.layers))
 
 		####### process interest centrality measure
 		centrality <- process.interest.centrality(network=multiplex.network, alpha, budget=1,  grad.horizon=1000)
@@ -138,43 +132,47 @@ for(multiplex.index in 1:length(data.pars))
 	out.file <- paste(net.plot.folder,"/interest-centrality.csv",sep="")
 	col.node <- 1:number.nodes
 	centr <- cbind(col.node, t(interest.centralities))
-	colnames(centr) <- c("Node", paste("p=",p.vals,sep=""))
-	write.csv2(centr, file=out.file)
+	colnames(centr) <- c("Node", paste("alpha=",alpha.vals,sep=""))
+	write.csv2(centr, file=out.file, row.names=FALSE)
 
 	# compare each measure to our own
-	# we consider all possible values of p
+	cat("  Compare measures\n")
+	# we consider all possible values of alpha
 	for(i in 1:l)
-	{	# produce the interest centrality histogram for the considered value of p
-		measure.histo(vals=interest.centralities[i,], p=p.vals[i], folder=net.plot.folder)
+	{	# produce the interest centrality histogram for the considered value of alpha
+		cat("    Generate histogram for the interest centrality with alpha=",alpha.vals[i],"\n",sep="")
+		measure.histo(vals=interest.centralities[i,], alpha=alpha.vals[i], folder=net.plot.folder)
 		
-		# process each MuxViz measure individually
+		# process each alternate measure individually
 		for(measure in measures)
-		{	# check if MuxViz could process the considered measure
+		{	# check if the considered measure was processed
 			if(!any(is.na(other.centralities[,measure])))
 			{	# process the rank correlation with our measure
 				correlation.values[i,measure] <- cor(interest.centralities[i,], other.centralities[,measure], method="spearman")
 	
 				# plot ranking differences
-				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, p=p.vals[i], folder=net.plot.folder)
+				cat("    Generate line plot representing ranking differences with measure ",measure,"\n")
+				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
 			
 				# ranking differences as a barplot
-				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, p=p.vals[i], folder=net.plot.folder)
+				cat("    Generate barplot representing ranking differences with measure ",measure,"\n")
+				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=interest.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder)
 			}
 		}
 	}
 	# plot the correlation between our measure and the other ones
 	cat("  Plot correlations\n")
 	for(measure in measures)
-	{	# check if MuxViz could process the considered measure
+	{	# check if the considered measure was processed
 		if(any(is.na(other.centralities[,measure])) | length(unique(other.centralities[,measure]))==1)
-			cat("    WARNING: MuxViz could not process measure ",measure,", so no correlation plot\n",sep="")
+			cat("    WARNING: could not find the values for measure ",measure,", so no correlation plot\n",sep="")
 		
 		# check if our own centrality could be processed 
 		else if(all(is.na(correlation.values[,measure])))
 			cat("    WARNING: Interest centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
 		else
 		{	cat("    With measure ",measure,"\n")
-			corr.plot(cor.vals=correlation.values[,measure], p.vals, measure, folder=net.plot.folder)
+			corr.plot(cor.vals=correlation.values[,measure], alpha.vals, measure, folder=net.plot.folder)
 		}
 	}
 }
