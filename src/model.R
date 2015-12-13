@@ -59,7 +59,7 @@ process.opinion.centrality <- function( network, alpha, budget, grad.horizon=100
 	c1 <- array(1,c(1,number.nodes))%*%constraints.matrix
 	
 	# applying gradient descent
-	y <- Sol(B,number.layers,number.nodes,c1,budget,x0,lambda1,lambda2,lambda3,grad.horizon)
+	y <- Sol(B, number.layers, number.nodes, c1, budget, x0, lambda1, lambda2, lambda3, grad.horizon)
 	
 	# return the last y values
 	result <- y[, grad.horizon]

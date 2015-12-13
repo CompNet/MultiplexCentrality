@@ -67,7 +67,7 @@ df <- function(A, number.layers, number.nodes, u, d, x, lambda1, lambda2, lambda
 # grad.horizon: number of iteration for the gradient descent.
 # returns: the minimum of 1^tx-lambda1\sum_i[log((b-Ax)_i)]+lambda2\sum_i[(cx-d)_i]^2-\lambda3[log(1-1^tx)].
 #############################################################################################
-Sol <- function(A, number.layers, number.nodes, u, d, x, lambda1, lambda2, lambda3, grad.horizon)#, npar=TRUE, print=TRUE)
+Sol <- function(B, number.layers, number.nodes, u, d, x, lambda1, lambda2, lambda3, grad.horizon)#, npar=TRUE, print=TRUE)
 {	l <- number.nodes
 #	B <- solve(diag(number.nodes)-A)
 	Result <- array(0,c(l,grad.horizon))
