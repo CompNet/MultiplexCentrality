@@ -69,9 +69,11 @@ df <- function(A, number.layers, number.nodes, u, d, x, lambda1, lambda2, lambda
 #############################################################################################
 Sol <- function(A, number.layers, number.nodes, u, d, x, lambda1, lambda2, lambda3, grad.horizon)#, npar=TRUE, print=TRUE)
 {	l <- number.nodes
-	B <- solve(diag(number.nodes)-A)
+#	B <- solve(diag(number.nodes)-A)
 	Result <- array(0,c(l,grad.horizon))
-	Result[,1] <- (1/lambda1)*(apply(B,1,sum)+(lambda1-sum(apply(B,1,sum)))/number.nodes)
+#	Result[,1] <- (1/lambda1)*(apply(B,1,sum)+(lambda1-sum(apply(B,1,sum)))/number.nodes)
+	Result[,1] <- (1/lambda1)*(apply(B,1,sum)+(lambda1*d-sum(apply(B,1,sum)))/number.nodes)
+	
 	#Result[,1]<-(1/(max(apply(B,1,sum))))*apply(B,1,sum)
 	
 	# update of the gradient scheme

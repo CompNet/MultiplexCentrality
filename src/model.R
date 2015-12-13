@@ -41,7 +41,7 @@ process.opinion.centrality <- function( network, alpha, budget, grad.horizon=100
   		E <- alpha[,j]*as.matrix(get.adjacency(network[[j]])/degree(network[[j]]))+E
 	E[E=="NaN"] <- 0
 	
-	#B <- solve(diag(number.nodes)-E)
+#	B <- solve(diag(number.nodes)-E)
 	B <- solve( (sum(alpha)+budget)*diag(number.nodes)-E)
 	lambda1 <- number.nodes*((sum(apply(B,1,sum)))/number.nodes-min(apply(B,1,sum)))+1
 
@@ -59,7 +59,7 @@ process.opinion.centrality <- function( network, alpha, budget, grad.horizon=100
 	c1 <- array(1,c(1,number.nodes))%*%constraints.matrix
 	
 	# applying gradient descent
-	y <- Sol(constraints.matrix,number.layers,number.nodes,c1,budget,x0,lambda1,lambda2,lambda3,grad.horizon)
+	y <- Sol(B,number.layers,number.nodes,c1,budget,x0,lambda1,lambda2,lambda3,grad.horizon)
 	
 	# return the last y values
 	result <- y[, grad.horizon]
