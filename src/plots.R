@@ -310,11 +310,11 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 		corrplot(corr.mat, 
 				method="color",		# colors the cells 
 				col=cor.cols(20), cl.length=21, 
-#				addCoef.col="grey",	# numerical values in the cells
+#				addCoef.col="grey",	# display numerical values in the cells
 				addgrid.col=NA,		# remove grid
 				tl.col="black",		# color of the axis labels
 				tl.cex=0.5
 		)
-#		dev.off()
+		dev.off()
 	}
 }

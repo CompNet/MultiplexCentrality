@@ -25,24 +25,25 @@ process.opinion.centrality <- function( network, alpha, budget, grad.horizon=100
 	#0.5*exp(-(number.layers*number.nodes));
 	#0.0000000005
 	#
-	lambda2=0.1/(number.nodes)
+	lambda2 <- 0.1/(number.nodes)
 	#0.1/(number.layers*number.nodes)^4
 	#0.1*exp(-(number.layers*number.nodes));
 	#0.0000000001
 	#
-	lambda3=0.5/(number.nodes)
+	lambda3 <- 0.5/(number.nodes)
 	#0.5/(number.layers*number.nodes)^4
 	#0.5*exp(-(number.layers*number.nodes));
 	#0.5*exp((number.layers*number.nodes));
 	
 	######## constraint matrix
-	E=alpha[,1]*as.matrix(get.adjacency(network[[1]])/degree(network[[1]]))
+	E <- alpha[,1]*as.matrix(get.adjacency(network[[1]])/degree(network[[1]]))
 	for(j in 2:number.layers)
-  		E=alpha[,j]*as.matrix(get.adjacency(network[[j]])/degree(network[[j]]))+E
-	E[E=="NaN"]=0
+  		E <- alpha[,j]*as.matrix(get.adjacency(network[[j]])/degree(network[[j]]))+E
+	E[E=="NaN"] <- 0
 	
-	B<-solve(diag(number.nodes)-E)
-	lambda1=number.nodes*((sum(apply(B,1,sum)))/number.nodes-min(apply(B,1,sum)))+1
+	#B <- solve(diag(number.nodes)-E)
+	B <- solve( (sum(alpha)+budget)*diag(number.nodes)-E)
+	lambda1 <- number.nodes*((sum(apply(B,1,sum)))/number.nodes-min(apply(B,1,sum)))+1
 
 	#### processing of the external world society opinion
 	#b.layer<-array(0,c(number.nodes*number.layers,1)) #modif

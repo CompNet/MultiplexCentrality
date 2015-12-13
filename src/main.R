@@ -84,8 +84,8 @@ l <- length(alpha.vals)						# number of distinct values of alpha
 plot.folder <- "plots"		# name of the folder containing the plots
 scale <- 20					# node scale for graph plots
 formats <- c(				# file format of the plots
-	"PDF" 
-#	"PNG"
+	"PDF",
+	"PNG"
 )	 
 
 # process each multiplex network
