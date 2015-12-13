@@ -74,9 +74,9 @@ measures <- c(
 )
 
 # setup alpha
-alpha.vals <- seq(from=0,to=40,by=0.25)			# distinct values of alpha
+alpha.vals <- seq(from=0,to=1,by=0.25)			# distinct values of alpha
 alpha.vals <- alpha.vals[alpha.vals!=0]
-#alpha.vals <- c(alpha.vals,seq(from=30,to=100,by=10))
+alpha.vals <- c(alpha.vals,seq(from=10,to=100,by=10))
 l <- length(alpha.vals)						# number of distinct values of alpha
 #round(c(1:l)/(l-3),2)
 
@@ -142,7 +142,7 @@ for(multiplex.index in 1:length(data.pars))
 	cat("  Processing the opinion centrality\n",sep="")
 	for(i in 1:l)
 	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")",sep="")
-#		alpha <- cbind(array(alpha.vals[i],c(number.nodes,floor(number.layers/2))),array((alpha.vals[i])^2,c(number.nodes,(floor(number.layers/2)+1))))
+		#alpha <- cbind(array(alpha.vals[i],c(number.nodes,floor(number.layers/2))),array((alpha.vals[i])^2,c(number.nodes,(floor(number.layers/2)+1))))
 		alpha <- matrix(alpha.vals[i],nrow=number.nodes, ncol=number.layers)
 #		print(alpha)
 
@@ -215,7 +215,7 @@ for(multiplex.index in 1:length(data.pars))
 			cat("    WARNING: Interest centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
 		else
 		{	cat("    With measure ",measure,"\n",sep="")
-#			corr.plot(cor.vals=correlation.values[,measure], alpha.vals, measure, folder=net.plot.folder, formats=formats)
+			corr.plot(cor.vals=correlation.values[,measure], alpha.vals, measure, folder=net.plot.folder, formats=formats)
 		}
 	}
 	

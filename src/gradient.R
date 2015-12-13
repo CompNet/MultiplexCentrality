@@ -54,10 +54,9 @@ df <- function(A, number.layers, number.nodes, u, d, x, lambda1, lambda2, lambda
 # This function performs the gradient scheme over the expression:
 #	1^tx-lambda1\sum_i[log((b-Ax)_i)]+lambda2\sum_i[(ux-d)_i]^2-\lambda3[log(1-1^tx)]
 #
-# A: inequality matrix, size (number.nodes*number.layers)^2.
-# b: inequality vector, size (number.nodes*number.layers).
-# number.nodes: number of nodes in each layer.
+# B: inequality matrix, size (number.nodes*number.layers)^2.
 # number.layers: number of layers in the network.
+# number.nodes: number of nodes in each layer.
 # u: equality vector 1, size (number.nodes*number.layers).
 # d: equality vector 2, size (number.nodes*number.layers).
 # x: initial value of  the gradient scheme.

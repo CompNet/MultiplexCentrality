@@ -7,15 +7,13 @@
 #############################################################################################
 # This function computes the opinion centrality. 
 # 
-# A: influence matrix.
 # network: list of graphs constituting the multiplex network.
 # alpha: intensity of node activation.
 # budget: budget constraint over intensity.
-# b: external world society opinion.
 # grad.horizon: number of iteration for the gradient descent.
 # returns: the opinion centrality measure.
 #############################################################################################
-process.opinion.centrality <- function( network, alpha, budget, grad.horizon=1000)
+process.opinion.centrality <- function(network, alpha, budget, grad.horizon=1000)
 {	number.layers<-length(network)
 	number.nodes=vcount(network[[1]])
 

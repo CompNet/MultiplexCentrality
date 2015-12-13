@@ -111,7 +111,7 @@ corr.plot.all <- function(cor.vals, alpha.vals, measures, folder, formats=c("PDF
 	plt <- plt + ggtitle(paste("Spearman correlation",sep=""))
 	plt <- plt + xlab(expression(paste("",alpha,sep=""))) 
 	plt <- plt + ylab(expression(paste("Spearman correlation ",rho,sep="")))
-	plt <- plt + scale_x_continuous(breaks=seq(0,100,by=10))
+	plt <- plt + scale_x_discrete(breaks=seq(0,100,by=10))
 	
 	# create folder
 	plot.folder <- paste(folder,"/corr_plots",sep="")
