@@ -17,8 +17,9 @@ library(ggplot2)
 # measure: name of the measure.
 # alpha: parameter used to build the matrix.
 # folder: folder in which to generate the plots.
+# format: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
-measure.histo <- function(vals, measure="Interest Centrality", alpha, folder)
+measure.histo <- function(vals, measure="Interest Centrality", alpha, folder, format=c("PDF", "PNG"))
 {	data <- data.frame(Centrality=vals)
 	plt <- ggplot(data=data, aes(x=Centrality))
 	plt <- plt + geom_histogram(colour="steelblue", fill="steelblue1", alpha=0.3)
@@ -26,11 +27,21 @@ measure.histo <- function(vals, measure="Interest Centrality", alpha, folder)
 	plt <- plt + xlab(measure) 
 	plt <- plt + ylab("Count")
 	
-	plot.filename <- paste(folder,"/histo_meas=",measure,"_alpha=",alpha,".pdf",sep="")
-#	print(data)	
-	pdf(file=plot.filename,bg="white")
-	print(plt) #suppressMessages(print(plt))
-	dev.off()
+	# create folder
+	plot.folder <- paste(folder,"/histogram",sep="")
+	dir.create(plot.folder,showWarnings=FALSE,recursive=TRUE)
+	
+	# record plot
+#	print(data)
+	for(format in formats)
+	{	plot.filename <- paste(plot.folder,"/meas=",measure,"_alpha=",alpha,".",format,sep="")
+		if(format=="PDF")
+			pdf(file=plot.filename,bg="white")
+		else if(format=="PNG")
+			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		print(plt) #suppressMessages(print(plt))
+		dev.off()
+	}
 }
 
 
@@ -42,21 +53,33 @@ measure.histo <- function(vals, measure="Interest Centrality", alpha, folder)
 # alpha.vals: parameters used to build the matrix.
 # measure: name of the alternative measure.
 # folder: folder in which to generate the plots.
+# format: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
-corr.plot <- function(cor.vals, alpha.vals, measure, folder)
+corr.plot <- function(cor.vals, alpha.vals, measure, folder, format=c("PDF", "PNG"))
 {	data <- data.frame(p=alpha.vals,Correlation=cor.vals)
 	plt <- ggplot(data=data, aes(x=alpha.vals,y=Correlation)) 
-	plt <- plt + geom_point(size=4,colour="steelblue")
+#	plt <- plt + geom_point(size=4,colour="steelblue")
 	plt <- plt + geom_line(size=1,colour="steelblue")
+	plt <- plt + ylim(c(-1,1))
 	plt <- plt + ggtitle(paste("Spearman correlation with ",measure,sep=""))
 	plt <- plt + xlab(paste("alpha",sep="")) 
 	plt <- plt + ylab(paste("Spearman correlation",sep=""))
 	
-	plot.filename <- paste(folder,"/corr_plot_meas=",measure,".pdf",sep="")
-	pdf(file=plot.filename,bg="white")
-#	print(data)	
-	print(plt)
-	dev.off()
+	# create folder
+	plot.folder <- paste(folder,"/corr_plot",sep="")
+	dir.create(plot.folder,showWarnings=FALSE,recursive=TRUE)
+	
+	# record plot
+#	print(data)
+	for(format in formats)
+	{	plot.filename <- paste(plot.folder,"/meas=",measure,".pdf",sep="")
+		if(format=="PDF")
+			pdf(file=plot.filename,bg="white")
+		else if(format=="PNG")
+			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		print(plt) #suppressMessages(print(plt))
+		dev.off()
+	}
 }
 
 
@@ -71,21 +94,33 @@ corr.plot <- function(cor.vals, alpha.vals, measure, folder)
 # comp.measure: name of the comparison measure.
 # alpha: parameter used to build the matrix.
 # folder: folder in which to generate the plots.
+# format: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
-rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder)
+rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder, format=c("PDF", "PNG"))
 {	data <- data.frame(number.nodes=c(1:number.nodes),Ranking.difference=sort(rank(comp.vals)-rank(ref.vals)))
 	plt <- ggplot(data=data, aes(x=number.nodes,y=Ranking.difference)) 
 	plt <- plt + geom_point(size=4,colour="steelblue")
 	plt <- plt + geom_line(size=1,colour="steelblue")
+	plt <- plt + ylim(c(-length(ref.vals),length(ref.vals)))
 	plt <- plt + ggtitle(paste("Nodes sorted by rank difference with ",measure," for alpha=",alpha,sep=""))
 	plt <- plt + xlab(paste("Nodes ordered by increasing rank difference",sep="")) 
 	plt <- plt + ylab(paste(comp.measure," rank - ",ref.measure," rank",sep=""))
 
-	plot.filename <- paste(folder,"/rank_lineplot_meas=",measure,"_alpha=",alpha,".pdf",sep="")
-	pdf(file=plot.filename,bg="white")
-#	print(data)	
-	print(plt)
-	dev.off()
+	# create folder
+	plot.folder <- paste(folder,"/rank_lineplot",sep="")
+	dir.create(plot.folder,showWarnings=FALSE,recursive=TRUE)
+	
+	# record plot
+#	print(data)
+	for(format in formats)
+	{	plot.filename <- paste(plot.folder,"/meas=",measure,"_alpha=",alpha,".",format,sep="")
+		if(format=="PDF")
+			pdf(file=plot.filename,bg="white")
+		else if(format=="PNG")
+			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		print(plt) #suppressMessages(print(plt))
+		dev.off()
+	}
 }
 
 
@@ -101,8 +136,9 @@ rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="I
 # comp.measure: name of the comparison measure.
 # alpha: parameter used to build the matrix (or possibly NA if none was defined).
 # folder: folder in which to generate the plots.
+# format: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
-rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha=NA, folder)
+rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha=NA, folder, format=c("PDF", "PNG"))
 {	ref.rk <- rank(ref.vals,ties.method="min")
 	comp.rk <- rank(comp.vals,ties.method="min")
 	diff <- comp.rk - ref.rk 
@@ -115,17 +151,29 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="In
 	plt <- ggplot(data=data, aes(x=x, y=y))
 	plt <- plt + geom_bar(stat="identity", colour="steelblue", fill="steelblue1", alpha=0.3)
 	plt <- plt + ggtitle(paste("Rank changes for ",comp.measure," vs ", ref.measure," for alpha=",alpha,sep=""))
+	plt <- plt + ylim(c(-length(ref.vals),length(ref.vals)))
 	plt <- plt + xlab(paste("Nodes ordered by decreasing ",ref.measure,sep="")) 
 	plt <- plt + ylab(paste("Rank changes obtained with ",comp.measure,sep=""))
+
+	# create folder
+	plot.folder <- paste(folder,"/rank_barplot",sep="")
+	dir.create(plot.folder,showWarnings=FALSE,recursive=TRUE)
 	
-	plot.filename <- paste(folder,"/rank_barplot_ref=",ref.measure,"_comp=",comp.measure,sep="")
-	if(!is.na(alpha))
-		plot.filename <- paste(plot.filename,"_alpha=",alpha,sep="")
-	plot.filename <- paste(plot.filename,".pdf",sep="")
-	pdf(file=plot.filename,bg="white")
-#	print(data)	
-	print(plt)
-	dev.off()
+	# record plot
+#	print(data)
+	for(format in formats)
+	{	plot.filename <- paste(plot.folder,"/ref=",ref.measure,"_comp=",comp.measure,sep="")
+		if(!is.na(alpha))
+			plot.filename <- paste(plot.filename,"_alpha=",alpha,sep="")
+		plot.filename <- paste(plot.filename,".",format,sep="")
+		
+		if(format=="PDF")
+			pdf(file=plot.filename,bg="white")
+		else if(format=="PNG")
+			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		print(plt) #suppressMessages(print(plt))
+		dev.off()
+	}
 }
 
 
@@ -134,28 +182,43 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="In
 # Generates a plot representing the graph with two centrality measures: the first (ref) is
 # represented as the node sizes, the second (comp) as the node colors.
 #
+# g: graph to plot.
 # ref.vals: values for the reference measure (a numerical vector).
 # comp.vals: values for the comparison measure (same).
 # ref.measure: name of the reference measure.
 # comp.measure: name of the comparison measure.
 # alpha: parameter used to build the matrix.
 # folder: folder in which to generate the plots.
+# layout: layout used to plot the graph.
+# scale: base size of the nodes.
+# format: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
-graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder, layout, scale=50)
+graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Interest Centrality", alpha, folder, layout, scale=50, format=c("PDF", "PNG"))
 {	# setup attributes
 	V(g)$size <- 5 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
 	cscale <- colorRamp(c('skyblue3','firebrick3'))
 	centrality <- (comp.vals-min(comp.vals))/(max(comp.vals)-min(comp.vals))
+	if(all(is.nan(centrality)))
+		centrality <- 1
 	V(g)$color <- apply(cscale(centrality), 1, function(x) rgb(x[1]/255,x[2]/255,x[3]/255) )
 	
-	# create plot
-	plot.filename <- paste(folder,"/graph_ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".pdf",sep="")
-	pdf(file=plot.filename,bg="white")
+	# create folder
+	plot.folder <- paste(folder,"/graph",sep="")
+	dir.create(plot.folder,showWarnings=FALSE,recursive=TRUE)
+	
+	# record plot
 #	print(data)
-	plot(g,layout=layout)
-	dev.off()
+	for(format in formats)
+	{	plot.filename <- paste(plot.folder,"/ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".",format,sep="")
+		if(format=="PDF")
+			pdf(file=plot.filename,bg="white")
+		else if(format=="PNG")
+			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		plot(g,layout=layout)
+		dev.off()
+	}
 	
 	# export network as graphml file
-	net.filename <- paste(folder,"/graph_ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".graphml",sep="")
+	net.filename <- paste(folder,"/graph/ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".graphml",sep="")
 	write.graph(graph=g,file=net.filename,format="graphml")
 }
