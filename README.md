@@ -75,6 +75,6 @@ Finally, you need to add the appropriate information regarding your new networks
 * [`MuxViz`](http://muxviz.net/) software: used to process other multiplex centrality measures (optional).
 
 
-%# References
-%* **[MFLM'15]** Mendonça, I.; Figueiredo, R.; Labatut, V. & Michelon, P. Relevance of Negative Links in Graph Partitioning: A Case Study Using Votes From the European Parliament, 2nd European Network Intelligence Conference (ENIC), 2015.
+[//]: # # References
+[//]: # * **[MFLM'15]** MendonÃ§a, I.; Figueiredo, R.; Labatut, V. & Michelon, P. Relevance of Negative Links in Graph Partitioning: A Case Study Using Votes From the European Parliament, 2nd European Network Intelligence Conference (ENIC), 2015.
 http://arxiv.org/abs/1507.04215
