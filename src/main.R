@@ -8,7 +8,7 @@
 # Alexandre Reiffers 12/2015
 # Vincent Labatut 12/2015
 #############################################################################################
-setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
+#setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
 #setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 6")
 #source("src/main.R")
 source('src/gradient.R')
@@ -196,10 +196,6 @@ for(multiplex.index in 1:length(data.pars))
 		}
 	}
 	
-	# record the correlations between our measure and the other ones
-	out.file <- paste(net.plot.folder,"/corr_plots/all-correlations.csv",sep="")
-	write.csv2(correlation.values, file=out.file)
-	
 	# generate plots comparing existing centrality measures
 	cat("  Generate plots comparing existing centrality measures\n")
 	for(m1 in 1:(length(measures)-1))
@@ -222,6 +218,10 @@ for(multiplex.index in 1:length(data.pars))
 			corr.plot(cor.vals=correlation.values[,measure], alpha.vals, measure, folder=net.plot.folder, formats=formats)
 		}
 	}
+	
+	# record the correlations between our measure and the other ones
+	out.file <- paste(net.plot.folder,"/corr_plots/all-correlations.csv",sep="")
+	write.csv2(correlation.values, file=out.file)
 	
 	# draw all measure correlations in the same plot
 	corr.plot.all(cor.vals=correlation.values, alpha.vals, measures, folder=net.plot.folder, formats=formats)
