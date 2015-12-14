@@ -180,10 +180,10 @@ for(multiplex.index in 1:length(data.pars))
 			if(!any(is.na(other.centralities[,measure])))
 			{	# process the rank correlation with our measure
 				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
-	
+				
 				# plot ranking differences
 				cat("      Generate line plot representing ranking differences with measure ",measure,"\n",sep="")
-#				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, formats=formats)
+				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, formats=formats)
 			
 				# ranking differences as a barplot
 				cat("      Generate barplot representing ranking differences with measure ",measure,"\n",sep="")
@@ -191,17 +191,21 @@ for(multiplex.index in 1:length(data.pars))
 				
 				# plot the network with each existing measure as the size, and the opinion measure as the color
 				cat("      Generate a plot representing the graph and measure ",measure,"\n",sep="")
-#				graph.plot(g=aggregated.network, ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, layout=lay, scale=scale, formats=formats)
+				graph.plot(g=aggregated.network, ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, layout=lay, scale=scale, formats=formats)
 			}
 		}
 	}
 	
+	# record the correlations between our measure and the other ones
+	out.file <- paste(net.plot.folder,"/corr_plots/all-correlations.csv",sep="")
+	write.csv2(correlation.values, file=out.file)
+	
 	# generate plots comparing existing centrality measures
-#	cat("  Generate plots comparing existing centrality measures\n")
-#	for(m1 in 1:(length(measures)-1))
-#	{	for(m2 in (m1+1):length(measures))
-#			rank.diff.barplot(ref.vals=other.centralities[,measures[m1]], comp.vals=other.centralities[,measures[m2]], ref.measure=measures[m1], comp.measure=measures[m2], alpha=NA, folder=net.plot.folder, formats=formats)
-#	}
+	cat("  Generate plots comparing existing centrality measures\n")
+	for(m1 in 1:(length(measures)-1))
+	{	for(m2 in (m1+1):length(measures))
+			rank.diff.barplot(ref.vals=other.centralities[,measures[m1]], comp.vals=other.centralities[,measures[m2]], ref.measure=measures[m1], comp.measure=measures[m2], alpha=NA, folder=net.plot.folder, formats=formats)
+	}
 	
 	# plot the correlation between our measure and the other ones
 	cat("  Plot the correlations between the opinion measure and the other measures\n")
