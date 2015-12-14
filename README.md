@@ -76,4 +76,4 @@ Finally, you need to add the appropriate information regarding your new networks
 
 
 # References
-# * **[RL'15]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Submitted, 2015.
+ * **[RL'15]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Submitted, 2015.
