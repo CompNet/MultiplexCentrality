@@ -9,7 +9,7 @@
 # Vincent Labatut 12/2015
 #############################################################################################
 #setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
-#setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 6")
+#setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 8")
 #source("src/main.R")
 source('src/gradient.R')
 source('src/model.R')
@@ -20,10 +20,10 @@ source('src/misc.R')
 
 # init data-related variables
 data.pars <- list()
-#data.pars[["EUAir"]] <- list(
-#	data.folder="data/EUAir_Multiplex_Transport/",
-#	rdata.filename="EUAir.Rdata",
-#	centrality.filename="EUAir_centrality_table.csv")
+data.pars[["EUAir"]] <- list(
+	data.folder="data/EUAir_Multiplex_Transport/",
+	rdata.filename="EUAir.Rdata",
+	centrality.filename="EUAir_centrality_table.csv")
 data.pars[["Kapferer1"]] <- list(
 	data.folder="data/kaptail1-GraphML/",
 	rdata.filename="kaptail1.Rdata",
@@ -36,10 +36,10 @@ data.pars[["Knoke"]] <- list(
 	data.folder="data/knokbur-GraphML/",
 	rdata.filename="knokbur.Rdata",
 	centrality.filename="Knoke_centrality_table.csv")
-#data.pars[["london"]] <- list(
-#	data.folder="data/London_Multiplex_Transport/",
-#	rdata.filename="london.Rdata",
-#	centrality.filename="london_centrality_table.csv")
+data.pars[["london"]] <- list(
+	data.folder="data/London_Multiplex_Transport/",
+	rdata.filename="london.Rdata",
+	centrality.filename="london_centrality_table.csv")
 data.pars[["Padgett"]] <- list(
 	data.folder="data/padgett-GraphML/",
 	rdata.filename="padgett.Rdata",
@@ -64,8 +64,8 @@ data.pars[["Wolfe"]] <- list(
 # select the previously processed centrality measures
 measures <- c(
 	"Degree",
-#	"DegreeIn",
-#	"DegreeOut",
+#	"DegreeIn",		# MuxViz cannot process this one for certain networks
+#	"DegreeOut",	# same here
 	"PageRank",
 	"Eigenvector",
 	"Hub",
@@ -76,7 +76,7 @@ measures <- c(
 # setup alpha
 alpha.vals <- seq(from=0,to=1,by=0.25)			# distinct values of alpha
 alpha.vals <- alpha.vals[alpha.vals!=0]
-alpha.vals <- c(alpha.vals,seq(from=10,to=100,by=10))
+alpha.vals <- c(alpha.vals,seq(from=2,to=5,by=1))
 l <- length(alpha.vals)						# number of distinct values of alpha
 #round(c(1:l)/(l-3),2)
 
@@ -101,6 +101,10 @@ for(multiplex.index in 1:length(data.pars))
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
 	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
+	
+	#setup personal opinion
+	personal.opinion <- array(0.9, c(number.layers,number.nodes)) #TODO pq ce 0.9?
+	#random.personal.opinion <- array(runif(number.nodes*number.layers,0,1),c(number.layers,number.nodes))
 	
 	# process aggregated network (for later plots)
 	adj <- matrix(0,nrow=number.nodes, ncol=number.nodes)
@@ -135,19 +139,18 @@ for(multiplex.index in 1:length(data.pars))
 	dir.create(net.plot.folder,showWarnings=FALSE,recursive=TRUE)
   	
 	# init correlation table
-	correlation.values <- matrix(NA,nrow=l,ncol=length(measures))
+	correlation.values <- matrix(NA, nrow=l, ncol=length(measures))
 	colnames(correlation.values) <- measures
   
 	# process our centrality measure
 	cat("  Processing the opinion centrality\n",sep="")
 	for(i in 1:l)
 	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")",sep="")
-		#alpha <- cbind(array(alpha.vals[i],c(number.nodes,floor(number.layers/2))),array((alpha.vals[i])^2,c(number.nodes,(floor(number.layers/2)+1))))
 		alpha <- matrix(alpha.vals[i],nrow=number.nodes, ncol=number.layers)
-#		print(alpha)
-
+		#print(alpha)
+		
 		####### process opinion centrality measure
-		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1,  grad.horizon=1000)
+		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
 		
 		opinion.centralities[i,] <- t(centrality)
 		stdev <- sd(opinion.centralities[i,])

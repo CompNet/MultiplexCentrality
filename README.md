@@ -1,8 +1,8 @@
-Opinion Centrality v.1
+Opinion Centrality v.1.1
 =======
 *Nodal centrality for multiplex networks*
 
-* Copyright 2015 Alexandre Reiffers & Vincent Labatut. 
+* Copyright 2015-16 Alexandre Reiffers & Vincent Labatut. 
 
 Opinion Centrality is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. For source availability and license information see `licence.txt`
 

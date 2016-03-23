@@ -189,20 +189,20 @@ rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="O
 rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Opinion Centrality", alpha=NA, folder, formats=c("PDF", "PNG"))
 {	ref.rk <- rank(ref.vals,ties.method="min")
 	comp.rk <- rank(comp.vals,ties.method="min")
-	diff <- comp.rk - ref.rk 
+	diff <- comp.rk - ref.rk
 	idx <- order(ref.vals, decreasing=TRUE)
-
-	data <- data.frame(
-			x=1:length(ref.vals),
-			y=diff[idx])
-#print(data)	
-	plt <- ggplot(data=data, aes(x=x, y=y))
-	plt <- plt + geom_bar(stat="identity", colour="steelblue", fill="steelblue1", alpha=0.3)
-	plt <- plt + ggtitle(paste("Rank changes for ",comp.measure," vs ", ref.measure," for alpha=",alpha,sep=""))
-	plt <- plt + ylim(c(-length(ref.vals),length(ref.vals)))
-	plt <- plt + xlab(paste("Nodes ordered by decreasing ",ref.measure,sep="")) 
-	plt <- plt + ylab(paste("Rank changes obtained with ",comp.measure,sep=""))
-
+	
+#TODO for some reason, ggplot sometimes bugs. so we switched back to the standard barplot.	
+#	data <- data.frame(
+#			x=1:length(ref.vals),
+#			y=diff[idx])
+#	plt <- ggplot(data=data, aes(x=x, y=y))
+#	plt <- plt + geom_bar(stat="identity", colour="steelblue", fill="steelblue1", alpha=0.3)
+#	plt <- plt + ggtitle(paste("Rank changes for ",comp.measure," vs ", ref.measure," for alpha=",alpha,sep=""))
+#	plt <- plt + ylim(c(-length(ref.vals),length(ref.vals)))
+#	plt <- plt + xlab(paste("Nodes ordered by decreasing ",ref.measure,sep="")) 
+#	plt <- plt + ylab(paste("Rank changes obtained with ",comp.measure,sep=""))
+	
 	# create folder
 	plot.folder <- paste(folder,"/rank_barplots",sep="")
 	dir.create(plot.folder,showWarnings=FALSE,recursive=TRUE)
@@ -219,7 +219,16 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 			pdf(file=plot.filename,bg="white")
 		else if(format=="PNG")
 			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
-		print(plt) #suppressMessages(print(plt))
+#		print(plt) #suppressMessages(print(plt))
+		col <- c(col2rgb("steelblue1"))/255
+		barplot(diff[idx], 
+			col=rgb(col[1],col[2],col[3],0.3),
+			border="steelblue",
+			main=paste("Rank changes for ",comp.measure," vs ", ref.measure," for alpha=",alpha,sep=""),
+			ylim=c(-length(ref.vals),length(ref.vals)),
+			xlab=paste("Nodes ordered by decreasing ",ref.measure,sep=""),
+			ylab=paste("Rank changes obtained with ",comp.measure,sep="")
+		)
 		dev.off()
 	}
 }
@@ -295,6 +304,7 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 	names <- colnames(corr.mat)
 	for(i in 1:4)
 	{	idx <- (0:((length(names)-1)/5))*5 + i
+		idx <- idx[idx<=length(names)]
 		names[idx] <- NA
 	}
 	colnames(corr.mat) <- names
