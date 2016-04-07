@@ -1,0 +1,17 @@
+layerID layerLabel
+1 Neutrinos
+2 Detector
+3 Enhancements
+4 Anisotropy
+5 Point-source
+6 Mass-composition
+7 Horizontal
+8 Hybrid-reconstruction
+9 Spectrum
+10 Photons
+11 Atmospheric
+12 SD-reconstruction
+13 Hadronic-interactions
+14 Exotics
+15 Magnetic
+16 Astrophysical-scenarios
