@@ -75,5 +75,11 @@ Finally, you need to add the appropriate information regarding your new networks
 * [`MuxViz`](http://muxviz.net/) software: used to process other multiplex centrality measures (optional).
 
 
+# Data
+We use data publicly available from two sources:
+* [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php)
+* [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm)
+
+
 # References
  * **[RL'15]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Submitted, 2015.
