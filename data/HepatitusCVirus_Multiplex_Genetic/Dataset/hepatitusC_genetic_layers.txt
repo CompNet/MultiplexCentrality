@@ -1,0 +1,4 @@
+layerID layerLabel
+1 physical_association
+2 direct_interaction
+3 colocalization
