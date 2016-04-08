@@ -1,0 +1,6 @@
+D:\\Rattus_Multiplex_Genetic\\MuxViz\\physical_association.edgelist;physical_association;D:\\Rattus_Multiplex_Genetic\\MuxViz\\physical_association.nodes
+D:\\Rattus_Multiplex_Genetic\\MuxViz\\direct_interaction.edgelist;direct_interaction;D:\\Rattus_Multiplex_Genetic\\MuxViz\\direct_interaction.nodes
+D:\\Rattus_Multiplex_Genetic\\MuxViz\\colocalization.edgelist;colocalization;D:\\Rattus_Multiplex_Genetic\\MuxViz\\colocalization.nodes
+D:\\Rattus_Multiplex_Genetic\\MuxViz\\association.edgelist;association;D:\\Rattus_Multiplex_Genetic\\MuxViz\\association.nodes
+D:\\Rattus_Multiplex_Genetic\\MuxViz\\additive_genetic_interaction_defined_by_inequality.edgelist;additive_genetic_interaction_defined_by_inequality;D:\\Rattus_Multiplex_Genetic\\MuxViz\\additive_genetic_interaction_defined_by_inequality.nodes
+D:\\Rattus_Multiplex_Genetic\\MuxViz\\suppressive_genetic_interaction_defined_by_inequality.edgelist;suppressive_genetic_interaction_defined_by_inequality;D:\\Rattus_Multiplex_Genetic\\MuxViz\\suppressive_genetic_interaction_defined_by_inequality.nodes

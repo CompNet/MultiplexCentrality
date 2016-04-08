@@ -1,0 +1,5 @@
+D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\lunch.edgelist;lunch;D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\lunch.nodes
+D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\facebook.edgelist;facebook;D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\facebook.nodes
+D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\coauthor.edgelist;coauthor;D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\coauthor.nodes
+D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\leisure.edgelist;leisure;D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\leisure.nodes
+D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\work.edgelist;work;D:\\CS-Aarhus_Multiplex_Social\\MuxViz\\work.nodes

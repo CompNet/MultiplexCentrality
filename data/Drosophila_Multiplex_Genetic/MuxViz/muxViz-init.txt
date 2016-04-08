@@ -1,0 +1,7 @@
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\direct_interaction.edgelist;direct_interaction;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\direct_interaction.nodes
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\suppressive_genetic_interaction_defined_by_inequality.edgelist;suppressive_genetic_interaction_defined_by_inequality;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\suppressive_genetic_interaction_defined_by_inequality.nodes
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\additive_genetic_interaction_defined_by_inequality.edgelist;additive_genetic_interaction_defined_by_inequality;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\additive_genetic_interaction_defined_by_inequality.nodes
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\physical_association.edgelist;physical_association;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\physical_association.nodes
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\colocalization.edgelist;colocalization;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\colocalization.nodes
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\association.edgelist;association;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\association.nodes
+D:\\Drosophila_Multiplex_Genetic\\MuxViz\\synthetic_genetic_interaction_defined_by_inequality.edgelist;synthetic_genetic_interaction_defined_by_inequality;D:\\Drosophila_Multiplex_Genetic\\MuxViz\\synthetic_genetic_interaction_defined_by_inequality.nodes

@@ -1,0 +1,3 @@
+D:\\HepatitusCVirus_Multiplex_Genetic\\MuxViz\\physical_association.edgelist;physical_association;D:\\HepatitusCVirus_Multiplex_Genetic\\MuxViz\\physical_association.nodes
+D:\\HepatitusCVirus_Multiplex_Genetic\\MuxViz\\direct_interaction.edgelist;direct_interaction;D:\\HepatitusCVirus_Multiplex_Genetic\\MuxViz\\direct_interaction.nodes
+D:\\HepatitusCVirus_Multiplex_Genetic\\MuxViz\\colocalization.edgelist;colocalization;D:\\HepatitusCVirus_Multiplex_Genetic\\MuxViz\\colocalization.nodes
