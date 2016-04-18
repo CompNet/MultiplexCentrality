@@ -1,0 +1,3 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/CKM-Physicians-Innovation_Multiplex_Social/MuxViz/advice.edgelist;advice;~/eclipse/workspaces/Networks/MultiplexCentrality/data/CKM-Physicians-Innovation_Multiplex_Social/MuxViz/advice.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/CKM-Physicians-Innovation_Multiplex_Social/MuxViz/discussion.edgelist;discussion;~/eclipse/workspaces/Networks/MultiplexCentrality/data/CKM-Physicians-Innovation_Multiplex_Social/MuxViz/discussion.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/CKM-Physicians-Innovation_Multiplex_Social/MuxViz/friend.edgelist;friend;~/eclipse/workspaces/Networks/MultiplexCentrality/data/CKM-Physicians-Innovation_Multiplex_Social/MuxViz/friend.nodes

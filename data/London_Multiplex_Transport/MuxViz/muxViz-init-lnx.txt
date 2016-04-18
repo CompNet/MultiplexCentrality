@@ -1,0 +1,3 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/London_Multiplex_Transport/MuxViz/Tube.edgelist;Tube;~/eclipse/workspaces/Networks/MultiplexCentrality/data/London_Multiplex_Transport/MuxViz/Tube.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/London_Multiplex_Transport/MuxViz/Overground.edgelist;Overground;~/eclipse/workspaces/Networks/MultiplexCentrality/data/London_Multiplex_Transport/MuxViz/Overground.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/London_Multiplex_Transport/MuxViz/Railway.edgelist;Railway;~/eclipse/workspaces/Networks/MultiplexCentrality/data/London_Multiplex_Transport/MuxViz/Railway.nodes

@@ -14,7 +14,7 @@ edge.list[,2:3] <- edge.list[,2:3]
 node.nbr <- max(edge.list[,2:3])
 layer.nbr <- nrow(layer.list)
 
-Arabidopsis <- list()
+Aarhus <- list()
 for(layer in 1:layer.nbr)
 {	#cat("Processing layer",layer,"\n")
 	g <- graph.empty(n=node.nbr, directed=FALSE)
@@ -23,8 +23,7 @@ for(layer in 1:layer.nbr)
 	idx <- which(edge.list[,1]==layer)
 	flattened <- c(t(edge.list[idx,2:3]))
 	g <- add.edges(graph=g, edges=flattened)
-	g <- simplify(graph=g, remove.multiple=TRUE)
-	Arabidopsis[[layer]] <- g
+	Aarhus[[layer]] <- g
 	
 	# record for muxviz
 	res.folder <- paste(folder,"MuxViz/",sep="")
@@ -36,10 +35,10 @@ for(layer in 1:layer.nbr)
 	colnames(node.names) <- c("nodeID","nodeLabel")
 	out.file <- paste(res.folder,layer.name,".nodes",sep="")
 	write.table(node.names,out.file,row.names=FALSE,quote=FALSE)
-	cat("D:\\\\CS-Aarhus_Multiplex_Social\\\\MuxViz\\\\",layer.name,".edgelist;",layer.name,";D:\\\\CS-Aarhus_Multiplex_Social\\\\MuxViz\\\\",layer.name,".nodes\n",sep="")
+#	cat("D:\\\\CS-Aarhus_Multiplex_Social\\\\MuxViz\\\\",layer.name,".edgelist;",layer.name,";D:\\\\CS-Aarhus_Multiplex_Social\\\\MuxViz\\\\",layer.name,".nodes\n",sep="")
 }
 
 # record as R object
-print(Arabidopsis)
+print(Aarhus)
 data.file <- paste(folder,"CSAarhus.Rdata",sep="")
-save(Arabidopsis, file=data.file)
+save(Aarhus, file=data.file)

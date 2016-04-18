@@ -14,17 +14,16 @@ edge.list[,2:3] <- edge.list[,2:3]
 node.nbr <- max(edge.list[,2:3])
 layer.nbr <- nrow(layer.list)
 
-Arabidopsis <- list()
+HepatitusCVirus <- list()
 for(layer in 1:layer.nbr)
 {	#cat("Processing layer",layer,"\n")
-	g <- graph.empty(n=node.nbr, directed=FALSE)
+	g <- graph.empty(n=node.nbr, directed=TRUE)
 	g$name <- layer.list[layer,2]
 	V(g)$name <- node.list[,"nodeLabel"]
 	idx <- which(edge.list[,1]==layer)
 	flattened <- c(t(edge.list[idx,2:3]))
 	g <- add.edges(graph=g, edges=flattened)
-	g <- simplify(graph=g, remove.multiple=TRUE)
-	Arabidopsis[[layer]] <- g
+	HepatitusCVirus[[layer]] <- g
 	
 	# record for muxviz
 	res.folder <- paste(folder,"MuxViz/",sep="")
@@ -36,10 +35,10 @@ for(layer in 1:layer.nbr)
 	colnames(node.names) <- c("nodeID","nodeLabel")
 	out.file <- paste(res.folder,layer.name,".nodes",sep="")
 	write.table(node.names,out.file,row.names=FALSE,quote=FALSE)
-	cat("D:\\\\HepatitusCVirus_Multiplex_Genetic\\\\MuxViz\\\\",layer.name,".edgelist;",layer.name,";D:\\\\HepatitusCVirus_Multiplex_Genetic\\\\MuxViz\\\\",layer.name,".nodes\n",sep="")
+#	cat("D:\\\\HepatitusCVirus_Multiplex_Genetic\\\\MuxViz\\\\",layer.name,".edgelist;",layer.name,";D:\\\\HepatitusCVirus_Multiplex_Genetic\\\\MuxViz\\\\",layer.name,".nodes\n",sep="")
 }
 
 # record as R object
-print(Arabidopsis)
+print(HepatitusCVirus)
 data.file <- paste(folder,"HepatitusCVirus.Rdata",sep="")
-save(Arabidopsis, file=data.file)
+save(HepatitusCVirus, file=data.file)

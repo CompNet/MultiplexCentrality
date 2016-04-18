@@ -17,7 +17,7 @@ layer.nbr <- nrow(layer.list)
 Arabidopsis <- list()
 for(layer in 1:layer.nbr)
 {	#cat("Processing layer",layer,"\n")
-	g <- graph.empty(n=node.nbr, directed=FALSE)
+	g <- graph.empty(n=node.nbr, directed=TRUE)
 	g$name <- layer.list[layer,2]
 	V(g)$name <- node.list[,"nodeLabel"]
 	idx <- which(edge.list[,1]==layer)
@@ -41,5 +41,5 @@ for(layer in 1:layer.nbr)
 
 # record as R object
 print(Arabidopsis)
-data.file <- paste(folder,"EUAir.Rdata",sep="")
+data.file <- paste(folder,"Arabidopsis.Rdata",sep="")
 save(Arabidopsis, file=data.file)

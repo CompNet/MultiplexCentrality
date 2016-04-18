@@ -13,7 +13,7 @@ edge.list[,2:3] <- edge.list[,2:3] + 1
 node.nbr <- max(edge.list[,2:3])
 layer.nbr <- length(layer.list)
 
-london <- list()
+London <- list()
 for(layer in 1:layer.nbr)
 {	#cat("Processing layer",layer,"\n")
 	g <- graph.empty(n=node.nbr, directed=FALSE)
@@ -22,7 +22,7 @@ for(layer in 1:layer.nbr)
 	idx <- which(edge.list[,1]==layer)
 	flattened <- c(t(edge.list[idx,2:3]))
 	g <- add.edges(graph=g, edges=flattened, attr=list(weight=edge.list[idx,4]))
-	london[[layer]] <- g
+	London[[layer]] <- g
 	
 	# record for muxviz
 	layer.name <- sub(" ", "", layer.list[layer])
@@ -37,6 +37,7 @@ for(layer in 1:layer.nbr)
 }
 
 # record as R object
-print(london)
+print(London)
 data.file <- paste(folder,"london.Rdata",sep="")
-save(london, file=data.file)
+save(London, file=data.file)
+
