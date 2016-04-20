@@ -13,9 +13,9 @@ FAO Trade,183,339,Yes,Yes,Failed
 CKM Physicians Innovation,246,3,Yes,No,Ok
 London Transport,369,3,No,Yes,Ok
 EU Air Transportation System,450,37,No,No,Failed
-Pierre Auger Collaborations,514,16,No,Yes,
-Human-HIV1 GPI,1005,5,Yes,No,
-Rattus GPI,2640,6,Yes,No,
-C. Elegans GPI,3879,6,Yes,No,
+Pierre Auger Collaborations,514,16,No,Yes,Ok
+Human-HIV1 GPI,1005,5,Yes,No,Ok
+Rattus GPI,2640,6,Yes,No,Failed
+C. Elegans GPI,3879,6,Yes,No,Failed
 Arabidopsis GPI,6980,7,Yes,No,
 Drosophilia GPI ,8215,7,Yes,No,

@@ -250,7 +250,7 @@ layerID layerLabel
 249 Hair_fine
 250 Ginger
 251 Mangoes_mangosteens_guavas
-252 MatÃ©
+252 Mate
 253 Meal_meat
 254 Oil_castor_beans
 255 Papayas
