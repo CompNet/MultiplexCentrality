@@ -17,5 +17,5 @@ Pierre Auger Collaborations,514,16,No,Yes,Ok
 Human-HIV1 GPI,1005,5,Yes,No,Ok
 Rattus GPI,2640,6,Yes,No,Failed
 C. Elegans GPI,3879,6,Yes,No,Failed
-Arabidopsis GPI,6980,7,Yes,No,
-Drosophilia GPI ,8215,7,Yes,No,
+Arabidopsis GPI,6980,7,Yes,No,Failed
+Drosophilia GPI ,8215,7,Yes,No,Failed
