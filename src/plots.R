@@ -252,7 +252,10 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 #############################################################################################
 graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Opinion Centrality", alpha, folder, layout, scale=50, formats=c("PDF", "PNG"))
 {	# setup attributes
-	V(g)$size <- 5 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
+	if(length(unique(ref.vals))==1)
+		V(g)$size <- 5
+	else
+		V(g)$size <- 5 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
 	cscale <- colorRamp(c('skyblue3','firebrick3'))
 	centrality <- (comp.vals-min(comp.vals))/(max(comp.vals)-min(comp.vals))
 	if(all(is.nan(centrality)))

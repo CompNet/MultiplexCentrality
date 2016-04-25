@@ -20,15 +20,15 @@ data.pars <- list()
 #	rdata.filename="Celegans.Rdata",
 #	centrality.filename="Celegans_centrality_table.csv")
 
-data.pars[["CKM"]] <- list(
-	data.folder="data/CKM-Physicians-Innovation_Multiplex_Social/",
-	rdata.filename="CKMPI.Rdata",
-	centrality.filename="CKM_centrality_table.csv")
+#data.pars[["CKM"]] <- list(
+#	data.folder="data/CKM-Physicians-Innovation_Multiplex_Social/",
+#	rdata.filename="CKMPI.Rdata",
+#	centrality.filename="CKM_centrality_table.csv")
 
-data.pars[["CS_Aarhus"]] <- list(
-	data.folder="data/CS-Aarhus_Multiplex_Social/",
-	rdata.filename="CSAarhus.Rdata",
-	centrality.filename="CS_Aarhus_centrality_table.csv")
+#data.pars[["CS_Aarhus"]] <- list(
+#	data.folder="data/CS-Aarhus_Multiplex_Social/",
+#	rdata.filename="CSAarhus.Rdata",
+#	centrality.filename="CS_Aarhus_centrality_table.csv")
 
 #data.pars[["Drosophila"]] <- list(
 #	data.folder="data/Drosophila_Multiplex_Genetic/",
@@ -45,15 +45,15 @@ data.pars[["CS_Aarhus"]] <- list(
 #	rdata.filename="FAO.Rdata",
 #	centrality.filename="FAO_centrality_table.csv")
 
-data.pars[["HepatitusCVirus"]] <- list(
-	data.folder="data/HepatitusCVirus_Multiplex_Genetic/",
-	rdata.filename="HepatitusCVirus.Rdata",
-	centrality.filename="HepatitusCVirus_centrality_table.csv")
+#data.pars[["HepatitusCVirus"]] <- list(
+#	data.folder="data/HepatitusCVirus_Multiplex_Genetic/",
+#	rdata.filename="HepatitusCVirus.Rdata",
+#	centrality.filename="HepatitusCVirus_centrality_table.csv")
 
-data.pars[["HumanHIV1"]] <- list(
-	data.folder="data/HumanHIV1_Multiplex_Genetic/",
-	rdata.filename="HumanHIV1.Rdata",
-	centrality.filename="HumanHIV1_centrality_table.csv")
+#data.pars[["HumanHIV1"]] <- list(
+#	data.folder="data/HumanHIV1_Multiplex_Genetic/",
+#	rdata.filename="HumanHIV1.Rdata",
+#	centrality.filename="HumanHIV1_centrality_table.csv")
 
 #data.pars[["Kapferer1"]] <- list(
 #	data.folder="data/kaptail1-GraphML/",
@@ -70,25 +70,30 @@ data.pars[["HumanHIV1"]] <- list(
 #	rdata.filename="knokbur.Rdata",
 #	centrality.filename="Knoke_centrality_table.csv")
 
-data.pars[["London"]] <- list(
-	data.folder="data/London_Multiplex_Transport/",
-	rdata.filename="London.Rdata",
-	centrality.filename="London_centrality_table.csv")
+data.pars[["Lazega"]] <- list(
+	data.folder="data/Lazega-Law-Firm_Multiplex_Social/",
+	rdata.filename="Lazega.Rdata",
+	centrality.filename="Lazega_centrality_table.csv")
+
+#data.pars[["London"]] <- list(
+#	data.folder="data/London_Multiplex_Transport/",
+#	rdata.filename="London.Rdata",
+#	centrality.filename="London_centrality_table.csv")
 
 #data.pars[["Padgett"]] <- list(
 #	data.folder="data/padgett-GraphML/",
 #	rdata.filename="padgett.Rdata",
 #	centrality.filename="Padgett_centrality_table.csv")
 
-data.pars[["PierreAuger"]] <- list(
-	data.folder="data/PierreAuger_Multiplex_Coauthorship/",
-	rdata.filename="PierreAuger.Rdata",
-	centrality.filename="PierreAuger_centrality_table.csv")
+#data.pars[["PierreAuger"]] <- list(
+#	data.folder="data/PierreAuger_Multiplex_Coauthorship/",
+#	rdata.filename="PierreAuger.Rdata",
+#	centrality.filename="PierreAuger_centrality_table.csv")
 
-data.pars[["Rattus"]] <- list(
-	data.folder="data/Rattus_Multiplex_Genetic/",
-	rdata.filename="Rattus.Rdata",
-	centrality.filename="Rattus_centrality_table.csv")
+#data.pars[["Rattus"]] <- list(
+#	data.folder="data/Rattus_Multiplex_Genetic/",
+#	rdata.filename="Rattus.Rdata",
+#	centrality.filename="Rattus_centrality_table.csv")
 
 #data.pars[["Roethlisberger"]] <- list(
 #	data.folder="data/wiring-GraphML/",

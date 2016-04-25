@@ -141,7 +141,9 @@ for(multiplex.index in 1:length(data.pars))
 		# process each alternate measure individually
 		for(measure in measures)
 		{	# check if the considered measure was processed
-			if(!any(is.na(other.centralities[,measure])))
+			if(any(is.na(other.centralities[,measure])))
+				cat("      Measure ",measure,"was not processed for this dataset\n",sep="")
+			else
 			{	# process the rank correlation with our measure
 				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
 				
