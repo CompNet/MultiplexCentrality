@@ -18,7 +18,7 @@ This set of `R` scripts was designed for two purposes:
 1. Process the opinion centrality, a new centrality measure described in our paper.
 2. Compare it to other existing multiplex centrality measures.
 
-Our scripts were applied to a collection of multiplex networks obtained from [Nexus](http://nexus.igraph.org/), the graph repository associated to the igraph library.
+Our scripts were applied to a collection of multiplex networks obtained from public sources (see the Data section below).
 These data are present in this GitHub project (folder `data`).
 
 
@@ -63,7 +63,7 @@ You may want to apply the scripts to other networks. If you are just interested 
 If you also want to perform the comparison, note that the other multiplex measures need to be processed first, using any tool you think is appropriate. 
 For our article, we used [MuxViz](http://muxviz.net/), an open source tool by Manlio De Domenico. Note his [personal Web page](http://deim.urv.cat/~manlio.dedomenico/data.php) additionally proposes many multilayer networks to play with.  
 When placing new data in the data folder, be sure to respect the same organization and file formats than the networks already present.
-Finally, you need to add the appropriate information regarding your new networks at the beginning of the `main.R` script.
+Finally, you need to add the appropriate information regarding your new networks in the `data.R` script (and possibly comment the ones you do not want to process).
 
 
 # Dependencies

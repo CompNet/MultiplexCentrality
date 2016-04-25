@@ -18,48 +18,9 @@ source('src/misc.R')
 
 
 
-# init data-related variables
-data.pars <- list()
-data.pars[["EUAir"]] <- list(
-	data.folder="data/EUAir_Multiplex_Transport/",
-	rdata.filename="EUAir.Rdata",
-	centrality.filename="EUAir_centrality_table.csv")
-data.pars[["Kapferer1"]] <- list(
-	data.folder="data/kaptail1-GraphML/",
-	rdata.filename="kaptail1.Rdata",
-	centrality.filename="Kapferer1_centrality_table.csv")
-data.pars[["Kapferer2"]] <- list(
-	data.folder="data/kaptail2-GraphML/",
-	rdata.filename="kaptail2.Rdata",
-	centrality.filename="Kapferer2_centrality_table.csv")
-data.pars[["Knoke"]] <- list(
-	data.folder="data/knokbur-GraphML/",
-	rdata.filename="knokbur.Rdata",
-	centrality.filename="Knoke_centrality_table.csv")
-data.pars[["london"]] <- list(
-	data.folder="data/London_Multiplex_Transport/",
-	rdata.filename="london.Rdata",
-	centrality.filename="london_centrality_table.csv")
-data.pars[["Padgett"]] <- list(
-	data.folder="data/padgett-GraphML/",
-	rdata.filename="padgett.Rdata",
-	centrality.filename="Padgett_centrality_table.csv")
-data.pars[["Roethlisberger"]] <- list(
-	data.folder="data/wiring-GraphML/",
-	rdata.filename="wiring.Rdata",
-	centrality.filename="Roethlisberger_centrality_table.csv")
-data.pars[["Sampson"]] <- list(
-	data.folder="data/sampson-GraphML/",
-	rdata.filename="sampson.Rdata",
-	centrality.filename="Sampson_centrality_table.csv")
-data.pars[["Thurmann"]] <- list(
-	data.folder="data/thuroff-GraphML/",
-	rdata.filename="thuroff.Rdata",
-	centrality.filename="Thurmann_centrality_table.csv")
-data.pars[["Wolfe"]] <- list(
-	data.folder="data/wolfe-GraphML/",
-	rdata.filename="wolfe.Rdata",
-	centrality.filename="Wolfe_centrality_table.csv")
+# init the data list
+source('src/data.R')
+
 
 # select the previously processed centrality measures
 measures <- c(
