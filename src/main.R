@@ -18,11 +18,12 @@ source('src/misc.R')
 
 
 
-# init the data list
-source('src/data.R')
+# init the data-related variables
+data.folder <- "data/"	# location of the data in this project
+source('src/data.R')	# init the list of considered networks
 
 
-# select the previously processed centrality measures
+# select the centrality measures previously processed in MuxViz (or an other tool)
 measures <- c(
 	"Degree",
 #	"DegreeIn",		# MuxViz cannot process this one for certain networks
@@ -38,7 +39,7 @@ measures <- c(
 alpha.vals <- seq(from=0,to=1,by=0.25)			# distinct values of alpha
 alpha.vals <- alpha.vals[alpha.vals!=0]
 alpha.vals <- c(alpha.vals,seq(from=2,to=5,by=1))
-l <- length(alpha.vals)						# number of distinct values of alpha
+l <- length(alpha.vals)							# number of distinct values of alpha
 #round(c(1:l)/(l-3),2)
 
 # plot folder
@@ -49,6 +50,13 @@ formats <- c(				# file format of the plots
 	"PNG"
 )	 
 
+# init time measurement matrix
+elapsed.times <- matrix(NA,nrow=length(data.pars),ncol=length(alpha.vals))
+rownames(elapsed.times) <- names(data.pars)
+colnames(elapsed.times) <- alpha.vals
+time.file <- paste(data.folder,"elapsed-times.csv")
+
+
 # process each multiplex network
 network.names <- names(data.pars)
 for(multiplex.index in 1:length(data.pars))
@@ -57,7 +65,7 @@ for(multiplex.index in 1:length(data.pars))
 	data.par <- data.pars[[network.name]] 
 	
 	# load network
-	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
+	net.file <- paste(data.folder,data.par$data.folder,data.par$rdata.filename,sep="")
 	multiplex.network <- retrieve.rdata.object(net.file)
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
@@ -88,11 +96,16 @@ for(multiplex.index in 1:length(data.pars))
 	
 	# load previously processed centralities
 	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
-	mutiplex.centralities <- read.csv(file=centr.file,sep=";")
+	if(file.exists(centr.fil))
+		multiplex.centralities <- read.csv(file=centr.file,sep=";")
+	else
+	{	cat("WARNING: did not find the file containing the centrality values for external measures (MuxViz)\n")
+		multiplex.centralities <- matrix(NA,nrow=number.nodes,ncol=length(measures))
+	}
 	
 	# init centrality tables
 	opinion.centralities <- array(0,c(l,number.nodes))
-	other.centralities <- as.matrix(mutiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
+	other.centralities <- as.matrix(multiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
 	class(other.centralities) <- "numeric"
 
 	# init plot folder
@@ -102,7 +115,7 @@ for(multiplex.index in 1:length(data.pars))
 	# init correlation table
 	correlation.values <- matrix(NA, nrow=l, ncol=length(measures))
 	colnames(correlation.values) <- measures
-  
+	
 	# process our centrality measure
 	cat("  Processing the opinion centrality\n",sep="")
 	for(i in 1:l)
@@ -111,7 +124,11 @@ for(multiplex.index in 1:length(data.pars))
 		#print(alpha)
 		
 		####### process opinion centrality measure
+		elapsed.time <- system.time(
 		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
+		)
+		elapsed.times[multiplex.index,i] <- elapsed.time["elapsed"]
+		write.csv2(elapsed.times, file=time.file)
 		
 		opinion.centralities[i,] <- t(centrality)
 		stdev <- sd(opinion.centralities[i,])
