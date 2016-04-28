@@ -9,6 +9,7 @@
 # Vincent Labatut 12/2015
 #############################################################################################
 #setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
+#setwd("~/eclipse/workspaces/Networks/MultiplexCentrality")
 #setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 8")
 #source("src/main.R")
 source('src/gradient.R')
@@ -21,6 +22,29 @@ source('src/misc.R')
 # init the data-related variables
 data.folder <- "data/"	# location of the data in this project
 source('src/data.R')	# init the list of considered networks
+processed.data <- c(
+	"Arabidopsis",
+	"Celegans",
+	"CKM",
+	"CS_Aarhus",
+	"Drosophila",
+	"EUAir",
+	"FAO"
+	"HepatitusCVirus",
+	"HumanHIV1",
+	"Kapferer1",
+	"Kapferer2",
+	"Knoke",
+	"Lazega",
+	"London",
+	"Padgett",
+	"PierreAuger",
+	"Rattus",
+	"Roethlisberger",
+	"Sampson",
+	"Thurmann",
+	"Wolfe"
+)
 
 
 # select the centrality measures previously processed in MuxViz (or an other tool)
@@ -51,17 +75,15 @@ formats <- c(				# file format of the plots
 )	 
 
 # init time measurement matrix
-elapsed.times <- matrix(NA,nrow=length(data.pars),ncol=length(alpha.vals))
+elapsed.times <- matrix(NA,nrow=length(data.pars),ncol=l)
 rownames(elapsed.times) <- names(data.pars)
 colnames(elapsed.times) <- alpha.vals
 time.file <- paste(data.folder,"elapsed-times.csv")
 
 
 # process each multiplex network
-network.names <- names(data.pars)
-for(multiplex.index in 1:length(data.pars))
-{	network.name <- network.names[multiplex.index]
-	cat("Processing network ",multiplex.index," (",network.name,")\n",sep="")
+for(network.name in processed.data)
+{	cat("Processing network ",network.name,"\n",sep="")
 	data.par <- data.pars[[network.name]] 
 	
 	# load network
@@ -78,7 +100,7 @@ for(multiplex.index in 1:length(data.pars))
 	# process aggregated network (for later plots)
 	adj <- matrix(0,nrow=number.nodes, ncol=number.nodes)
 	for(j in 1:length(multiplex.network))
-	{	
+	{	#print(j)
 		#tmp <- alpha[,j] * as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
 		#tmp[tmp=="NaN"] <- 0
 		#adj <- adj + tmp
@@ -95,17 +117,19 @@ for(multiplex.index in 1:length(data.pars))
 	lay <- layout.fruchterman.reingold(graph=aggregated.network)
 	
 	# load previously processed centralities
-	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
-	if(file.exists(centr.fil))
-		multiplex.centralities <- read.csv(file=centr.file,sep=";")
+	centr.file <- paste(data.folder,data.par$data.folder,data.par$centrality.filename,sep="")
+	if(file.exists(centr.file))
+	{	multiplex.centralities <- read.csv(file=centr.file,sep=";")
+		other.centralities <- as.matrix(multiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
+	}
 	else
 	{	cat("WARNING: did not find the file containing the centrality values for external measures (MuxViz)\n")
-		multiplex.centralities <- matrix(NA,nrow=number.nodes,ncol=length(measures))
+		other.centralities <- matrix(NA,nrow=number.nodes,ncol=length(measures))
+		colnames(other.centralities) <- measures
 	}
 	
 	# init centrality tables
 	opinion.centralities <- array(0,c(l,number.nodes))
-	other.centralities <- as.matrix(multiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
 	class(other.centralities) <- "numeric"
 
 	# init plot folder
@@ -127,7 +151,8 @@ for(multiplex.index in 1:length(data.pars))
 		elapsed.time <- system.time(
 		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
 		)
-		elapsed.times[multiplex.index,i] <- elapsed.time["elapsed"]
+		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
+print(elapsed.times)
 		write.csv2(elapsed.times, file=time.file)
 		
 		opinion.centralities[i,] <- t(centrality)
@@ -139,7 +164,7 @@ for(multiplex.index in 1:length(data.pars))
 	}
 	
 	# record our measure as a table
-	out.file <- paste(net.plot.folder,"/opinion-centrality.csv",sep="")
+	out.file <- paste(net.plot.folder,"opinion-centrality.csv",sep="")
 	col.node <- 1:number.nodes
 	centr <- cbind(col.node, t(opinion.centralities))
 	colnames(centr) <- c("Node", paste("alpha=",alpha.vals,sep=""))
@@ -159,7 +184,7 @@ for(multiplex.index in 1:length(data.pars))
 		for(measure in measures)
 		{	# check if the considered measure was processed
 			if(any(is.na(other.centralities[,measure])))
-				cat("      Measure ",measure,"was not processed for this dataset\n",sep="")
+				cat("      Measure ",measure," was not processed for this dataset\n",sep="")
 			else
 			{	# process the rank correlation with our measure
 				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
@@ -203,11 +228,14 @@ for(multiplex.index in 1:length(data.pars))
 	}
 	
 	# record the correlations between our measure and the other ones
-	out.file <- paste(net.plot.folder,"/corr_plots/all-correlations.csv",sep="")
+	corr.folder <- paste(net.plot.folder,"/corr_plots/",sep="")
+	dir.create(corr.folder,showWarnings=FALSE,recursive=TRUE)
+	out.file <- paste(corr.folder,"all-correlations.csv",sep="")
 	write.csv2(correlation.values, file=out.file)
 	
 	# draw all measure correlations in the same plot
-	corr.plot.all(cor.vals=correlation.values, alpha.vals, measures, folder=net.plot.folder, formats=formats)
+	if(!all(is.na(correlation.values)))
+		corr.plot.all(cor.vals=correlation.values, alpha.vals, measures, folder=net.plot.folder, formats=formats)
 	
 	# process and record correlation matrix for opinion measure only
 	cat("  Record the correlations for the opinion measure only (in function of alpha)\n")

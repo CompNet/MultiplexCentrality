@@ -97,7 +97,8 @@ corr.plot <- function(cor.vals, alpha.vals, measure, folder, formats=c("PDF", "P
 # formats: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
 corr.plot.all <- function(cor.vals, alpha.vals, measures, folder, formats=c("PDF", "PNG"))
-{	data <- t(cor.vals)
+{	#print(cor.vals)
+	data <- t(cor.vals)
 	colnames(data) <- alpha.vals
 	data <- as.data.frame(data)
 	data <- cbind(measures,data)
