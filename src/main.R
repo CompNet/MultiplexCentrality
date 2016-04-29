@@ -29,7 +29,7 @@ processed.data <- c(
 	"CS_Aarhus",
 	"Drosophila",
 	"EUAir",
-	"FAO"
+	"FAO",
 	"HepatitusCVirus",
 	"HumanHIV1",
 	"Kapferer1",
@@ -81,6 +81,13 @@ colnames(elapsed.times) <- alpha.vals
 time.file <- paste(data.folder,"elapsed-times.csv")
 
 
+# init net properties matrix
+net.prop.names <- c("Nodes", "Links")
+net.prop <- matrix(NA,nrow=length(data.pars),ncol=length(net.prop.names))
+rownames(net.prop) <- names(data.pars)
+colnames(net.prop) <- net.prop.names
+netprop.file <- paste(data.folder,"net-properties.csv")
+
 # process each multiplex network
 for(network.name in processed.data)
 {	cat("Processing network ",network.name,"\n",sep="")
@@ -91,6 +98,7 @@ for(network.name in processed.data)
 	multiplex.network <- retrieve.rdata.object(net.file)
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
+	net.prop[network.name,"Nodes"] <- number.nodes
 	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
 	
 	#setup personal opinion
@@ -98,6 +106,7 @@ for(network.name in processed.data)
 	#random.personal.opinion <- array(runif(number.nodes*number.layers,0,1),c(number.layers,number.nodes))
 	
 	# process aggregated network (for later plots)
+	net.prop[network.name,"Links"] <- 0
 	adj <- matrix(0,nrow=number.nodes, ncol=number.nodes)
 	for(j in 1:length(multiplex.network))
 	{	#print(j)
@@ -105,6 +114,7 @@ for(network.name in processed.data)
 		#tmp[tmp=="NaN"] <- 0
 		#adj <- adj + tmp
 		adj <- adj + as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
+		net.prop[network.name,"Links"] <- net.prop[network.name,"Links"] + ecount(multiplex.network[[j]])
 	}
 	#print(adj)
 	if(all(adj==t(adj)))
@@ -112,6 +122,9 @@ for(network.name in processed.data)
 	else
 	  aggregated.network <- graph.adjacency(adjmatrix=adj,weighted=TRUE,mode="undirected")
 	
+  	# record net properties
+	write.csv2(net.prop, file=netprop.file)
+  	
 	# layout the aggregated plot
 	V(aggregated.network)$size <- scale
 	lay <- layout.fruchterman.reingold(graph=aggregated.network)
