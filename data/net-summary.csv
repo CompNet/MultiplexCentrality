@@ -1,21 +1,21 @@
-Name,Nodes,Layers,Directed,Weighted,Tensor
-Knoke,10,2,Yes,No,Ok
-Roethlisberger,14,6,Yes (undirected layer was forced to be directed),No,Ok
-Thurmann,15,2,Yes (undirected layer was forced to be directed),No,Ok
-Padgett Fiorentine Families,16,2,No,No,Ok
-Sampson,18,8,Yes,No,Ok
-Wolfe,22,2,Yes (undirected layer was forced to be directed),Yes (unweighted layers were assigned a weight of 1),Ok
-Kapferer Tailor Shop,39,4,Yes (undirected layer was forced to be directed),No,Ok
-Aarhus CS department,61,5,No,No,Ok
-Lazega Law Firm,71,3,Yes,No,Ok
-Hepatittus C GPI,105,3,Yes,No,Ok
-FAO Trade,183,337,Yes,Yes,Failed
-CKM Physicians Innovation,246,3,Yes,No,Ok
-London Transport,369,3,No,Yes,Ok
-EU Air Transportation System,450,37,No,No,Failed
-Pierre Auger Collaborations,514,16,No,Yes,Ok
-Human-HIV1 GPI,1005,5,Yes,No,Ok
-Rattus GPI,2640,6,Yes,No,Failed
-C. Elegans GPI,3879,6,Yes,No,Failed
-Arabidopsis GPI,6980,7,Yes,No,Failed
-Drosophilia GPI ,8215,7,Yes,No,Failed
+Name;Nodes;Layers;Directed;Weighted;Tensor
+Knoke;10;2;Yes;No;Ok
+Roethlisberger;14;6;Yes (undirected layer was forced to be directed);No;Ok
+Thurmann;15;2;Yes (undirected layer was forced to be directed);No;Ok
+Padgett Fiorentine Families;16;2;No;No;Ok
+Sampson;18;8;Yes;No;Ok
+Wolfe;22;2;Yes (undirected layer was forced to be directed);Yes (unweighted layers were assigned a weight of 1);Ok
+Kapferer Tailor Shop;39;4;Yes (undirected layer was forced to be directed);No;Ok
+Aarhus CS department;61;5;No;No;Ok
+Lazega Law Firm;71;3;Yes;No;Ok
+Hepatittus C GPI;105;3;Yes;No;Ok
+FAO Trade;183;337;Yes;Yes;Failed
+CKM Physicians Innovation;246;3;Yes;No;Ok
+London Transport;369;3;No;Yes;Ok
+EU Air Transportation System;450;37;No;No;Failed
+Pierre Auger Collaborations;514;16;No;Yes;Ok
+Human-HIV1 GPI;1005;5;Yes;No;Ok
+Rattus GPI;2640;6;Yes;No;Ok
+C. Elegans GPI;3879;6;Yes;No;Ok
+Arabidopsis GPI;6980;7;Yes;No;Failed
+Drosophilia GPI ;8215;7;Yes;No;Failed
