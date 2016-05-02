@@ -7,6 +7,7 @@
 library(ggplot2)
 library(reshape2)
 library(corrplot)
+library(plotrix)
 
 
 
@@ -331,5 +332,45 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 				tl.cex=0.5
 		)
 		dev.off()
+	}
+}
+
+
+
+plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, formats=c("PDF", "PNG"))
+{	for(prop in colnames(net.prop))
+	{	for(format in formats)
+		{	plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
+			if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+			
+			# process values to display
+			aggr.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=mean)
+			disp.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=sd)
+			# display points
+			plot(
+				x=net.prop[,prop],		# focus on each net property separately
+				y=aggr.perf,			# aggregated durations (over alpha values)
+				log="xy",				# logarithmic scales
+				col="RED",
+				xlab=prop, ylab="Duration in ms"
+			)
+			# add dispersion bars
+			if(dispersion)
+			{	dispersion(
+					x=net.prop[,prop],
+					y=aggr.perf,
+					ulim=aggr.perf+disp.perf,
+#					llim=sapply(aggr.perf-disp.perf,function(x) max(0,x)),
+					llim=aggr.perf-disp.perf,
+					col="RED"
+				)
+			}
+			
+			# close file
+			dev.off()
+		}
 	}
 }

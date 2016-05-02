@@ -78,7 +78,8 @@ formats <- c(				# file format of the plots
 elapsed.times <- matrix(NA,nrow=length(data.pars),ncol=l)
 rownames(elapsed.times) <- names(data.pars)
 colnames(elapsed.times) <- alpha.vals
-time.file <- paste(data.folder,"elapsed-times.csv")
+time.data.file <- paste(data.folder,"elapsed-times.csv",sep="")
+time.plot.file <- paste(data.folder,"elapsed-times",sep="")
 
 
 # init net properties matrix
@@ -86,7 +87,7 @@ net.prop.names <- c("Nodes", "Links")
 net.prop <- matrix(NA,nrow=length(data.pars),ncol=length(net.prop.names))
 rownames(net.prop) <- names(data.pars)
 colnames(net.prop) <- net.prop.names
-netprop.file <- paste(data.folder,"net-properties.csv")
+netprop.file <- paste(data.folder,"net-properties.csv",sep="")
 
 # process each multiplex network
 for(network.name in processed.data)
@@ -165,8 +166,11 @@ for(network.name in processed.data)
 		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
 		)
 		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
-print(elapsed.times)
-		write.csv2(elapsed.times, file=time.file)
+		#print(elapsed.times)
+		write.csv2(elapsed.times, file=time.data.file)
+		#elapsed.times <- read.csv2(file=time.data.file,header=TRUE,row.names=1,check.names=FALSE)
+		#net.prop <- read.csv2(file=netprop.file,header=TRUE,row.names=1,check.names=FALSE)
+		plot.time.perf(elapsed.times, net.prop, plot.file=time.plot.file, dispersion=FALSE, formats)
 		
 		opinion.centralities[i,] <- t(centrality)
 		stdev <- sd(opinion.centralities[i,])
