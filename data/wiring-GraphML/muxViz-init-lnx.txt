@@ -1,0 +1,6 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDCON.edgelist;Windows;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDCON.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDGAM.edgelist;Horseplay;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDGAM.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDHLP.edgelist;Help;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDHLP.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDJOB.edgelist;Jobs;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDJOB.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDNEG.edgelist;Antagonistic;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDNEG.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDPOS.edgelist;Friendship;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wiring-GraphML/RDPOS.nodes

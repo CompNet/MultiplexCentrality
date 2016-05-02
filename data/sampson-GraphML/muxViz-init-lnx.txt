@@ -1,0 +1,8 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPDES.edgelist;Disesteem;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPDES.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPDLK.edgelist;Disliking;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPDLK.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPES.edgelist;Esteem;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPES.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPIN.edgelist;PositiveInfluence;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPIN.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPLK3.edgelist;Liking;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPLK3.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPNIN.edgelist;NegativeInfluence;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPNIN.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPNPR.edgelist;Blame;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPNPR.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPPR.edgelist;Praise;~/eclipse/workspaces/Networks/MultiplexCentrality/data/sampson-GraphML/SAMPPR.nodes

@@ -1,0 +1,2 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/knokbur-GraphML/KNOKI.edgelist;Information;~/eclipse/workspaces/Networks/MultiplexCentrality/data/knokbur-GraphML/KNOKI.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/knokbur-GraphML/KNOKM.edgelist;Money;~/eclipse/workspaces/Networks/MultiplexCentrality/data/knokbur-GraphML/KNOKM.nodes

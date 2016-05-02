@@ -1,0 +1,2 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/thuroff-GraphML/THURA.edgelist;Administrative;~/eclipse/workspaces/Networks/MultiplexCentrality/data/thuroff-GraphML/THURA.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/thuroff-GraphML/THURM.edgelist;Effective;~/eclipse/workspaces/Networks/MultiplexCentrality/data/thuroff-GraphML/THURM.nodes

@@ -1,0 +1,2 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wolfe-GraphML/WOLFK.edgelist;Kinship;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wolfe-GraphML/WOLFK.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/wolfe-GraphML/WOLFN.edgelist;Interactions;~/eclipse/workspaces/Networks/MultiplexCentrality/data/wolfe-GraphML/WOLFN.nodes

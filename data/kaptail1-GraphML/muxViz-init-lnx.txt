@@ -1,0 +1,2 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/kaptail1-GraphML/KAPFTI1.edgelist;Instrumental;~/eclipse/workspaces/Networks/MultiplexCentrality/data/kaptail1-GraphML/KAPFTI1.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/kaptail1-GraphML/KAPFTS1.edgelist;Friendship;~/eclipse/workspaces/Networks/MultiplexCentrality/data/kaptail1-GraphML/KAPFTS1.nodes
