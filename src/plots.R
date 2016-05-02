@@ -7,6 +7,7 @@
 library(ggplot2)
 library(reshape2)
 library(corrplot)
+library(plotrix)
 
 
 
@@ -97,7 +98,8 @@ corr.plot <- function(cor.vals, alpha.vals, measure, folder, formats=c("PDF", "P
 # formats: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
 corr.plot.all <- function(cor.vals, alpha.vals, measures, folder, formats=c("PDF", "PNG"))
-{	data <- t(cor.vals)
+{	#print(cor.vals)
+	data <- t(cor.vals)
 	colnames(data) <- alpha.vals
 	data <- as.data.frame(data)
 	data <- cbind(measures,data)
@@ -252,7 +254,10 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 #############################################################################################
 graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Opinion Centrality", alpha, folder, layout, scale=50, formats=c("PDF", "PNG"))
 {	# setup attributes
-	V(g)$size <- 5 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
+	if(length(unique(ref.vals))==1)
+		V(g)$size <- 5
+	else
+		V(g)$size <- 5 + (ref.vals-min(ref.vals))/(max(ref.vals)-min(ref.vals)) * scale
 	cscale <- colorRamp(c('skyblue3','firebrick3'))
 	centrality <- (comp.vals-min(comp.vals))/(max(comp.vals)-min(comp.vals))
 	if(all(is.nan(centrality)))
@@ -327,5 +332,45 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 				tl.cex=0.5
 		)
 		dev.off()
+	}
+}
+
+
+
+plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, formats=c("PDF", "PNG"))
+{	for(prop in colnames(net.prop))
+	{	for(format in formats)
+		{	plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
+			if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+			
+			# process values to display
+			aggr.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=mean)
+			disp.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=sd)
+			# display points
+			plot(
+				x=net.prop[,prop],		# focus on each net property separately
+				y=aggr.perf,			# aggregated durations (over alpha values)
+				log="xy",				# logarithmic scales
+				col="RED",
+				xlab=prop, ylab="Duration in ms"
+			)
+			# add dispersion bars
+			if(dispersion)
+			{	dispersion(
+					x=net.prop[,prop],
+					y=aggr.perf,
+					ulim=aggr.perf+disp.perf,
+#					llim=sapply(aggr.perf-disp.perf,function(x) max(0,x)),
+					llim=aggr.perf-disp.perf,
+					col="RED"
+				)
+			}
+			
+			# close file
+			dev.off()
+		}
 	}
 }

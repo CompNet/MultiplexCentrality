@@ -1,0 +1,8 @@
+D:\\sampson-GraphML\\SAMPDES.edgelist;Disesteem;D:\\sampson-GraphML\\SAMPDES.nodes
+D:\\sampson-GraphML\\SAMPDLK.edgelist;Disliking;D:\\sampson-GraphML\\SAMPDLK.nodes
+D:\\sampson-GraphML\\SAMPES.edgelist;Esteem;D:\\sampson-GraphML\\SAMPES.nodes
+D:\\sampson-GraphML\\SAMPIN.edgelist;PositiveInfluence;D:\\sampson-GraphML\\SAMPIN.nodes
+D:\\sampson-GraphML\\SAMPLK3.edgelist;Liking;D:\\sampson-GraphML\\SAMPLK3.nodes
+D:\\sampson-GraphML\\SAMPNIN.edgelist;NegativeInfluence;D:\\sampson-GraphML\\SAMPNIN.nodes
+D:\\sampson-GraphML\\SAMPNPR.edgelist;Blame;D:\\sampson-GraphML\\SAMPNPR.nodes
+D:\\sampson-GraphML\\SAMPPR.edgelist;Praise;D:\\sampson-GraphML\\SAMPPR.nodes

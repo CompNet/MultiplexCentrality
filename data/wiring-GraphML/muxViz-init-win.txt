@@ -1,0 +1,6 @@
+D:\\wiring-GraphML\\RDCON.edgelist;Windows;D:\\wiring-GraphML\\RDCON.nodes
+D:\\wiring-GraphML\\RDGAM.edgelist;Horseplay;D:\\wiring-GraphML\\RDGAM.nodes
+D:\\wiring-GraphML\\RDHLP.edgelist;Help;D:\\wiring-GraphML\\RDHLP.nodes
+D:\\wiring-GraphML\\RDJOB.edgelist;Jobs;D:\\wiring-GraphML\\RDJOB.nodes
+D:\\wiring-GraphML\\RDNEG.edgelist;Antagonistic;D:\\wiring-GraphML\\RDNEG.nodes
+D:\\wiring-GraphML\\RDPOS.edgelist;Friendship;D:\\wiring-GraphML\\RDPOS.nodes

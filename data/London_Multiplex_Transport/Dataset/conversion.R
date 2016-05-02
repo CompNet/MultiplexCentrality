@@ -38,6 +38,6 @@ for(layer in 1:layer.nbr)
 
 # record as R object
 print(London)
-data.file <- paste(folder,"london.Rdata",sep="")
+data.file <- paste(folder,"London.Rdata",sep="")
 save(London, file=data.file)
 

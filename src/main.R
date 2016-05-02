@@ -9,6 +9,7 @@
 # Vincent Labatut 12/2015
 #############################################################################################
 #setwd("D:/Eclipse/workspaces/Networks/MultiplexCentrality")
+#setwd("~/eclipse/workspaces/Networks/MultiplexCentrality")
 #setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 8")
 #source("src/main.R")
 source('src/gradient.R')
@@ -18,50 +19,35 @@ source('src/misc.R')
 
 
 
-# init data-related variables
-data.pars <- list()
-data.pars[["EUAir"]] <- list(
-	data.folder="data/EUAir_Multiplex_Transport/",
-	rdata.filename="EUAir.Rdata",
-	centrality.filename="EUAir_centrality_table.csv")
-data.pars[["Kapferer1"]] <- list(
-	data.folder="data/kaptail1-GraphML/",
-	rdata.filename="kaptail1.Rdata",
-	centrality.filename="Kapferer1_centrality_table.csv")
-data.pars[["Kapferer2"]] <- list(
-	data.folder="data/kaptail2-GraphML/",
-	rdata.filename="kaptail2.Rdata",
-	centrality.filename="Kapferer2_centrality_table.csv")
-data.pars[["Knoke"]] <- list(
-	data.folder="data/knokbur-GraphML/",
-	rdata.filename="knokbur.Rdata",
-	centrality.filename="Knoke_centrality_table.csv")
-data.pars[["london"]] <- list(
-	data.folder="data/London_Multiplex_Transport/",
-	rdata.filename="london.Rdata",
-	centrality.filename="london_centrality_table.csv")
-data.pars[["Padgett"]] <- list(
-	data.folder="data/padgett-GraphML/",
-	rdata.filename="padgett.Rdata",
-	centrality.filename="Padgett_centrality_table.csv")
-data.pars[["Roethlisberger"]] <- list(
-	data.folder="data/wiring-GraphML/",
-	rdata.filename="wiring.Rdata",
-	centrality.filename="Roethlisberger_centrality_table.csv")
-data.pars[["Sampson"]] <- list(
-	data.folder="data/sampson-GraphML/",
-	rdata.filename="sampson.Rdata",
-	centrality.filename="Sampson_centrality_table.csv")
-data.pars[["Thurmann"]] <- list(
-	data.folder="data/thuroff-GraphML/",
-	rdata.filename="thuroff.Rdata",
-	centrality.filename="Thurmann_centrality_table.csv")
-data.pars[["Wolfe"]] <- list(
-	data.folder="data/wolfe-GraphML/",
-	rdata.filename="wolfe.Rdata",
-	centrality.filename="Wolfe_centrality_table.csv")
+# init the data-related variables
+data.folder <- "data/"	# location of the data in this project
+source('src/data.R')	# init the list of considered networks
+processed.data <- c(
+	"Arabidopsis",
+	"Celegans",
+	"CKM",
+	"CS_Aarhus",
+	"Drosophila",
+	"EUAir",
+	"FAO",
+	"HepatitusCVirus",
+	"HumanHIV1",
+	"Kapferer1",
+	"Kapferer2",
+	"Knoke",
+	"Lazega",
+	"London",
+	"Padgett",
+	"PierreAuger",
+	"Rattus",
+	"Roethlisberger",
+	"Sampson",
+	"Thurmann",
+	"Wolfe"
+)
 
-# select the previously processed centrality measures
+
+# select the centrality measures previously processed in MuxViz (or an other tool)
 measures <- c(
 	"Degree",
 #	"DegreeIn",		# MuxViz cannot process this one for certain networks
@@ -77,7 +63,7 @@ measures <- c(
 alpha.vals <- seq(from=0,to=1,by=0.25)			# distinct values of alpha
 alpha.vals <- alpha.vals[alpha.vals!=0]
 alpha.vals <- c(alpha.vals,seq(from=2,to=5,by=1))
-l <- length(alpha.vals)						# number of distinct values of alpha
+l <- length(alpha.vals)							# number of distinct values of alpha
 #round(c(1:l)/(l-3),2)
 
 # plot folder
@@ -88,18 +74,32 @@ formats <- c(				# file format of the plots
 	"PNG"
 )	 
 
+# init time measurement matrix
+elapsed.times <- matrix(NA,nrow=length(data.pars),ncol=l)
+rownames(elapsed.times) <- names(data.pars)
+colnames(elapsed.times) <- alpha.vals
+time.data.file <- paste(data.folder,"elapsed-times.csv",sep="")
+time.plot.file <- paste(data.folder,"elapsed-times",sep="")
+
+
+# init net properties matrix
+net.prop.names <- c("Nodes", "Links")
+net.prop <- matrix(NA,nrow=length(data.pars),ncol=length(net.prop.names))
+rownames(net.prop) <- names(data.pars)
+colnames(net.prop) <- net.prop.names
+netprop.file <- paste(data.folder,"net-properties.csv",sep="")
+
 # process each multiplex network
-network.names <- names(data.pars)
-for(multiplex.index in 1:length(data.pars))
-{	network.name <- network.names[multiplex.index]
-	cat("Processing network ",multiplex.index," (",network.name,")\n",sep="")
+for(network.name in processed.data)
+{	cat("Processing network ",network.name,"\n",sep="")
 	data.par <- data.pars[[network.name]] 
 	
 	# load network
-	net.file <- paste(data.par$data.folder,data.par$rdata.filename,sep="")
+	net.file <- paste(data.folder,data.par$data.folder,data.par$rdata.filename,sep="")
 	multiplex.network <- retrieve.rdata.object(net.file)
 	number.layers <- length(multiplex.network)
 	number.nodes <- vcount(multiplex.network[[1]])
+	net.prop[network.name,"Nodes"] <- number.nodes
 	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
 	
 	#setup personal opinion
@@ -107,13 +107,15 @@ for(multiplex.index in 1:length(data.pars))
 	#random.personal.opinion <- array(runif(number.nodes*number.layers,0,1),c(number.layers,number.nodes))
 	
 	# process aggregated network (for later plots)
+	net.prop[network.name,"Links"] <- 0
 	adj <- matrix(0,nrow=number.nodes, ncol=number.nodes)
 	for(j in 1:length(multiplex.network))
-	{	
+	{	#print(j)
 		#tmp <- alpha[,j] * as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
 		#tmp[tmp=="NaN"] <- 0
 		#adj <- adj + tmp
 		adj <- adj + as.matrix(get.adjacency(multiplex.network[[j]], type="both"))
+		net.prop[network.name,"Links"] <- net.prop[network.name,"Links"] + ecount(multiplex.network[[j]])
 	}
 	#print(adj)
 	if(all(adj==t(adj)))
@@ -121,17 +123,27 @@ for(multiplex.index in 1:length(data.pars))
 	else
 	  aggregated.network <- graph.adjacency(adjmatrix=adj,weighted=TRUE,mode="undirected")
 	
+  	# record net properties
+	write.csv2(net.prop, file=netprop.file)
+  	
 	# layout the aggregated plot
 	V(aggregated.network)$size <- scale
 	lay <- layout.fruchterman.reingold(graph=aggregated.network)
 	
 	# load previously processed centralities
-	centr.file <- paste(data.par$data.folder,data.par$centrality.filename,sep="")
-	mutiplex.centralities <- read.csv(file=centr.file,sep=";")
+	centr.file <- paste(data.folder,data.par$data.folder,data.par$centrality.filename,sep="")
+	if(file.exists(centr.file))
+	{	multiplex.centralities <- read.csv(file=centr.file,sep=";")
+		other.centralities <- as.matrix(multiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
+	}
+	else
+	{	cat("WARNING: did not find the file containing the centrality values for external measures (MuxViz)\n")
+		other.centralities <- matrix(NA,nrow=number.nodes,ncol=length(measures))
+		colnames(other.centralities) <- measures
+	}
 	
 	# init centrality tables
 	opinion.centralities <- array(0,c(l,number.nodes))
-	other.centralities <- as.matrix(mutiplex.centralities)[(number.layers*number.nodes+1):((number.layers+1)*number.nodes),measures]
 	class(other.centralities) <- "numeric"
 
 	# init plot folder
@@ -141,7 +153,7 @@ for(multiplex.index in 1:length(data.pars))
 	# init correlation table
 	correlation.values <- matrix(NA, nrow=l, ncol=length(measures))
 	colnames(correlation.values) <- measures
-  
+	
 	# process our centrality measure
 	cat("  Processing the opinion centrality\n",sep="")
 	for(i in 1:l)
@@ -150,7 +162,15 @@ for(multiplex.index in 1:length(data.pars))
 		#print(alpha)
 		
 		####### process opinion centrality measure
+		elapsed.time <- system.time(
 		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
+		)
+		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
+		#print(elapsed.times)
+		write.csv2(elapsed.times, file=time.data.file)
+		#elapsed.times <- read.csv2(file=time.data.file,header=TRUE,row.names=1,check.names=FALSE)
+		#net.prop <- read.csv2(file=netprop.file,header=TRUE,row.names=1,check.names=FALSE)
+		plot.time.perf(elapsed.times, net.prop, plot.file=time.plot.file, dispersion=FALSE, formats)
 		
 		opinion.centralities[i,] <- t(centrality)
 		stdev <- sd(opinion.centralities[i,])
@@ -161,7 +181,7 @@ for(multiplex.index in 1:length(data.pars))
 	}
 	
 	# record our measure as a table
-	out.file <- paste(net.plot.folder,"/opinion-centrality.csv",sep="")
+	out.file <- paste(net.plot.folder,"opinion-centrality.csv",sep="")
 	col.node <- 1:number.nodes
 	centr <- cbind(col.node, t(opinion.centralities))
 	colnames(centr) <- c("Node", paste("alpha=",alpha.vals,sep=""))
@@ -180,7 +200,9 @@ for(multiplex.index in 1:length(data.pars))
 		# process each alternate measure individually
 		for(measure in measures)
 		{	# check if the considered measure was processed
-			if(!any(is.na(other.centralities[,measure])))
+			if(any(is.na(other.centralities[,measure])))
+				cat("      Measure ",measure," was not processed for this dataset\n",sep="")
+			else
 			{	# process the rank correlation with our measure
 				correlation.values[i,measure] <- cor(opinion.centralities[i,], other.centralities[,measure], method="spearman")
 				
@@ -223,11 +245,14 @@ for(multiplex.index in 1:length(data.pars))
 	}
 	
 	# record the correlations between our measure and the other ones
-	out.file <- paste(net.plot.folder,"/corr_plots/all-correlations.csv",sep="")
+	corr.folder <- paste(net.plot.folder,"/corr_plots/",sep="")
+	dir.create(corr.folder,showWarnings=FALSE,recursive=TRUE)
+	out.file <- paste(corr.folder,"all-correlations.csv",sep="")
 	write.csv2(correlation.values, file=out.file)
 	
 	# draw all measure correlations in the same plot
-	corr.plot.all(cor.vals=correlation.values, alpha.vals, measures, folder=net.plot.folder, formats=formats)
+	if(!all(is.na(correlation.values)))
+		corr.plot.all(cor.vals=correlation.values, alpha.vals, measures, folder=net.plot.folder, formats=formats)
 	
 	# process and record correlation matrix for opinion measure only
 	cat("  Record the correlations for the opinion measure only (in function of alpha)\n")

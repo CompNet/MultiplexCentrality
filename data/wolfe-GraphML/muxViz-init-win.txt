@@ -1,0 +1,2 @@
+D:\\wolfe-GraphML\\WOLFK.edgelist;Kinship;D:\\wolfe-GraphML\\WOLFK.nodes
+D:\\wolfe-GraphML\\WOLFN.edgelist;Interactions;D:\\wolfe-GraphML\\WOLFN.nodes

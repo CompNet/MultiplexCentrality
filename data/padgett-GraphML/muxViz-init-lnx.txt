@@ -1,0 +1,2 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/padgett-GraphML/PADGB.edgelist;Business;~/eclipse/workspaces/Networks/MultiplexCentrality/data/padgett-GraphML/PADGB.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/padgett-GraphML/PADGM.edgelist;Mariage;~/eclipse/workspaces/Networks/MultiplexCentrality/data/padgett-GraphML/PADGM.nodes

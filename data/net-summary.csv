@@ -12,10 +12,11 @@ Hepatittus C GPI;105;3;Yes;No;Ok
 FAO Trade;183;337;Yes;Yes;Failed
 CKM Physicians Innovation;246;3;Yes;No;Ok
 London Transport;369;3;No;Yes;Ok
-EU Air Transportation System;450;37;No;No;Failed
+EU Air Transportation System;450;37;No;No;Ok
 Pierre Auger Collaborations;514;16;No;Yes;Ok
 Human-HIV1 GPI;1005;5;Yes;No;Ok
 Rattus GPI;2640;6;Yes;No;Ok
 C. Elegans GPI;3879;6;Yes;No;Ok
 Arabidopsis GPI;6980;7;Yes;No;Failed
 Drosophilia GPI ;8215;7;Yes;No;Failed
+http://deim.urv.cat/~manlio.dedomenico/data.php;;;;;

@@ -14,6 +14,7 @@ node.nbr <- max(edge.list[,2:3])
 layer.nbr <- nrow(layer.list)
 
 FAO <- list()
+FAO.i <- 1
 for(layer in 1:layer.nbr)
 {	#cat("Processing layer",layer,"\n")
 	g <- graph.empty(n=node.nbr, directed=TRUE)
@@ -24,7 +25,8 @@ for(layer in 1:layer.nbr)
 	{	flattened <- c(t(edge.list[idx,2:3]))
 		g <- add.edges(graph=g, edges=flattened, attr=list(weight=edge.list[idx,4]))
 #		g <- simplify(graph=g, remove.multiple=TRUE)
-		FAO[[layer]] <- g
+		FAO[[FAO.i]] <- g
+		FAO.i <- FAO.i + 1
 		
 		# record for muxviz
 		res.folder <- paste(folder,"MuxViz/",sep="")
@@ -45,4 +47,3 @@ for(layer in 1:layer.nbr)
 print(FAO)
 data.file <- paste(folder,"FAO.Rdata",sep="")
 save(FAO, file=data.file)
-

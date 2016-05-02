@@ -1,0 +1,2 @@
+D:\\kaptail2-GraphML\\KAPFTI2.edgelist;Instrumental;D:\\kaptail2-GraphML\\KAPFTI2.nodes
+D:\\kaptail2-GraphML\\KAPFTS2.edgelist;Friendship;D:\\kaptail2-GraphML\\KAPFTS2.nodes
