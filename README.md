@@ -68,6 +68,8 @@ Finally, you need to add the appropriate information regarding your new networks
 
 
 # Dependencies
+The scripts rely on the following `R`packages:
+
 * [`igraph`](http://igraph.org/r/) package: used to build and handle graphs.
 * [`magic`](https://cran.r-project.org/web/packages/magic/index.html) package: used in the gradient function.
 * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) package: used to generate plots.
@@ -78,9 +80,11 @@ Finally, you need to add the appropriate information regarding your new networks
 
 
 # Data
-We use data publicly available from two sources:
-* [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php)
-* [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm)
+We use data publicly available from the following sources:
+
+* [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php).
+* [Nexus](http://nexus.igraph.org/), the graph repository associated to the igraph library.
+* [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm).
 
 
 # References
