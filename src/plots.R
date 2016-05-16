@@ -337,38 +337,137 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 
 
 
+#############################################################################################
+# Plots the processing time as a function of some network property (number of nodes, number
+# of links).
+#
+# time.perf: table containing the measured time for all networks (rows) and value of the 
+#		     measure parameter alpha (columns).
+# net.prop: topological properties of the processed networks.
+# plot.file: base name of the plot files.
+# dispersion: whether or not to plot dispersion bars.
+# formats: format of the generateed plot files.
+#############################################################################################
 plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, formats=c("PDF", "PNG"))
 {	for(prop in colnames(net.prop))
-	{	for(format in formats)
-		{	plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
+	{	# process values to display
+		aggr.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=mean)
+		disp.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=sd)
+			
+        if(!all(is.na(aggr.perf)))
+		{	for(format in formats)
+			{	# open file
+				plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
+				if(format=="PDF")
+					pdf(file=plot.filename,bg="white")
+				else if(format=="PNG")
+					png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+				
+				# display points
+				plot(
+					x=net.prop[,prop],		# focus on each net property separately
+					y=aggr.perf,			# aggregated durations (over alpha values)
+					log="xy",				# logarithmic scales
+					col="RED",
+					xlab=prop, ylab="Duration in ms"
+				)
+				# add dispersion bars
+				if(dispersion)
+				{	dispersion(
+						x=net.prop[,prop],
+						y=aggr.perf,
+						ulim=aggr.perf+disp.perf,
+#						llim=sapply(aggr.perf-disp.perf,function(x) max(0,x)),
+						llim=aggr.perf-disp.perf,
+						col="RED"
+					)
+				}
+    			
+				# close file
+				dev.off()
+			}
+		}
+	}
+}
+
+
+
+#############################################################################################
+# Plots the comparison of processing times (opinion centrality vs. MuxViz). 
+#############################################################################################
+xxxx <- function()
+{	data.folder <- "data/"	# location of the data in this project
+	plot.file <- paste(data.folder,"comparison-times",sep="")
+	formats <- c("PDF","PNG")
+	
+	# load opinion centrality times
+	time.data.file <- paste(data.folder,"elapsed-times.csv",sep="")
+	elapsed.times <- read.csv2(file=time.data.file,header=TRUE,row.names=1,check.names=FALSE)
+	opinion.times <- apply(X=elapsed.times*1000,MARGIN=1,FUN=mean)
+	
+	# load muxViz times
+	time.data.file2 <- paste(data.folder,"muxviz-times.csv",sep="")
+	other.times <- read.csv2(file=time.data.file2,header=TRUE,row.names=1,check.names=FALSE)*1000
+	
+	# put everything in the same matrix
+	all.times <- cbind(opinion.times,other.times)
+	colnames(all.times)[1] <- "Opinion"
+	# set <1 values to zero, for logarithmic plotting
+	all.times[all.times<1] <- 1
+	
+	# identify the longest time
+	tmp <- all.times
+	tmp[is.na(tmp)] <- 0
+	pos <- which(tmp == max(tmp), arr.ind = TRUE)
+	max.col <- pos[2]
+	max.val <- tmp[pos]
+	
+	# load network properties
+	netprop.file <- paste(data.folder,"net-properties.csv",sep="")
+	net.prop <- read.csv2(file=netprop.file,header=TRUE,row.names=1,check.names=FALSE)
+	
+	# plot
+	for(prop in colnames(net.prop))
+	{	# order nets depending on the proporty
+		idx <- order(net.prop[,prop])
+		
+		for(format in formats)
+		{	# open file
+			plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
 			if(format=="PDF")
 				pdf(file=plot.filename,bg="white")
 			else if(format=="PNG")
 				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
 			
-			# process values to display
-			aggr.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=mean)
-			disp.perf <- apply(X=time.perf*1000,MARGIN=1,FUN=sd)
 			# display points
 			plot(
-				x=net.prop[,prop],		# focus on each net property separately
-				y=aggr.perf,			# aggregated durations (over alpha values)
-				log="xy",				# logarithmic scales
-				col="RED",
+				x=net.prop[idx,prop],		# focus on each net property separately
+				y=all.times[idx,max.col],	# aggregated durations (over alpha values)
+				log="xy",					# logarithmic scales
+				type='n',					# no dot
+				ylim=c(1,max.val),
 				xlab=prop, ylab="Duration in ms"
 			)
-			# add dispersion bars
-			if(dispersion)
-			{	dispersion(
-					x=net.prop[,prop],
-					y=aggr.perf,
-					ulim=aggr.perf+disp.perf,
-#					llim=sapply(aggr.perf-disp.perf,function(x) max(0,x)),
-					llim=aggr.perf-disp.perf,
-					col="RED"
+			
+			# add series
+			for(c in 1:ncol(all.times))
+			{	lines(
+					type="o",
+					x=net.prop[idx,prop],
+					y=all.times[idx,c],
+					col=c
 				)
 			}
 			
+			# add legend
+			legend(
+				"bottomright",
+				colnames(all.times),
+				lty=1,
+				lwd=2.5,
+				col=1:ncol(all.times)
+			)
+				
 			# close file
 			dev.off()
 		}

@@ -163,10 +163,10 @@ for(network.name in processed.data)
 		
 		####### process opinion centrality measure
 		elapsed.time <- system.time(
-		centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
+			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
 		)
 		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
-		#print(elapsed.times)
+		print(elapsed.times)
 		write.csv2(elapsed.times, file=time.data.file)
 		#elapsed.times <- read.csv2(file=time.data.file,header=TRUE,row.names=1,check.names=FALSE)
 		#net.prop <- read.csv2(file=netprop.file,header=TRUE,row.names=1,check.names=FALSE)
