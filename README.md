@@ -37,7 +37,8 @@ Its first parameter is a multiplex network, represented as a list of igraph grap
    * [`magic`](https://cran.r-project.org/web/packages/magic/index.html)
    * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html)
    * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html)
-   * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/)
+   * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/index.html)
+   * [`plotrix`](https://cran.r-project.org/web/packages/plotrix/index.html)
 3. Download this project from GitHub.
 4. Launch `R`, setup the working directory with `setwd`. 
 
@@ -72,6 +73,7 @@ Finally, you need to add the appropriate information regarding your new networks
 * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) package: used to generate plots.
 * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html) package: used to generate plots. 
 * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/) package: used to generate plots.
+* [`plotrix`](https://cran.r-project.org/web/packages/plotrix/) package: used to generate plots.
 * [`MuxViz`](http://muxviz.net/) software: used to process other multiplex centrality measures (optional).
 
 
