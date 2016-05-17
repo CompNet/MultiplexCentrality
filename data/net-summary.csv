@@ -8,7 +8,7 @@ Wolfe;22;2;Yes (undirected layer was forced to be directed);Yes (unweighted laye
 Kapferer Tailor Shop;39;4;Yes (undirected layer was forced to be directed);No;Ok
 Aarhus CS department;61;5;No;No;Ok
 Lazega Law Firm;71;3;Yes;No;Ok
-Hepatittus C GPI;105;3;Yes;No;Ok
+Hepatitus C GPI;105;3;Yes;No;Ok
 FAO Trade;183;337;Yes;Yes;Failed
 CKM Physicians Innovation;246;3;Yes;No;Ok
 London Transport;369;3;No;Yes;Ok
@@ -18,5 +18,5 @@ Human-HIV1 GPI;1005;5;Yes;No;Ok
 Rattus GPI;2640;6;Yes;No;Ok
 C. Elegans GPI;3879;6;Yes;No;Ok
 Arabidopsis GPI;6980;7;Yes;No;Failed
-Drosophilia GPI ;8215;7;Yes;No;Failed
+Drosophila GPI ;8215;7;Yes;No;Failed
 http://deim.urv.cat/~manlio.dedomenico/data.php;;;;;
