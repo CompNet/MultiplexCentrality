@@ -67,9 +67,10 @@ l <- length(alpha.vals)							# number of distinct values of alpha
 #round(c(1:l)/(l-3),2)
 
 # plot folder
-plot.folder <- "plots"		# name of the folder containing the plots
-scale <- 20					# node scale for graph plots
-formats <- c(				# file format of the plots
+plot.folder <- "plots/"						# name of the folder containing the plots
+dir.create(plot.folder, showWarnings=FALSE)
+scale <- 20									# node scale for graph plots
+formats <- c(								# file format of the plots
 	"PDF",
 	"PNG"
 )	 
@@ -78,8 +79,8 @@ formats <- c(				# file format of the plots
 elapsed.times <- matrix(NA,nrow=length(data.pars),ncol=l)
 rownames(elapsed.times) <- names(data.pars)
 colnames(elapsed.times) <- alpha.vals
-time.data.file <- paste(data.folder,"elapsed-times.csv",sep="")
-time.plot.file <- paste(data.folder,"elapsed-times",sep="")
+time.data.file <- paste(plot.folder,"elapsed-times.csv",sep="")
+time.plot.file <- paste(plot.folder,"elapsed-times",sep="")
 
 
 # init net properties matrix
@@ -87,7 +88,7 @@ net.prop.names <- c("Nodes", "Links")
 net.prop <- matrix(NA,nrow=length(data.pars),ncol=length(net.prop.names))
 rownames(net.prop) <- names(data.pars)
 colnames(net.prop) <- net.prop.names
-netprop.file <- paste(data.folder,"net-properties.csv",sep="")
+netprop.file <- paste(plot.folder,"net-properties.csv",sep="")
 
 # process each multiplex network
 for(network.name in processed.data)
@@ -147,7 +148,7 @@ for(network.name in processed.data)
 	class(other.centralities) <- "numeric"
 
 	# init plot folder
-	net.plot.folder <- paste(plot.folder,"/",network.name,"/",sep="")
+	net.plot.folder <- paste(plot.folder,network.name,"/",sep="")
 	dir.create(net.plot.folder,showWarnings=FALSE,recursive=TRUE)
   	
 	# init correlation table
@@ -163,7 +164,7 @@ for(network.name in processed.data)
 		
 		####### process opinion centrality measure
 		elapsed.time <- system.time(
-			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1, personal.opinion)
+			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=number.nodes, personal.opinion)
 		)
 		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
 		print(elapsed.times)
@@ -265,3 +266,10 @@ for(network.name in processed.data)
 	}
 	correlation.plot(corr.mat=opinion.correlation, folder=net.plot.folder, formats=formats)
 }
+
+# finally, plot the comparison of processing times
+plot.file <- paste(plot.folder,"comparison-times",sep="")
+muxviz.time.file <- paste(data.folder,"muxviz-times.csv",sep="")
+plot.all.time.perf(plot.file, net.prop.file=netprop.file, opinion.time.file=time.data.file, other.time.file=muxviz.time.file)
+
+

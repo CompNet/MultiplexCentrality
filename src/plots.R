@@ -346,7 +346,7 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 # net.prop: topological properties of the processed networks.
 # plot.file: base name of the plot files.
 # dispersion: whether or not to plot dispersion bars.
-# formats: format of the generateed plot files.
+# formats: format of the generated plot files.
 #############################################################################################
 plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, formats=c("PDF", "PNG"))
 {	for(prop in colnames(net.prop))
@@ -393,21 +393,21 @@ plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, form
 
 
 #############################################################################################
-# Plots the comparison of processing times (opinion centrality vs. MuxViz). 
+# Plots the comparison of processing times (opinion centrality vs. MuxViz).
+# 
+# plot.file: base name for the generated plots.
+# net.prop.file: file containing the network topological properties.
+# opinion.time.file: file containing the processing times for the opinion measure.
+# other.time.file: file containing the processing times for the other measures (e.g. MuxViz).
+# formats: format of the generated plot files.
 #############################################################################################
-xxxx <- function()
-{	data.folder <- "data/"	# location of the data in this project
-	plot.file <- paste(data.folder,"comparison-times",sep="")
-	formats <- c("PDF","PNG")
-	
-	# load opinion centrality times
-	time.data.file <- paste(data.folder,"elapsed-times.csv",sep="")
-	elapsed.times <- read.csv2(file=time.data.file,header=TRUE,row.names=1,check.names=FALSE)
+plot.all.time.perf <- function(plot.file, net.prop.file, opinion.time.file, other.time.file, formats=c("PDF","PNG"))
+{	# load opinion centrality times
+	elapsed.times <- read.csv2(file=opinion.time.file,header=TRUE,row.names=1,check.names=FALSE)
 	opinion.times <- apply(X=elapsed.times*1000,MARGIN=1,FUN=mean)
 	
 	# load muxViz times
-	time.data.file2 <- paste(data.folder,"muxviz-times.csv",sep="")
-	other.times <- read.csv2(file=time.data.file2,header=TRUE,row.names=1,check.names=FALSE)*1000
+	other.times <- read.csv2(file=other.time.file,header=TRUE,row.names=1,check.names=FALSE)*1000
 	
 	# put everything in the same matrix
 	all.times <- cbind(opinion.times,other.times)
@@ -423,8 +423,7 @@ xxxx <- function()
 	max.val <- tmp[pos]
 	
 	# load network properties
-	netprop.file <- paste(data.folder,"net-properties.csv",sep="")
-	net.prop <- read.csv2(file=netprop.file,header=TRUE,row.names=1,check.names=FALSE)
+	net.prop <- read.csv2(file=net.prop.file,header=TRUE,row.names=1,check.names=FALSE)
 	
 	# plot
 	for(prop in colnames(net.prop))

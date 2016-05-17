@@ -32,7 +32,7 @@ process.opinion.centrality <- function(network, alpha, budget, personal.opinion)
 	gamma <- (number.nodes^2*(max(A)-min(A)))/(budget*Lambda)+1
 
 	# computation of the regularized opinion centrality by using proposition 5
-	y <- Sol(A, number.nodes, budget, gamma, Lambda, logscale=TRUE)
+	y <- Sol(A, number.nodes, budget, gamma, Lambda, logscale=FALSE)
 	
 	# return the y values
 	return(y)
