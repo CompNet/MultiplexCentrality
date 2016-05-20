@@ -303,7 +303,7 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 	
 	# record correlation matrix
 	out.file <- paste(plot.folder,"/opinion-correlations.csv",sep="")
-	write.csv2(corr.mat, file=out.file, row.names=FALSE)
+	write.csv2(corr.mat, file=out.file)#, row.names=FALSE)
 
 	# remove certain labels (otherwise, can't read the plot axes)
 	names <- colnames(corr.mat)

@@ -82,13 +82,18 @@ colnames(elapsed.times) <- alpha.vals
 time.data.file <- paste(plot.folder,"elapsed-times.csv",sep="")
 time.plot.file <- paste(plot.folder,"elapsed-times",sep="")
 
-
 # init net properties matrix
 net.prop.names <- c("Nodes", "Links")
 net.prop <- matrix(NA,nrow=length(data.pars),ncol=length(net.prop.names))
 rownames(net.prop) <- names(data.pars)
 colnames(net.prop) <- net.prop.names
 netprop.file <- paste(plot.folder,"net-properties.csv",sep="")
+
+# init overal correlation table
+all.corr.table <- matrix(NA,nrow=length(data.pars),ncol=length(measures))
+rownames(all.corr.table) <- names(data.pars)
+colnames(all.corr.table) <- measures
+all.corr.file <- paste(plot.folder,"correlations.csv",sep="")
 
 # process each multiplex network
 for(network.name in processed.data)
@@ -154,11 +159,12 @@ for(network.name in processed.data)
 	# init correlation table
 	correlation.values <- matrix(NA, nrow=l, ncol=length(measures))
 	colnames(correlation.values) <- measures
+	rownames(correlation.values) <- alpha.vals
 	
 	# process our centrality measure
 	cat("  Processing the opinion centrality\n",sep="")
 	for(i in 1:l)
-	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")",sep="")
+	{	cat("    for alpha=",alpha.vals[i]," (",i,"/",l,")\n",sep="")
 		alpha <- matrix(alpha.vals[i],nrow=number.nodes, ncol=number.layers)
 		#print(alpha)
 		
@@ -167,7 +173,7 @@ for(network.name in processed.data)
 			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=number.nodes, personal.opinion)
 		)
 		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
-		print(elapsed.times)
+		cat("Elapsed times:\n");print(elapsed.times)
 		write.csv2(elapsed.times, file=time.data.file)
 		#elapsed.times <- read.csv2(file=time.data.file,header=TRUE,row.names=1,check.names=FALSE)
 		#net.prop <- read.csv2(file=netprop.file,header=TRUE,row.names=1,check.names=FALSE)
@@ -255,6 +261,11 @@ for(network.name in processed.data)
 	if(!all(is.na(correlation.values)))
 		corr.plot.all(cor.vals=correlation.values, alpha.vals, measures, folder=net.plot.folder, formats=formats)
 	
+	# complete and record the overall correlation table
+	all.corr.table[network.name,] <- apply(correlation.values,2,mean)
+	write.csv2(all.corr.table, file=all.corr.file)
+	cat("Overall correlation table:\n");print(all.corr.table)
+	
 	# process and record correlation matrix for opinion measure only
 	cat("  Record the correlations for the opinion measure only (in function of alpha)\n")
 	opinion.correlation <- matrix(NA,nrow=l,ncol=l)
@@ -271,5 +282,3 @@ for(network.name in processed.data)
 plot.file <- paste(plot.folder,"comparison-times",sep="")
 muxviz.time.file <- paste(data.folder,"muxviz-times.csv",sep="")
 plot.all.time.perf(plot.file, net.prop.file=netprop.file, opinion.time.file=time.data.file, other.time.file=muxviz.time.file)
-
-
