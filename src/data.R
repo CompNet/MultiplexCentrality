@@ -13,6 +13,11 @@ data.pars <- list()
 # - rdata.filename is the name of the R data file containing the igraph objects.
 # - centrality.filenam is the file generated with MuxViz and containing reference centrality values, to be compared with opinion centrality.
 
+data.pars[["Aarhus_CS"]] <- list(
+	data.folder="CS-Aarhus_Multiplex_Social/",
+	rdata.filename="CSAarhus.Rdata",
+	centrality.filename="CS_Aarhus_centrality_table.csv")
+
 data.pars[["Arabidopsis"]] <- list(
 	data.folder="Arabidopsis_Multiplex_Genetic/",
 	rdata.filename="Arabidopsis.Rdata",
@@ -23,27 +28,22 @@ data.pars[["Celegans"]] <- list(
 	rdata.filename="Celegans.Rdata",
 	centrality.filename="Celegans_centrality_table.csv")
 
-data.pars[["CKM"]] <- list(
+data.pars[["CKM_Phys"]] <- list(
 	data.folder="CKM-Physicians-Innovation_Multiplex_Social/",
 	rdata.filename="CKMPI.Rdata",
 	centrality.filename="CKM_centrality_table.csv")
-
-data.pars[["CS_Aarhus"]] <- list(
-	data.folder="CS-Aarhus_Multiplex_Social/",
-	rdata.filename="CSAarhus.Rdata",
-	centrality.filename="CS_Aarhus_centrality_table.csv")
 
 data.pars[["Drosophila"]] <- list(
 	data.folder="Drosophila_Multiplex_Genetic/",
 	rdata.filename="Drosophila.Rdata",
 	centrality.filename="Drosophila_centrality_table.csv")
 
-data.pars[["EUAir"]] <- list(
+data.pars[["EU_Air"]] <- list(
 	data.folder="EUAir_Multiplex_Transport/",
 	rdata.filename="EUAir.Rdata",
 	centrality.filename="EUAir_centrality_table.csv")
 
-data.pars[["FAO"]] <- list(
+data.pars[["FAO_Trade"]] <- list(
 	data.folder="FAO_Multiplex_Trade/",
 	rdata.filename="FAO.Rdata",
 	centrality.filename="FAO_centrality_table.csv")

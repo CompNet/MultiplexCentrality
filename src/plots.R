@@ -38,12 +38,17 @@ measure.histo <- function(vals, measure="Opinion Centrality", alpha, folder, for
 #	print(data)
 	for(format in formats)
 	{	plot.filename <- paste(plot.folder,"/meas=",measure,"_alpha=",alpha,".",format,sep="")
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 		print(plt) #suppressMessages(print(plt))
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 }
 
@@ -76,12 +81,17 @@ corr.plot <- function(cor.vals, alpha.vals, measure, folder, formats=c("PDF", "P
 #	print(data)
 	for(format in formats)
 	{	plot.filename <- paste(plot.folder,"/meas=",measure,".",format,sep="")
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 		print(plt) #suppressMessages(print(plt))
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 }
 
@@ -123,12 +133,17 @@ corr.plot.all <- function(cor.vals, alpha.vals, measures, folder, formats=c("PDF
 #	print(data)
 	for(format in formats)
 	{	plot.filename <- paste(plot.folder,"/allmeasures.",format,sep="")
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 		print(plt) #suppressMessages(print(plt))
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 }
 
@@ -164,12 +179,17 @@ rank.diff.lineplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="O
 #	print(data)
 	for(format in formats)
 	{	plot.filename <- paste(plot.folder,"/meas=",measure,"_alpha=",alpha,".",format,sep="")
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 		print(plt) #suppressMessages(print(plt))
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 }
 
@@ -217,10 +237,13 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 			plot.filename <- paste(plot.filename,"_alpha=",alpha,sep="")
 		plot.filename <- paste(plot.filename,".",format,sep="")
 		
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 #		print(plt) #suppressMessages(print(plt))
 		col <- c(col2rgb("steelblue1"))/255
 		barplot(diff[idx], 
@@ -231,9 +254,82 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 			xlab=paste("Nodes ordered by decreasing ",ref.measure,sep=""),
 			ylab=paste("Rank changes obtained with ",comp.measure,sep="")
 		)
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 }
+
+
+
+#############################################################################################
+# Combines in a single plots the rank differences for the k most central nodes (according
+# to the alternate measure), between the opinion measure and all considered alternate measures.
+#
+# plot.file: base name of the files to generate.
+# all.rank.diff: a list of matrices (one for each measure), each matrix row representing a
+#				 different network, and its k cols representing the nodes.
+# net.prop: properties of the considered networks.
+# formats: format of the generated file ("PDF", "PNG", or both).
+#############################################################################################
+plot.all.rank.diff <- function(plot.file, all.rank.diff, net.prop, formats)
+{	op <- par(mar = c(9.1,4.,4.,2.))
+	
+	for(measure in names(all.rank.diff))
+	{	for(format in formats)
+		{	# without normalization
+			data <- t(all.rank.diff[[measure]])
+			plot.filename <- paste(plot.file,"_meas=",measure,"_abs.",format,sep="")
+			if(!is.na(format))
+			{	if(format=="PDF")
+					pdf(file=plot.filename,bg="white")
+				else if(format=="PNG")
+					png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+			}
+			col <- c(col2rgb("steelblue1"))/255
+			barplot(data, 
+				col=rgb(col[1],col[2],col[3],0.3),
+				border="steelblue",
+				main=paste("Rank changes for Opinion measure vs ", measure,sep=""),
+#				ylim=c(-length(ref.vals),length(ref.vals)),
+				xlab="",
+				ylab="Rank changes obtained with Opinion measure",
+				las=2,							# labels perpendicular to axis
+				beside=TRUE
+			)
+			title(xlab=paste("Nodes ordered by decreasing ",measure,sep=""),line=7.5,)
+			if(!is.na(format))
+				dev.off()
+			
+			# with normalization
+			data <- t(all.rank.diff[[measure]]/(net.prop[,"Nodes"]-1))
+			plot.filename <- paste(plot.file,"_meas=",measure,"_prop.",format,sep="")
+			if(!is.na(format))
+			{	if(format=="PDF")
+					pdf(file=plot.filename,bg="white")
+				else if(format=="PNG")
+					png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+			}
+			col <- c(col2rgb("steelblue1"))/255
+			barplot(data, 
+				col=rgb(col[1],col[2],col[3],0.3),
+				border="steelblue",
+				main=paste("Rank changes for Opinion measure vs ", measure,sep=""),
+#				ylim=c(-length(ref.vals),length(ref.vals)),
+				xlab="",
+				ylab="Normalized rank changes obtained with Opinion measure",
+				las=2,							# labels perpendicular to axis
+				beside=TRUE
+			)
+			title(xlab=paste("Nodes ordered by decreasing ",measure,sep=""),line=7.5,)
+			if(!is.na(format))
+				dev.off()
+		}
+	}
+	
+	par(op)
+}
+plot.all.rank.diff(all.rank.plot.file, all.rank.diff, net.prop, formats=NA)
 
 
 
@@ -272,12 +368,17 @@ graph.plot <- function(g, ref.vals, comp.vals, ref.measure, comp.measure="Opinio
 #	print(data)
 	for(format in formats)
 	{	plot.filename <- paste(plot.folder,"/ref=",ref.measure,"_comp=",comp.measure,"_alpha=",alpha,".",format,sep="")
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 		plot(g,layout=layout)
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 #	print(g)
 #	plot(g)
@@ -319,10 +420,13 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 	cor.cols <- colorRampPalette(c("#00007F","blue","#007FFF","cyan","white","yellow","#FF7F00","red","#7F0000"))
 	for(format in formats)
 	{	plot.filename <- paste(plot.folder,"/opinion-correlations.",format,sep="")
-		if(format=="PDF")
-			pdf(file=plot.filename,bg="white")
-		else if(format=="PNG")
-			png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		if(!is.na(format))
+		{	if(format=="PDF")
+				pdf(file=plot.filename,bg="white")
+			else if(format=="PNG")
+				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+		}
+		
 		corrplot(corr.mat, 
 				method="color",		# colors the cells 
 				col=cor.cols(20), cl.length=21, 
@@ -331,7 +435,9 @@ correlation.plot <- function(corr.mat, folder, formats=c("PDF", "PNG"))
 				tl.col="black",		# color of the axis labels
 				tl.cex=0.5
 		)
-		dev.off()
+		
+		if(!is.na(format))
+			dev.off()
 	}
 }
 
@@ -358,10 +464,12 @@ plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, form
 		{	for(format in formats)
 			{	# open file
 				plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
-				if(format=="PDF")
-					pdf(file=plot.filename,bg="white")
-				else if(format=="PNG")
-					png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+				if(!is.na(format))
+				{	if(format=="PDF")
+						pdf(file=plot.filename,bg="white")
+					else if(format=="PNG")
+						png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+				}
 				
 				# display points
 				plot(
@@ -384,7 +492,8 @@ plot.time.perf <- function(time.perf, net.prop, plot.file, dispersion=TRUE, form
 				}
     			
 				# close file
-				dev.off()
+				if(!is.na(format))
+					dev.off()
 			}
 		}
 	}
@@ -433,10 +542,12 @@ plot.all.time.perf <- function(plot.file, net.prop.file, opinion.time.file, othe
 		for(format in formats)
 		{	# open file
 			plot.filename <- paste(plot.file,"-",prop,".",format,sep="")
-			if(format=="PDF")
-				pdf(file=plot.filename,bg="white")
-			else if(format=="PNG")
-				png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+			if(!is.na(format))
+			{	if(format=="PDF")
+					pdf(file=plot.filename,bg="white")
+				else if(format=="PNG")
+					png(filename=plot.filename,width=800,height=800,units="px",pointsize=20,bg="white")
+			}
 			
 			# display points
 			plot(
@@ -468,7 +579,8 @@ plot.all.time.perf <- function(plot.file, net.prop.file, opinion.time.file, othe
 			)
 				
 			# close file
-			dev.off()
+			if(!is.na(format))
+				dev.off()
 		}
 	}
 }

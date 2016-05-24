@@ -12,24 +12,26 @@
 #setwd("~/eclipse/workspaces/Networks/MultiplexCentrality")
 #setwd("/Users/jeanlouis/Desktop/MultiplexCentrality-master 8")
 #source("src/main.R")
+
+
+# import the required scripts
 source('src/gradient.R')
 source('src/model.R')
 source('src/plots.R')
 source('src/misc.R')
 
 
-
 # init the data-related variables
 data.folder <- "data/"	# location of the data in this project
 source('src/data.R')	# init the list of considered networks
 processed.data <- c(
+	"Aarhus_CS",
 	"Arabidopsis",
 	"Celegans",
-	"CKM",
-	"CS_Aarhus",
+	"CKM_Phys",
 	"Drosophila",
-	"EUAir",
-	"FAO",
+	"EU_Air",
+	"FAO_Trade",
 	"HepatitusCVirus",
 	"HumanHIV1",
 	"Kapferer1",
@@ -89,11 +91,20 @@ rownames(net.prop) <- names(data.pars)
 colnames(net.prop) <- net.prop.names
 netprop.file <- paste(plot.folder,"net-properties.csv",sep="")
 
-# init overal correlation table
+# init overall correlation table
 all.corr.table <- matrix(NA,nrow=length(data.pars),ncol=length(measures))
 rownames(all.corr.table) <- names(data.pars)
 colnames(all.corr.table) <- measures
 all.corr.file <- paste(plot.folder,"correlations.csv",sep="")
+
+# init overall rank-diff list of tables
+knodes <- 5 			# k most central nodes considered in this plot 
+all.rank.diff <- list()
+for(measure in measures)
+{	all.rank.diff[[measure]] <- matrix(NA,nrow=length(data.pars),ncol=knodes)
+	rownames(all.rank.diff[[measure]]) <- names(data.pars)
+}
+all.rank.plot.file <- paste(plot.folder,"rank_barplots",sep="")
 
 # process each multiplex network
 for(network.name in processed.data)
@@ -216,13 +227,24 @@ for(network.name in processed.data)
 				# plot ranking differences
 				cat("      Generate line plot representing ranking differences with measure ",measure,"\n",sep="")
 				rank.diff.lineplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, formats=formats)
-			
+				
 				# ranking differences as a barplot
 				cat("      Generate barplot representing ranking differences with measure ",measure,"\n",sep="")
 				rank.diff.barplot(ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, formats=formats)
 				
-				# plot the network with each existing measure as the size, and the opinion measure as the color
-				cat("      Generate a plot representing the graph and measure ",measure,"\n",sep="")
+				# store rank difference for k most central nodes (according to alt. measure)
+				if(i==1) # just for the first alpha value, since it does not affect ranks			
+				{	ref.rk <- rank(other.centralities[,measure],ties.method="min")
+					comp.rk <- rank(opinion.centralities[i,],ties.method="min")
+					diff <- comp.rk - ref.rk
+print(diff)					
+					idx <- order(other.centralities[,measure], decreasing=TRUE)[1:knodes]
+print(idx)					
+					all.rank.diff[[measure]][network.name,1:knodes] <- diff[idx]
+				}
+				
+				# plot the aggregated network with each existing measure as the size, and the opinion measure as the color
+				cat("      Generate a plot representing the (aggregated) graph and measure ",measure,"\n",sep="")
 				graph.plot(g=aggregated.network, ref.vals=other.centralities[,measure], comp.vals=opinion.centralities[i,], ref.measure=measure, alpha=alpha.vals[i], folder=net.plot.folder, layout=lay, scale=scale, formats=formats)
 			}
 		}
@@ -278,7 +300,10 @@ for(network.name in processed.data)
 	correlation.plot(corr.mat=opinion.correlation, folder=net.plot.folder, formats=formats)
 }
 
-# finally, plot the comparison of processing times
+# plot the comparison of processing times
 plot.file <- paste(plot.folder,"comparison-times",sep="")
 muxviz.time.file <- paste(data.folder,"muxviz-times.csv",sep="")
 plot.all.time.perf(plot.file, net.prop.file=netprop.file, opinion.time.file=time.data.file, other.time.file=muxviz.time.file)
+
+# plot the overall rank-difference plots, focusing on the k most central nodes 
+plot.all.rank.diff(all.rank.plot.file, all.rank.diff, net.prop, formats)
