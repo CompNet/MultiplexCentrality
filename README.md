@@ -38,15 +38,15 @@ Its first parameter is a multiplex network, represented as a list of igraph grap
    * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html)
    * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html)
    * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/)
-3. Download this project from GitHub.
-4. Launch `R`, setup the working directory with `setwd`. 
+3. Download this project from GitHub and unzip.
+4. Launch `R`, setup the working directory with `setwd` so that it points at the root of this project. 
 
 
 # Use
 In order to process the opinion measure and compare it to other multiplex centrality measures:
 
 1. Open the `R` console.
-2. Set the current directory as the working directory, using `setwd("<my directory>")`.
+2. Set the project root as the working directory, using `setwd("<my directory>")`.
 3. Possibly comment/uncomment certain lines in the main script `main.R` (to disable/enable certain operations), then launch it.
 
 The script will produce the following files in the folder `plots`, placed in subfolders whose names correspond to the considered networks:
@@ -61,7 +61,9 @@ The script will produce the following files in the folder `plots`, placed in sub
 # Extension
 You may want to apply the scripts to other networks. If you are just interested in the opinion centrality, directly use the `process.opinion.centrality` function in `model.R`. 
 If you also want to perform the comparison, note that the other multiplex measures need to be processed first, using any tool you think is appropriate. 
+
 For our article, we used [MuxViz](http://muxviz.net/), an open source tool by Manlio De Domenico. Note his [personal Web page](http://deim.urv.cat/~manlio.dedomenico/data.php) additionally proposes many multilayer networks to play with.  
+
 When placing new data in the data folder, be sure to respect the same organization and file formats than the networks already present.
 Finally, you need to add the appropriate information regarding your new networks in the `data.R` script, and adapt the beginning of `main.R` (and possibly comment the datasets you do not want to process there).
 
