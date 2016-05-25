@@ -37,7 +37,9 @@ Its first parameter is a multiplex network, represented as a list of igraph grap
    * [`magic`](https://cran.r-project.org/web/packages/magic/index.html)
    * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html)
    * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html)
-   * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/)
+<<<<<<< HEAD
+   * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/index.html)
+   * [`plotrix`](https://cran.r-project.org/web/packages/plotrix/index.html)
 3. Download this project from GitHub and unzip.
 4. Launch `R`, setup the working directory with `setwd` so that it points at the root of this project. 
 
@@ -69,18 +71,23 @@ Finally, you need to add the appropriate information regarding your new networks
 
 
 # Dependencies
+The scripts rely on the following `R`packages:
+
 * [`igraph`](http://igraph.org/r/) package: used to build and handle graphs.
 * [`magic`](https://cran.r-project.org/web/packages/magic/index.html) package: used in the gradient function.
 * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html) package: used to generate plots.
 * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html) package: used to generate plots. 
 * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/) package: used to generate plots.
+* [`plotrix`](https://cran.r-project.org/web/packages/plotrix/) package: used to generate plots.
 * [`MuxViz`](http://muxviz.net/) software: used to process other multiplex centrality measures (optional).
 
 
 # Data
-We use data publicly available from two sources:
-* [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php)
-* [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm)
+We use data publicly available from the following sources:
+
+* [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php).
+* [Nexus](http://nexus.igraph.org/), the graph repository associated to the igraph library.
+* [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm).
 
 
 # References
