@@ -306,4 +306,4 @@ muxviz.time.file <- paste(data.folder,"muxviz-times.csv",sep="")
 plot.all.time.perf(plot.file, net.prop.file=netprop.file, opinion.time.file=time.data.file, other.time.file=muxviz.time.file)
 
 # plot the overall rank-difference plots, focusing on the k most central nodes 
-plot.all.rank.diff(all.rank.plot.file, all.rank.diff, net.prop, formats)
+overall.rank.diff.barplot(all.rank.plot.file, all.rank.diff, net.prop, formats)

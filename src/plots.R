@@ -272,7 +272,7 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 # net.prop: properties of the considered networks.
 # formats: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
-plot.all.rank.diff <- function(plot.file, all.rank.diff, net.prop, formats)
+overall.rank.diff.barplot <- function(plot.file, all.rank.diff, net.prop, formats)
 {	op <- par(mar = c(9.1,4.,4.,2.))
 	
 	for(measure in names(all.rank.diff))
@@ -288,7 +288,8 @@ plot.all.rank.diff <- function(plot.file, all.rank.diff, net.prop, formats)
 			}
 			col <- c(col2rgb("steelblue1"))/255
 			barplot(data, 
-				col=rgb(col[1],col[2],col[3],0.3),
+#				col=rgb(col[1],col[2],col[3],0.3),
+				col=rep(rainbow(ncol(data)), each=nrow(data)),
 				border="steelblue",
 				main=paste("Rank changes for Opinion measure vs ", measure,sep=""),
 #				ylim=c(-length(ref.vals),length(ref.vals)),
@@ -312,14 +313,15 @@ plot.all.rank.diff <- function(plot.file, all.rank.diff, net.prop, formats)
 			}
 			col <- c(col2rgb("steelblue1"))/255
 			barplot(data, 
-				col=rgb(col[1],col[2],col[3],0.3),
+#				col=rgb(col[1],col[2],col[3],0.3),
+				col=rep(rainbow(ncol(data)), each=nrow(data)),
 				border="steelblue",
 				main=paste("Rank changes for Opinion measure vs ", measure,sep=""),
 #				ylim=c(-length(ref.vals),length(ref.vals)),
 				xlab="",
 				ylab="Normalized rank changes obtained with Opinion measure",
 				las=2,							# labels perpendicular to axis
-				beside=TRUE
+				beside=TRUE,
 			)
 			title(xlab=paste("Nodes ordered by decreasing ",measure,sep=""),line=7.5,)
 			if(!is.na(format))
@@ -329,7 +331,7 @@ plot.all.rank.diff <- function(plot.file, all.rank.diff, net.prop, formats)
 	
 	par(op)
 }
-plot.all.rank.diff(all.rank.plot.file, all.rank.diff, net.prop, formats=NA)
+#plot.all.rank.diff(all.rank.plot.file, all.rank.diff, net.prop, formats=NA) #test
 
 
 
