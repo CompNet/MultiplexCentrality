@@ -52,8 +52,8 @@ processed.data <- c(
 # select the centrality measures previously processed in MuxViz (or an other tool)
 measures <- c(
 	"Degree",
-#	"DegreeIn",		# MuxViz cannot process this one for certain networks
-#	"DegreeOut",	# same here
+	"DegreeIn",
+	"DegreeOut",
 	"PageRank",
 	"Eigenvector",
 	"Hub",
@@ -120,7 +120,7 @@ for(network.name in processed.data)
 	cat("  Number of layers: ",number.layers," - Nodes by layer: ",number.nodes,"\n",sep="")
 	
 	#setup personal opinion
-	personal.opinion <- array(0.9, c(number.layers,number.nodes)) #TODO pq ce 0.9?
+	personal.opinion <- array(0.9, c(number.layers,number.nodes)) #personal opinion 0
 	#random.personal.opinion <- array(runif(number.nodes*number.layers,0,1),c(number.layers,number.nodes))
 	
 	# process aggregated network (for later plots)
@@ -181,7 +181,7 @@ for(network.name in processed.data)
 		
 		####### process opinion centrality measure
 		elapsed.time <- system.time(
-			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=number.nodes, personal.opinion)
+			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1/(number.nodes)^3, personal.opinion)
 		)
 		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
 		cat("Elapsed times:\n");print(elapsed.times)
