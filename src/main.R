@@ -183,6 +183,10 @@ for(network.name in processed.data)
 		elapsed.time <- system.time(
 			centrality <- process.opinion.centrality(network=multiplex.network, alpha, budget=1/(number.nodes)^3, personal.opinion)
 		)
+		# normalize
+		centrality <- centrality - min(centrality)
+		centrality <- centrality / sum(centrality)
+			
 		elapsed.times[network.name,i] <- elapsed.time["elapsed"]
 		cat("Elapsed times:\n");print(elapsed.times)
 		write.csv2(elapsed.times, file=time.data.file)
@@ -266,7 +270,7 @@ for(network.name in processed.data)
 		
 		# check if our own centrality could be processed 
 		else if(all(is.na(correlation.values[,measure])))
-			cat("    WARNING: Interest centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
+			cat("    WARNING: Opinion centrality could not be processed, so no correlation plot for ",measure,"\n",sep="")
 		else
 		{	cat("    With measure ",measure,"\n",sep="")
 			corr.plot(cor.vals=correlation.values[,measure], alpha.vals, measure, folder=net.plot.folder, formats=formats)

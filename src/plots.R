@@ -273,7 +273,7 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 # formats: format of the generated file ("PDF", "PNG", or both).
 #############################################################################################
 overall.rank.diff.barplot <- function(plot.file, all.rank.diff, net.prop, formats)
-{	op <- par(mar = c(9.1,4.,4.,2.))
+{	op <- par(mar = c(12.1,4.,4.,2.))
 	
 	for(measure in names(all.rank.diff))
 	{	for(format in formats)
