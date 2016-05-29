@@ -237,9 +237,9 @@ for(network.name in processed.data)
 				{	ref.rk <- rank(other.centralities[,measure],ties.method="min")
 					comp.rk <- rank(opinion.centralities[i,],ties.method="min")
 					diff <- comp.rk - ref.rk
-print(diff)					
+					#print(diff)				
 					idx <- order(other.centralities[,measure], decreasing=TRUE)[1:knodes]
-print(idx)					
+					#print(idx)					
 					all.rank.diff[[measure]][network.name,1:knodes] <- diff[idx]
 				}
 				
