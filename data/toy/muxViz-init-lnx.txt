@@ -1,0 +1,2 @@
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/toy/toy1.edgelist;Layer1;~/eclipse/workspaces/Networks/MultiplexCentrality/data/toy/toy1.nodes
+~/eclipse/workspaces/Networks/MultiplexCentrality/data/toy/toy2.edgelist;Layer2;~/eclipse/workspaces/Networks/MultiplexCentrality/data/toy/toy2.nodes
