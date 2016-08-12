@@ -64,7 +64,7 @@ The script will produce the following files in the folder `plots`, placed in sub
 You may want to apply the scripts to other networks. If you are just interested in the opinion centrality, directly use the `process.opinion.centrality` function in `model.R`. 
 If you also want to perform the comparison, note that the other multiplex measures need to be processed first, using any tool you think is appropriate. 
 
-For our article, we used [MuxViz](http://muxviz.net/), an open source tool by Manlio De Domenico. Note his [personal Web page](http://deim.urv.cat/~manlio.dedomenico/data.php) additionally proposes many multilayer networks to play with.  
+For our article, we used [MuxViz](http://muxviz.net/), an open source tool by Manlio de Domenico. Note his [personal Web page](http://deim.urv.cat/~manlio.dedomenico/data.php) additionally proposes many multilayer networks to play with.  
 
 When placing new data in the data folder, be sure to respect the same organization and file formats than the networks already present.
 Finally, you need to add the appropriate information regarding your new networks in the `data.R` script, and adapt the beginning of `main.R` (and possibly comment the datasets you do not want to process there).
@@ -79,11 +79,14 @@ The scripts rely on the following `R`packages:
 * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html) package: used to generate plots. 
 * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/) package: used to generate plots.
 * [`plotrix`](https://cran.r-project.org/web/packages/plotrix/) package: used to generate plots.
+
+And some measures were processed using the following software:
+
 * [`MuxViz`](http://muxviz.net/) software: used to process other multiplex centrality measures (optional).
 
 
 # Data
-We use data publicly available from the following sources:
+We used data publicly available from the following sources:
 
 * [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php).
 * [Nexus](http://nexus.igraph.org/), the graph repository associated to the igraph library.
