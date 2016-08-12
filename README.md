@@ -91,4 +91,4 @@ We use data publicly available from the following sources:
 
 
 # References
- * **[RL'15]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Submitted, 2015.
+ * **[RL'16]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Network Science, 2016.
