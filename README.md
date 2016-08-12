@@ -39,7 +39,6 @@ Its first parameter is a multiplex network, represented as a list of igraph grap
    * [`magic`](https://cran.r-project.org/web/packages/magic/index.html)
    * [`ggplot2`](https://cran.r-project.org/web/packages/ggplot2/index.html)
    * [`reshape2`](https://cran.r-project.org/web/packages/reshape2/index.html)
-<<<<<<< HEAD
    * [`corrplot`](https://cran.r-project.org/web/packages/corrplot/index.html)
    * [`plotrix`](https://cran.r-project.org/web/packages/plotrix/index.html)
 3. Download this project from GitHub and unzip.
