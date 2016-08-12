@@ -21,6 +21,8 @@ This set of `R` scripts was designed for two purposes:
 Our scripts were applied to a collection of multiplex networks obtained from public sources (see the Data section below).
 These data are present in this GitHub project (folder `data`).
 
+The tool itself, the data and the experimental results are all described in our article [RL'16].
+
 
 # Organization
 The `main.R` script can be used to reproduce the whole process: compute the opinion centrality, then compare it to other centralities. 
@@ -82,13 +84,13 @@ The scripts rely on the following `R`packages:
 
 And some measures were processed using the following software:
 
-* [`MuxViz`](http://muxviz.net/) software: used to process other multiplex centrality measures (optional).
+* [`MuxViz`](http://muxviz.net/) platform: used to process other multiplex centrality measures (optional).
 
 
 # Data
 We used data publicly available from the following sources:
 
-* [Manlio De Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php).
+* [Manlio de Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php).
 * [Nexus](http://nexus.igraph.org/), the graph repository associated to the igraph library.
 * [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm).
 
