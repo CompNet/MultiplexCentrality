@@ -12,9 +12,7 @@ library(plotrix)
 
 
 #############################################################################################
-# Generates a bar plot comparing two centrality measures. The reference measure is used as
-# a baseline, and to order the nodes on the x axis. The comparison measure is used to process
-# the ranking difference with the reference measure, and the result appears as the bar heights.
+# Generates a histogram representing the distribution of values for the specified measure.
 #
 # vals: values of the measure (a numerical vector).
 # measure: name of the measure.
@@ -263,7 +261,7 @@ rank.diff.barplot <- function(ref.vals, comp.vals, ref.measure, comp.measure="Op
 
 
 #############################################################################################
-# Combines in a single plots the rank differences for the k most central nodes (according
+# Combines in a single plot the rank differences for the k most central nodes (according
 # to the alternate measure), between the opinion measure and all considered alternate measures.
 #
 # plot.file: base name of the files to generate.
