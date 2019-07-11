@@ -21,7 +21,7 @@ This set of `R` scripts was designed for two purposes:
 Our scripts were applied to a collection of multiplex networks obtained from public sources (see the Data section below).
 These data are present in this GitHub project (folder `data`).
 
-The tool itself, the data and the experimental results are all described in our article [RL'16].
+The tool itself, the data and the experimental results are all described in our article [RL'17].
 
 
 # Organization
@@ -95,4 +95,5 @@ We used data publicly available from the following sources:
 
 
 # References
- * **[RL'16]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Network Science, 2017 (to be published). [arXiv](https://arxiv.org/abs/1703.03741) -- [HAL](https://hal.archives-ouvertes.fr/hal-01486629) -- [Journal](xxxx) -- Doi:[xxxx](xxxx)
+ * **[RL'17]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Network Science, 5(2)/213-234, 2017. [Doi: 10.1017/nws.2017.7](https://doi.org/10.1017/nws.2017.7) - [⟨hal-01486629⟩](https://hal.archives-ouvertes.fr/hal-01486629)
+ 
