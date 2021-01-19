@@ -67,7 +67,7 @@ If you also want to perform the comparison, note that the other multiplex measur
 
 For our article, we used [MuxViz](http://muxviz.net/), an open source tool by Manlio de Domenico. Note his [personal Web page](http://deim.urv.cat/~manlio.dedomenico/data.php) additionally proposes many multilayer networks to play with.  
 
-When placing new data in the data folder, be sure to respect the same organization and file formats than the networks already present.
+When placing new data in the data folder, be sure to respect the same organization and file formats as the networks already present.
 Finally, you need to add the appropriate information regarding your new networks in the `data.R` script, and adapt the beginning of `main.R` (and possibly comment the datasets you do not want to process there).
 
 
