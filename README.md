@@ -4,7 +4,7 @@ Opinion Centrality v.1.1
 
 * Copyright 2015-16 Alexandre Reiffers & Vincent Labatut. 
 
-Opinion Centrality is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. For source availability and license information see `licence.txt`
+`Opinion Centrality` is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. For source availability and license information see `licence.txt`
 
 * Lab site: http://lia.univ-avignon.fr/
 * GitHub repo: https://github.com/CompNet/MultiplexCentrality
@@ -12,19 +12,32 @@ Opinion Centrality is free software: you can redistribute it and/or modify it un
 
 -----------------------------------------------------------------------
 
-# Description
+## Description
 This set of `R` scripts was designed for two purposes:
-
 1. Process the opinion centrality, a new centrality measure described in our paper.
 2. Compare it to other existing multiplex centrality measures.
 
 Our scripts were applied to a collection of multiplex networks obtained from public sources (see the Data section below).
 These data are present in this GitHub project (folder `data`).
 
-The tool itself, the data and the experimental results are all described in our article [RL'17].
+The tool itself, the data and the experimental results are all described in our article [[RL'17](#references)].
+
+If you use this software, please cite article [[RL'17](#references)]:
+```bibtex
+@Article{Reiffers2017,
+  author    = {Reiffers, Alexandre and Labatut, Vincent},
+  title     = {Opinion-based centrality in multiplex networks: A convex optimization approach},
+  journal   = {Network Science},
+  year      = {2017},
+  volume    = {5},
+  number    = {2},
+  pages     = {213-234},
+  doi       = {10.1017/nws.2017.7},
+}
+```
 
 
-# Organization
+## Organization
 The `main.R` script can be used to reproduce the whole process: compute the opinion centrality, then compare it to other centralities. 
 Note that this script will generate a `plots` folder containing a bunch of files (and it may take a while).
 
@@ -32,7 +45,7 @@ The `model.R` script contains a `process.opinion.centrality` function, which all
 Its first parameter is a multiplex network, represented as a list of igraph graphs. 
 
 
-# Installation
+## Installation
 1. Install the [`R` language](https://www.r-project.org/)
 2. Install the following R packages:
    * [`igraph`](http://igraph.org/r/)
@@ -45,7 +58,7 @@ Its first parameter is a multiplex network, represented as a list of igraph grap
 4. Launch `R`, setup the working directory with `setwd` so that it points at the root of this project. 
 
 
-# Use
+## Use
 In order to process the opinion measure and compare it to other multiplex centrality measures:
 
 1. Open the `R` console.
@@ -61,7 +74,7 @@ The script will produce the following files in the folder `plots`, placed in sub
 * `rank_lineplots`: also represents the rank difference between the opinion centrality and the other measures, but this time the nodes are ordered by increasing rank difference.
 
 
-# Extension
+## Extension
 You may want to apply the scripts to other networks. If you are just interested in the opinion centrality, directly use the `process.opinion.centrality` function in `model.R`. 
 If you also want to perform the comparison, note that the other multiplex measures need to be processed first, using any tool you think is appropriate. 
 
@@ -71,7 +84,7 @@ When placing new data in the data folder, be sure to respect the same organizati
 Finally, you need to add the appropriate information regarding your new networks in the `data.R` script, and adapt the beginning of `main.R` (and possibly comment the datasets you do not want to process there).
 
 
-# Dependencies
+## Dependencies
 The scripts rely on the following `R`packages:
 
 * [`igraph`](http://igraph.org/r/) package: used to build and handle graphs.
@@ -86,7 +99,7 @@ And some measures were processed using the following software:
 * [`MuxViz`](http://muxviz.net/) platform: used to process other multiplex centrality measures (optional).
 
 
-# Data
+## Data
 We used data publicly available from the following sources:
 
 * [Manlio de Domenico's page](http://deim.urv.cat/~manlio.dedomenico/data.php).
@@ -94,6 +107,6 @@ We used data publicly available from the following sources:
 * [Ucinet IV Datasets](http://vlado.fmf.uni-lj.si/pub/networks/data/ucinet/ucidata.htm).
 
 
-# References
- * **[RL'17]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Network Science, 5(2)/213-234, 2017. [doi: 10.1017/nws.2017.7](https://doi.org/10.1017/nws.2017.7) - [⟨hal-01486629⟩](https://hal.archives-ouvertes.fr/hal-01486629)
+## References
+ * **[RL'17]** A. Reiffers & V. Labatut, *Opinion-Based Centrality in Multiplex Networks: A Convex Optimization Approach*, Network Science, 5(2)/213-234, 2017. DOI: [10.1017/nws.2017.7](https://doi.org/10.1017/nws.2017.7) - [⟨hal-01486629⟩](https://hal.archives-ouvertes.fr/hal-01486629)
  
